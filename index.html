@@ -14,17 +14,20 @@
 <link rel="stylesheet" href="/assets/site.css">
 </head>
 
-<body>
+<!-- The default hero is set here rather than only in script, so the right one
+     is painted on the first frame and is still the right one with JavaScript
+     off. home.js overrides this only when a visitor has picked another. -->
+<body data-hero="named">
 <a href="#main" class="skip">Skip to content</a>
 
 <div class="hero-picker" id="hero-switch" role="group" aria-label="Hero concept — prototype switch">
   <span class="picker-label">hero</span>
-  <button data-hero="a" aria-pressed="true" title="The original">A</button>
-  <button data-hero="named" aria-pressed="false" title="YOU SAY / WE BUILD">N</button>
+  <button data-hero="a" aria-pressed="false" title="The original">A</button>
+  <button data-hero="named" aria-pressed="true" title="YOU SAY / WE BUILD">N</button>
   <button data-hero="becomes" aria-pressed="false" title="The badge names the operation">B</button>
   <a class="picker-archive" href="hero-archive.html" title="The thirteen earlier concepts">archive ↗</a>
   <button class="picker-archive" id="open-identity" style="background:none;border:0;cursor:pointer">identity ↗</button>
-  <span class="switch-name" id="switch-name">The original</span>
+  <span class="switch-name" id="switch-name">Named</span>
 </div>
 
 <nav class="chapter-index" aria-label="Page chapters">

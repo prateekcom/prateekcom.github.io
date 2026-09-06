@@ -224,7 +224,15 @@ runPairs();
    block goes with it.
    ------------------------------------------------------ */
 
-const HERO_KEY = "vibencode-hero";
+/* The key carries a number. Bumping it retires every stored choice at once,
+   which is what you want when the default changes: anyone who looked at this
+   before has "a" saved, and without the bump they would keep being shown the
+   old default and think nothing had happened. Picking a variant still sticks
+   from here on. */
+const HERO_KEY = "vibencode-hero-2";
+/* Named is the default, and it is set on <body> in the markup too so the
+   first painted frame is already correct. Change it in both places. */
+const HERO_DEFAULT = "named";
 /* Every variant renders the same markup; what changes is the section-level
    treatment keyed off body[data-hero]. Nothing here duplicates content, so a
    copy change lands in all five at once. */
@@ -238,7 +246,7 @@ const heroButtons = [...document.querySelectorAll("button[data-hero]")];
 const switchName = document.getElementById("switch-name");
 
 function applyHero(which) {
-  if (!HEROES[which]) which = "a";
+  if (!HEROES[which]) which = HERO_DEFAULT;
   document.body.dataset.hero = which;
   heroButtons.forEach(button => {
     button.setAttribute("aria-pressed", String(button.dataset.hero === which));
@@ -248,8 +256,8 @@ function applyHero(which) {
   return which;
 }
 
-let heroChoice = "a";
-try { heroChoice = localStorage.getItem(HERO_KEY) || "a"; } catch (error) { /* private mode */ }
+let heroChoice = HERO_DEFAULT;
+try { heroChoice = localStorage.getItem(HERO_KEY) || HERO_DEFAULT; } catch (error) { /* private mode */ }
 heroChoice = applyHero(heroChoice);
 
 heroButtons.forEach(button => {
