@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#dcd2f2">
+<meta name="description" content="Six ways to work with Vibencode: GenAI implementation, agent orchestration, AI-powered development, sovereign AI, use-case strategy and applied research.">
+<title>Services — Vibencode</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+
+<body>
+<a href="#main" class="skip">Skip to content</a>
+
+<main id="main">
+
+<section class="page-head">
+  <header class="header wrap">
+    <a class="brand" href="/" aria-label="Vibencode home">
+      <img src="/logo.png" alt="" width="34" height="34">
+      <span>vibencode</span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/services/">Our services</a>
+      <a href="/#practice">Our approach</a>
+      <a href="/contact/" class="nav-contact">Work with us ↗</a>
+    </nav>
+  </header>
+
+  <div class="wrap page-head-body">
+    <div class="eyebrow mono">What you can hire us for</div>
+    <h1 class="page-title">Six ways in.</h1>
+    <p class="page-lede">
+      We advise, investigate, design and implement. Pick the expertise your
+      problem needs — not a bundle of technology looking for one. Most
+      engagements start with a single conversation about which of these
+      six you are actually in.
+    </p>
+    <div class="page-head-meta mono">
+      <span>Advisory · Research · Engineering</span>
+      <span>Scoped, embedded or retained</span>
+    </div>
+  </div>
+</section>
+
+<!-- The six are rendered from data.js, the same object the home page cycles,
+     so the wording here can never drift from the wording there. -->
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>The practice</span>
+      <span>What we hear → what it becomes</span>
+    </div>
+    <div class="service-rows" id="service-rows"></div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>However you start</span>
+      <span>The work runs the same way</span>
+    </div>
+    <!-- Four stages is a process, so it gets the process element: a line that
+         draws across as you reach it, with each stage lighting as it is
+         passed. Same component the six service pages use. -->
+    <div class="phase-track">
+      <div>
+        <span class="when">Stage 01</span>
+        <h4>Frame it.</h4>
+        <p>Define the problem, the people involved, and what a useful result actually looks like.</p>
+      </div>
+      <div>
+        <span class="when">Stage 02</span>
+        <h4>Challenge it.</h4>
+        <p>Test assumptions with focused research, representative tasks and purposeful prototypes.</p>
+      </div>
+      <div>
+        <span class="when">Stage 03</span>
+        <h4>Engineer it.</h4>
+        <p>Build the integrations, controls, evaluation and failure handling around the capability.</p>
+      </div>
+      <div>
+        <span class="when">Stage 04</span>
+        <h4>Make it yours.</h4>
+        <p>Deployment, documentation, knowledge transfer and an agreed operational handover.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<figure class="pull">
+  <div class="wrap">
+    <p class="pull-line">Most engagements touch two of the six. Almost none touch one.</p>
+    <figcaption>Which is why every page says where it stops and which one takes over.</figcaption>
+  </div>
+</figure>
+
+<section class="page-cta">
+  <div class="wrap">
+    <h2>Not sure which one you are in?</h2>
+    <div class="row">
+      <a class="button" href="/contact/">Start a conversation <span aria-hidden="true">↗</span></a>
+      <span class="mono">Describe it in your own words. We will tell you where it lands.</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <img src="/logo.png" alt="" width="30" height="30">
+          <span style="font-size:22px">vibencode</span>
+        </a>
+        <p>An AI consulting and engineering practice. Strategy, applied research and hands-on engineering for GenAI, agent orchestration and sovereign AI.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="/services/genai-implementation/">GenAI implementation</a>
+        <a href="/services/agent-orchestration/">Agents and orchestration</a>
+        <a href="/services/ai-powered-development/">AI-powered development</a>
+        <a href="/services/sovereign-ai/">Sovereign AI</a>
+        <a href="/services/use-case-strategy/">Use-case strategy</a>
+        <a href="/services/applied-research/">Applied research</a>
+      </div>
+      <div class="footer-col">
+        <h4>Practice</h4>
+        <a href="/work/">Work</a>
+        <a href="/about/">About</a>
+        <a href="/careers/">Careers</a>
+        <a href="/contact/">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Vibencode Pvt. Ltd.</h4>
+        <!-- TODO: confirm the full registered address, email and phone. -->
+        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward</p>
+        <a href="mailto:hello@vibencode.com">hello@vibencode.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom mono">
+      <span>© 2026 Vibencode Pvt. Ltd.</span>
+      <span>What if meets how to.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/data.js"></script>
+<script>
+/* One row per service, built from the shared object. The slug map is the only
+   thing this page adds — everything a reader sees comes from data.js. */
+const SERVICE_SLUGS = {
+  genai: "genai-implementation",
+  agents: "agent-orchestration",
+  development: "ai-powered-development",
+  sovereign: "sovereign-ai",
+  strategy: "use-case-strategy",
+  research: "applied-research"
+};
+
+const rows = document.getElementById("service-rows");
+Object.keys(SERVICE_SLUGS).forEach((key, i) => {
+  const service = services[key];
+  const row = document.createElement("a");
+  row.className = "service-row";
+  row.href = "/services/" + SERVICE_SLUGS[key] + "/";
+
+  const n = document.createElement("span");
+  n.className = "n";
+  n.textContent = "0" + (i + 1);
+
+  const left = document.createElement("div");
+  const h3 = document.createElement("h3");
+  h3.textContent = service.interest;
+  const said = document.createElement("span");
+  said.className = "row-ask";
+  said.textContent = "“" + service.said + "”";
+  left.append(h3, said);
+
+  const right = document.createElement("div");
+  const became = document.createElement("span");
+  became.className = "row-built";
+  became.textContent = service.became;
+  right.append(became);
+
+  const go = document.createElement("span");
+  go.className = "go";
+  go.setAttribute("aria-hidden", "true");
+  go.textContent = "↗";
+
+  row.append(n, left, right, go);
+  rows.appendChild(row);
+});
+</script>
+<script src="/assets/pages.js"></script>
+</body>
+</html>

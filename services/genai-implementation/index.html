@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#dcd2f2">
+<meta name="description" content="GenAI implementation: retrieval-based assistants and integrated business capabilities, grounded in your data, measured on real cases, with a hand-off to a person built in.">
+<title>GenAI implementation — Vibencode</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+
+<body>
+<a href="#main" class="skip">Skip to content</a>
+
+<main id="main">
+
+<section class="page-head">
+  <header class="header wrap">
+    <a class="brand" href="/" aria-label="Vibencode home">
+      <img src="/logo.png" alt="" width="34" height="34">
+      <span>vibencode</span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/services/">Our services</a>
+      <a href="/#practice">Our approach</a>
+      <a href="/contact/" class="nav-contact">Work with us ↗</a>
+    </nav>
+  </header>
+
+  <div class="wrap page-head-body">
+    <div class="eyebrow mono">Service 01 of 06</div>
+    <h1 class="page-title">GenAI implementation</h1>
+    <p class="page-lede">
+      Can we put what we already know to work? Most organisations are sitting on
+      the answer to a question their people look up by hand forty times a day.
+      This is the work of turning that into something dependable enough to put
+      in front of them.
+    </p>
+    <div class="page-head-meta mono">
+      <span>Asked by: the person who owns the process it would change</span>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>The shape of it</span>
+      <span>What we hear → what it becomes</span>
+    </div>
+    <div class="pair-block">
+      <div>
+        <div class="label mono">What we hear</div>
+        <p class="ask">“Make support smarter.”</p>
+      </div>
+      <div>
+        <div class="label mono">What it becomes</div>
+        <p class="built">A retrieval assistant over your ticket history and product docs, answering with citations, measured on a set of real tickets, and handing to a person the moment it is not sure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>What the work actually is</span>
+      <span>01 / genai-implementation</span>
+    </div>
+    <ol class="deliverables">
+      <li><span class="n">01</span><span>Ground it in your data — retrieval over the sources that actually hold the answer, rather than a model asked to remember.</span></li>
+      <li><span class="n">02</span><span>Make it answerable for: citations on every claim, a confidence threshold, and a defined hand-off to a person below it.</span></li>
+      <li><span class="n">03</span><span>Build the evaluation before the interface, from real cases rather than invented ones.</span></li>
+      <li><span class="n">04</span><span>Wire it into the tools people already have open, so using it is not a separate decision.</span></li>
+      <li><span class="n">05</span><span>Ship behind a flag, watch it on real traffic, then widen.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- A worked example. Illustrative, not a client account — the shape of the
+     engagement is the point, and it is the fastest way to show what the five
+     steps above actually feel like in practice. -->
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>How it usually goes</span>
+      <span>Illustrative — the shape, not a client account</span>
+    </div>
+    <div class="example">
+      <div>
+        <div class="label mono">Where it starts</div>
+        <blockquote>“Our tier-two agents spend half their day looking things up.”</blockquote>
+        <span class="who mono">Head of support, first call</span>
+      </div>
+      <ol class="example-steps">
+        <li><b>Week 1</b><span>We sit with four agents and watch. It turns out they are not looking up product facts — they are reconstructing what happened on the account, from three systems. <strong>The problem is assembly, not knowledge.</strong></span></li>
+        <li><b>Week 2</b><span>We pull 300 closed tickets and label what a good answer would have been. Two thirds need account context; a third need the docs. <strong>That labelled set becomes the evaluation, and it is written before anything is built.</strong></span></li>
+        <li><b>Weeks 3–6</b><span>Retrieval across ticket history and the product wiki, with the account timeline assembled first. Every answer carries its sources. Below a confidence threshold it stops and hands over rather than guessing.</span></li>
+        <li><b>Week 7</b><span>Behind a flag for one team. We watch where it is wrong, not where it is right. <strong>The wiki turns out to be the weak link — a third of the bad answers trace to pages nobody has updated since 2023.</strong></span></li>
+        <li><b>Week 8</b><span>Wiki audit, threshold re-tuned, widened to the rest of the team. The measure agreed at the start — reopened tickets — is the one reported at the end.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<figure class="pull">
+  <div class="wrap">
+    <p class="pull-line">The first description of the problem is almost never the problem.</p>
+    <figcaption>Which is why week one is spent watching people work, not building.</figcaption>
+  </div>
+</figure>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>What we need from you</span>
+      <span>The engagement stalls without these</span>
+    </div>
+    <ul class="needs">
+      <li><b>Access to the real sources</b><span>Not a sanitised export. The mess is the problem we are solving, and a clean sample hides it.</span></li>
+      <li><b>Someone who does the work today</b><span>A few hours a week from a person who actually performs the task. They will catch what a spec cannot.</span></li>
+      <li><b>A decision on the measure</b><span>What number should move, and who agrees it moved. Settled at the start, not argued at the end.</span></li>
+      <li><b>A route to production</b><span>Whoever owns deployment, in the room early. Capabilities that cannot be shipped are expensive demos.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>What usually goes wrong</span>
+      <span>And what we do about it</span>
+    </div>
+    <div class="failures struck">
+      <div>
+        <p class="what">The demo answers beautifully and production answers badly.</p>
+        <p class="fix">Demos are run on the questions someone thought of. We build the evaluation set from real traffic first, so the hard cases are in scope before the easy ones are impressive.</p>
+      </div>
+      <div>
+        <p class="what">It is confidently wrong, and nobody can tell.</p>
+        <p class="fix">Citations on every claim, and a confidence threshold below which it declines rather than guesses. A system that says "I don't know" is worth more than one that is right most of the time.</p>
+      </div>
+      <div>
+        <p class="what">The underlying content is stale, and the model faithfully repeats it.</p>
+        <p class="fix">Retrieval makes content quality visible for the first time. We report what the sources get wrong — that finding is often worth more than the assistant.</p>
+      </div>
+      <div>
+        <p class="what">It launches, and usage quietly dies.</p>
+        <p class="fix">It goes where the work already happens rather than behind another login, and we widen from one team only once the numbers hold.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>The shape of an engagement</span>
+      <span>Indicative — scoped properly before we start</span>
+    </div>
+    <div class="phase-track">
+      <div>
+        <span class="when">Weeks 1–2</span>
+        <h4>Frame and measure</h4>
+        <p>Watch the work, define what good looks like, and build the evaluation set from real cases.</p>
+      </div>
+      <div>
+        <span class="when">Weeks 3–6</span>
+        <h4>Build</h4>
+        <p>Retrieval, grounding, citations, thresholds and the hand-off path, integrated where the work happens.</p>
+      </div>
+      <div>
+        <span class="when">Weeks 7–8</span>
+        <h4>Prove and widen</h4>
+        <p>Behind a flag with one team, tuned against real traffic, then opened up once it holds.</p>
+      </div>
+      <div>
+        <span class="when">Ongoing</span>
+        <h4>Hand over</h4>
+        <p>Documentation, the evaluation set, and a team that can retune it without us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>When you need this</span>
+      <span>Any one of these is enough</span>
+    </div>
+    <ul class="signals">
+      <li><span class="n">—</span><span>There is a process where people look things up by hand, the same way, many times a day.</span></li>
+      <li><span class="n">—</span><span>A demo worked months ago and nothing has shipped since.</span></li>
+      <li><span class="n">—</span><span>Nobody can say whether the answers it gives are actually good.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>What an engagement delivers</span>
+      <span>Agreed before it starts</span>
+    </div>
+    <ol class="deliverables">
+      <li><span class="n">01</span><span>Solution architecture</span></li>
+      <li><span class="n">02</span><span>Working implementation</span></li>
+      <li><span class="n">03</span><span>Evaluation &amp; deployment plan</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- The section that makes six services feel like six rather than one
+     repeated. Each page says where it stops and hands over. -->
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>What this is not</span>
+      <span>So you do not buy the wrong one</span>
+    </div>
+    <div class="not-this">
+      <p>If the thing needs to <em>act</em> — call tools, change records, run for minutes without a person watching — you are describing an agent, and the engineering is different in kind, not degree.</p>
+      <div><a class="link" href="/services/agent-orchestration/">Agent orchestration <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>Questions we get asked</span>
+      <span>Before the first call ends</span>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Can this run without our data leaving our environment?</summary>
+        <p class="answer">Yes, and it is a design decision made at the start rather than a retrofit. Where residency, retention or key ownership are hard requirements, that constraint shapes the architecture from the first line — see <a class="link" href="/services/sovereign-ai/">Sovereign AI</a>.</p>
+      </details>
+      <details>
+        <summary>Which model do you use?</summary>
+        <p class="answer">Whichever one measures best on your task, and we will show you the comparison rather than assert it. In most retrieval work the model is not the deciding variable — the quality of the sources and the retrieval step matter more. If the choice genuinely is the open question, that is <a class="link" href="/services/applied-research/">applied research</a>.</p>
+      </details>
+      <details>
+        <summary>How do you stop it making things up?</summary>
+        <p class="answer">Ground every answer in retrieved sources, cite them, and set a confidence threshold below which it declines and hands to a person. Then measure how often it is wrong on real cases, publish that number, and treat it as the thing to improve rather than the thing to hide.</p>
+      </details>
+      <details>
+        <summary>What happens when you leave?</summary>
+        <p class="answer">You keep the evaluation set, the documentation and a team that has been doing the tuning alongside us for the last few weeks. If we have done this properly, the handover is uneventful.</p>
+      </details>
+      <details>
+        <summary>We tried this last year and it did not stick. Why now?</summary>
+        <p class="answer">Usually because it was measured on demos rather than on real work, or because it lived somewhere nobody goes. Both are fixable, and knowing what failed the first time makes the second attempt considerably cheaper. Bring the post-mortem to the first call.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>The other five</span>
+      <span>Most engagements touch two</span>
+    </div>
+    <nav class="next-rows">
+      <a href="/services/agent-orchestration/"><span class="n">02</span><span>Agents and orchestration</span><span class="go" aria-hidden="true">↗</span></a>
+      <a href="/services/ai-powered-development/"><span class="n">03</span><span>AI-powered development</span><span class="go" aria-hidden="true">↗</span></a>
+      <a href="/services/sovereign-ai/"><span class="n">04</span><span>Sovereign AI</span><span class="go" aria-hidden="true">↗</span></a>
+      <a href="/services/use-case-strategy/"><span class="n">05</span><span>Use-case strategy</span><span class="go" aria-hidden="true">↗</span></a>
+      <a href="/services/applied-research/"><span class="n">06</span><span>Applied research</span><span class="go" aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</section>
+
+<section class="page-cta">
+  <div class="wrap">
+    <h2>Can we put what we already know to work?</h2>
+    <div class="row">
+      <a class="button" href="/contact/">Discuss an implementation <span aria-hidden="true">↗</span></a>
+      <span class="mono">Describe it in your own words. We will tell you where it lands.</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <img src="/logo.png" alt="" width="30" height="30">
+          <span style="font-size:22px">vibencode</span>
+        </a>
+        <p>An AI consulting and engineering practice. Strategy, applied research and hands-on engineering for GenAI, agent orchestration and sovereign AI.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="/services/genai-implementation/">GenAI implementation</a>
+        <a href="/services/agent-orchestration/">Agents and orchestration</a>
+        <a href="/services/ai-powered-development/">AI-powered development</a>
+        <a href="/services/sovereign-ai/">Sovereign AI</a>
+        <a href="/services/use-case-strategy/">Use-case strategy</a>
+        <a href="/services/applied-research/">Applied research</a>
+      </div>
+      <div class="footer-col">
+        <h4>Practice</h4>
+        <a href="/work/">Work</a>
+        <a href="/about/">About</a>
+        <a href="/careers/">Careers</a>
+        <a href="/contact/">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Vibencode Pvt. Ltd.</h4>
+        <!-- TODO: confirm the full registered address, email and phone. -->
+        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward</p>
+        <a href="mailto:hello@vibencode.com">hello@vibencode.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom mono">
+      <span>© 2026 Vibencode Pvt. Ltd.</span>
+      <span>What if meets how to.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/pages.js"></script>
+</body>
+</html>

@@ -1,0 +1,2189 @@
+/* ==========================================================================
+   VIBENCODE
+   ---------------------------------------------------------------------------
+   This is v4 with six things fixed, not a new site. What changed and why:
+
+   1. ONE MARK. v4 drew an invented chevron glyph in the header and a separate
+      pleated "V" in three sections, and never used the real logo. All of that
+      is gone; the supplied logo is the only mark, placed as-is.
+
+   2. A REAL TYPEFACE. v4 was Arial plus one Georgia italic. A services agency
+      lives on its typography, so: Bricolage Grotesque throughout, IBM Plex
+      Mono for every label, annotation and number. Two voices, no more.
+
+   3. THE HERO IS A TRANSLATION, AND NOTHING HERE IS ILLUSTRATED.
+      v4's hero art was an abstract shape wobbling behind the type. A later
+      attempt replaced it with invented "deliverable sheets", which was worse:
+      an agency drawing a diagram of work it has not done is drawing stock
+      art. The motif is now a pair of sentences — what a client says, and what
+      it becomes once engineered — and there is no artwork on the site at all.
+
+   4. THE POSTER COMPOSES AT EVERY WIDTH. v4 pinned every hero element into a
+      fixed-height box with absolute coordinates, so it only resolved at one
+      or two viewport widths. It is now a grid in normal flow, and the tagline
+      finally does work: WHAT IF heads the ask, HOW TO heads the answer, and
+      the typeface switches with it — grotesk asks, mono answers.
+
+   5. SIX SERVICES NOW LOOK LIKE SIX SERVICES. Each carries its own pair,
+      instead of the same ghosted shape at 16% opacity.
+
+   6. THE DELIVERY PATH LINES UP, AND SCROLL DRIVES IT. v4 rotated a rule
+      13deg and offset the steps with hardcoded margins; the two were computed
+      independently and never met. The path is now measured from the step
+      positions, and a single scroll-progress value drives the sharpening
+      brief, the inking of the numbers and the drawing of the path together.
+   ========================================================================== */
+
+:root {
+  --lilac: #dcd2f2;
+  --lilac-deep: #cabce9;
+  --paper: #f4f1eb;
+  --sheet: #fcfaf6;
+  --ink: #24202b;
+  --orange: #f4512e;
+  /* A lighter vermillion, used ONLY as the section-four ground. Ink on the
+     accent orange is 4.61:1 - it clears AA by 0.11, which is no margin at all
+     for 11px numerals and 14.5px paragraphs. On this it is 5.44:1. The accent
+     stays punchy everywhere it is used small: buttons, numerals, marks. */
+  --orange-ground: #f76b4a;
+  --rust: #a8321a;     /* orange on lilac is 2.4:1 — this is the text-safe one */
+  --purple: #5c4676;
+  --line: #c9c1cf;
+  --muted: #68616f;
+
+  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--display);
+  font-size: 17px;
+  line-height: 1.62;
+  font-variation-settings: "opsz" 14, "wdth" 100;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+button, input, textarea, select { font: inherit; }
+button, a, summary { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; color: inherit; }
+a { color: inherit; text-decoration: none; }
+svg { display: block; max-width: 100%; }
+/* The hidden attribute is display:none from the UA sheet, which any author
+   display rule outranks — and both heroes set one. Without this the switch
+   shows both at once. */
+[hidden] { display: none !important; }
+h1, h2, h3, p { margin-top: 0; }
+::selection { background: var(--orange); color: var(--ink); }
+:focus-visible { outline: 3px solid var(--orange); outline-offset: 5px; }
+section[id] { scroll-margin-top: 24px; }
+
+.wrap { width: min(1320px, 87%); margin-inline: auto; }
+.mono {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.eyebrow { display: flex; align-items: center; gap: 13px; }
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 15px;
+  height: 15px;
+  background: currentColor;
+  clip-path: polygon(0 0, 50% 65%, 100% 0, 100% 35%, 50% 100%, 0 35%);
+}
+.muted { color: var(--muted); }
+.skip {
+  position: fixed;
+  top: -70px;
+  left: 15px;
+  z-index: 100;
+  background: var(--ink);
+  color: white;
+  padding: 15px;
+}
+.skip:focus { top: 15px; }
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 13px 0;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 1px solid currentColor;
+  transition: color .2s;
+}
+.link:hover { color: var(--orange); }
+.button {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 17px 22px;
+  min-height: 54px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 0;
+  clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 0 100%);
+  transition: background .2s, transform .2s, color .2s;
+}
+.button:hover { background: var(--orange); color: var(--ink); transform: translateY(-2px); }
+
+/* Small persistent chapter index — unchanged from v4. */
+.chapter-index {
+  position: fixed;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: grid;
+  gap: 15px;
+}
+.chapter-index a {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid #24202b25;
+}
+.chapter-index a.active { background: var(--orange); border-color: var(--orange); }
+/* Over the orange section an orange active chip disappears into the ground.
+   Ink is the only active colour that reads on all four grounds the page uses,
+   so the rail swaps to it exactly there. */
+.chapter-index.on-orange a { border-color: rgba(36, 32, 43, .45); }
+.chapter-index.on-orange a.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+/* ======================================================
+   ACT 01 / The poster, rebuilt in flow
+   ====================================================== */
+
+.opening { background: var(--lilac); position: relative; overflow: hidden; }
+
+.header {
+  min-height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  border-bottom: 1px solid #24202b35;
+}
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand img { width: 34px; height: 34px; display: block; flex: none; }
+.brand span {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -.04em;
+  font-variation-settings: "opsz" 40, "wdth" 96;
+}
+.nav { display: flex; align-items: center; gap: 30px; font-size: 13px; font-weight: 600; }
+.nav a { position: relative; padding-bottom: 3px; }
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 100%; bottom: 0;
+  height: 2px;
+  background: var(--orange);
+  transition: right .25s ease;
+}
+.nav a:hover::after { right: 0; }
+.nav-contact { border-bottom: 1px solid currentColor; }
+
+.hero-meta {
+  padding-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  color: var(--purple);
+}
+
+/* THE HERO IS A TRANSLATION.
+   Left column: what a client actually says in the first meeting. Right
+   column: what it becomes once it has been engineered. The tagline stops
+   being an abstract slogan and becomes the two column headers — WHAT IF over
+   the ask, HOW TO over the answer — and the typeface switches with it:
+   grotesk asks, mono answers, all the way down both columns.
+
+   There is no illustration, because an agency that invents a diagram of work
+   it has not done ends up looking like stock art. Language is the motif. */
+.hero-poster {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 60px;
+  row-gap: 22px;
+  padding: 34px 0 0;
+}
+.hero-title {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 60px;
+  margin: 0;
+  font-weight: 400;
+}
+.hero-word {
+  font-size: clamp(46px, 6.5vw, 102px);
+  line-height: .88;
+  letter-spacing: -.05em;
+  font-weight: 700;
+  font-variation-settings: "opsz" 96, "wdth" 92;
+}
+.hero-word i { font-style: normal; }
+.hero-word .w-plain { display: none; }
+.meta-tagline { display: none; }
+.hero-word.answer {
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: -.05em;
+}
+
+/* The badge sits in the gutter, on the row where the translation happens —
+   it marks the moment, instead of floating in the middle of the container. */
+.hero-meets {
+  grid-row: 2;
+  grid-column: 1;
+  justify-self: end;
+  align-self: start;
+  margin: 4px -50px 0 0;
+  padding: 8px 14px;
+  background: var(--ink);
+  color: var(--lilac);
+  font-family: var(--mono);
+  font-size: clamp(12px, 1.15vw, 16px);
+  font-weight: 500;
+  letter-spacing: .02em;
+  transform: rotate(-4.5deg);
+  z-index: 2;
+}
+.hero-meets i { font-style: normal; }
+.hero-meets .w-becomes { display: none; }
+
+/* Quotes are drawn, not stored, so a variant can enlarge the opening one
+   without the string changing. Inline by default: identical to before. */
+.said::before { content: "“"; }
+.said::after { content: "”"; }
+.said {
+  grid-row: 2;
+  grid-column: 1;
+  margin: 0;
+  max-width: 470px;
+  /* Reserves two lines. Each of the six asks sets to one or two, so the index
+     row below never jumps as the pair changes. */
+  min-height: 2.7em;
+  font-size: clamp(23px, 3vw, 43px);
+  line-height: 1.2;
+  letter-spacing: -.035em;
+  font-weight: 600;
+}
+.became {
+  grid-row: 2;
+  grid-column: 2;
+  margin: 0;
+  max-width: 470px;
+  min-height: 8.6em;
+  font-family: var(--mono);
+  font-size: clamp(12.5px, 1.1vw, 15.5px);
+  line-height: 1.78;
+  letter-spacing: -.01em;
+}
+.became .word { display: inline-block; }
+
+/* PROTOTYPE ONLY — the hero picker.
+   Fixed to the corner of the viewport rather than set into the hero, so that
+   nothing about it can be read as part of a hero's composition. Delete this
+   block, its markup and applyHero() when a hero is chosen. */
+.hero-picker {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 9px;
+  background: rgba(244, 241, 235, .92);
+  border: 1px solid #24202b22;
+  backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  opacity: .42;
+  transition: opacity .25s;
+}
+.hero-picker:hover, .hero-picker:focus-within { opacity: 1; }
+.picker-label, .hero-picker .switch-name {
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--purple);
+}
+.hero-picker .switch-name { min-width: 84px; padding-left: 6px; }
+.hero-picker button {
+  background: transparent;
+  border: 1px solid #24202b25;
+  color: var(--purple);
+  width: 21px;
+  height: 21px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.hero-picker button:hover { border-color: var(--rust); color: var(--rust); }
+.hero-picker button[aria-pressed="true"] {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--ink);
+}
+.picker-archive {
+  font-size: 9px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--purple);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+  margin-left: 5px;
+}
+.picker-archive:hover { color: var(--rust); }
+
+/* ===========================================================================
+   HERO VARIANTS
+   A hero is the whole first section — header, meta line, the pair, the
+   supporting copy and the call to action — so these are section treatments,
+   not swapped middle blocks. One set of markup; the variant is a data
+   attribute on <body>, which is also why the fold below can respond to it.
+   =========================================================================== */
+
+/* --- BECOMES ----------------------------------------------------------------
+   The second attempt at "a visitor cannot see the logic", after a first one
+   that answered it with boxes and an arrow and turned the poster into a
+   diff-tool widget.
+
+   Rethought: the missing information was never DIRECTION — English already
+   reads left to right. It is WHO IS SPEAKING. Once you know the left is a
+   client talking and the right is us answering, the logic is self-evident.
+   So this changes two things and touches nothing else.
+
+   1. THE BADGE NAMES THE OPERATION. It already sits between the columns doing
+      a connector's job; it was just saying the wrong word. "meet" is left
+      over from v4, where the line was "what if MEETS how to" — a verb with no
+      subject once the layout became two columns. Say "becomes" and the screen
+      reads as one sentence:
+          "Make support smarter."  becomes  A retrieval assistant over your...
+   2. A DISPLAY QUOTE MARK OVER THE ASK. One oversized glyph in the rubric and
+      the left column is unmistakably someone talking — from across the room,
+      with nothing to read. An editorial device rather than a UI one, which is
+      the whole difference from the version this replaces.
+   --------------------------------------------------------------------------- */
+body[data-hero="becomes"] .hero-meets .w-meet { display: none; }
+body[data-hero="becomes"] .hero-meets .w-becomes { display: inline; }
+/* The word is wider than the 60px gutter, so it must overlap one column. It
+   overlaps the ask, which has whitespace to spare — at -74px it sat on the
+   first line of the answer. */
+body[data-hero="becomes"] .hero-meets { margin-right: -32px; }
+
+body[data-hero="becomes"] .said::before {
+  display: block;
+  font-size: 2.5em;
+  line-height: .62;
+  color: var(--orange);
+  margin-bottom: 4px;
+}
+/* With a display mark opening the quote, a closing one at text size reads as
+   an orphan. The block does the bounding instead. */
+body[data-hero="becomes"] .said::after { content: none; }
+body[data-hero="becomes"] .said { min-height: 3.6em; }
+
+/* --- THE STREAM -------------------------------------------------------------
+   Both lilac sections carry a field of tokens drawn from all six pairs,
+   revealed only inside a soft circle around the cursor. The text is always
+   there; moving the pointer is what uncovers it.
+
+   It reads from all six services rather than from the one on screen, on
+   purpose: what the cursor turns up should show the range of the practice,
+   not repeat the pair already in front of you.
+   --------------------------------------------------------------------------- */
+.hero-fx {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--fx-top, 0px);
+  bottom: var(--fx-bottom, 0px);
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Text keeps its own ground. Each block paints the section colour behind
+   itself and feathers it outwards, so the stream fades off as it approaches
+   any real text and survives only in the gaps between blocks. A halo rather
+   than a panel: at this blur there is no visible edge, just a falloff. */
+.opening .hero-meta,
+.opening .said,
+.opening .became,
+.opening .hero-index,
+.opening .hero-description,
+.opening .hero-cta,
+.contact .eyebrow,
+.contact h2,
+.contact-bottom p,
+.contact-actions {
+  position: relative;
+  z-index: 1;
+  background: var(--lilac);
+  box-shadow: 0 0 22px 7px var(--lilac);
+}
+/* Section content has to sit above the ground layer. */
+.opening > .header, .opening > .wrap, .contact > .wrap { position: relative; z-index: 1; }
+
+.fx-stream {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.95;
+  letter-spacing: .01em;
+  color: var(--purple);
+  opacity: .38;
+  word-break: break-word;
+  -webkit-mask-image: radial-gradient(circle 170px at var(--mx, -400px) var(--my, -400px), #000 0, rgba(0,0,0,.55) 46%, transparent 76%);
+  mask-image: radial-gradient(circle 170px at var(--mx, -400px) var(--my, -400px), #000 0, rgba(0,0,0,.55) 46%, transparent 76%);
+}
+.fx-stream b { font-weight: 500; color: var(--rust); opacity: .8; }
+@media (prefers-reduced-motion: reduce) { .fx-stream { display: none; } }
+
+
+/* Micro-interactions. Each is tied to something the reader is actually doing;
+   none of them run on their own. */
+.service-choice .name { transition: transform .22s ease; }
+.service-choice:hover .name { transform: translateX(5px); }
+.chapter-index a { transition: transform .2s ease, background .25s, border-color .25s; }
+.chapter-index a:hover { transform: scale(1.18); }
+.delivery-step h3 { transition: transform .5s ease; }
+.delivery-step.reached h3 { transform: translateX(4px); }
+
+/* --- NAMED ------------------------------------------------------------------
+   Copy only. Nothing moves; the two words change.
+
+   The reason A is hard to read at a glance is not visual, it is that
+   "WHAT IF." / "HOW TO." is a SLOGAN being asked to do a LABEL's job. A
+   slogan is evocative, a label is literal, and no amount of styling makes an
+   evocative phrase behave like a literal one — which is why a badge word and
+   a display quote mark were only decoration.
+
+   To decode A a visitor must infer four things: that the columns are related,
+   that the left is a client speaking, that the right is our answer, and that
+   the right is a transformation of the left. "YOU SAY." over a quotation and
+   "WE BUILD." over a specification states all four and leaves nothing to
+   infer. The slogan is not lost — it moves up to the meta line, where a
+   slogan belongs.
+   --------------------------------------------------------------------------- */
+body[data-hero="named"] .hero-word .w-slogan { display: none; }
+body[data-hero="named"] .hero-word .w-plain { display: inline; }
+body[data-hero="named"] .hero-meets { display: none; }
+body[data-hero="named"] .meta-default { display: none; }
+body[data-hero="named"] .meta-tagline { display: block; }
+
+/* Lives outside both heroes, so the switch cannot take the navigation with
+   it when it swaps them. */
+.hero-index {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  border-top: 1px solid #24202b28;
+  padding-top: 14px;
+  margin-top: 22px;
+}
+.pair-dot {
+  border: 0;
+  background: transparent;
+  padding: 8px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  color: var(--purple);
+  border-bottom: 2px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.pair-dot:hover { color: var(--ink); }
+.pair-dot[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--orange); }
+.pair-jump {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--rust);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+}
+
+.hero-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+  padding: 34px 0 58px;
+  border-top: 1px solid #24202b28;
+  margin-top: 30px;
+}
+.hero-description {
+  font-size: 19px;
+  line-height: 1.58;
+  max-width: 620px;
+  margin: 0;
+}
+.hero-description strong { font-weight: 700; }
+.hero-cta { display: flex; flex-direction: column; align-items: start; gap: 10px; }
+.hero-cta .mono { color: var(--purple); font-size: 9px; }
+
+/* A physical fold, not a generic section divider. */
+.fold-divider {
+  height: 65px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--ink);
+}
+.fold-divider::before,
+.fold-divider::after { content: ""; background: var(--lilac); }
+.fold-divider::before { clip-path: polygon(0 0,100% 0,100% 100%); }
+.fold-divider::after { clip-path: polygon(0 0,100% 0,0 100%); }
+
+/* ======================================================
+   ACT 02 / Services as an editorial stage
+   ====================================================== */
+
+.services {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 58px 0 90px;
+  position: relative;
+  overflow: hidden;
+}
+.section-heading {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 45px;
+  align-items: start;
+  margin-bottom: 52px;
+}
+.section-heading > * { min-width: 0; }
+h2 {
+  font-size: clamp(40px, 5.2vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -.045em;
+  font-weight: 700;
+  font-variation-settings: "opsz" 72, "wdth" 94;
+  margin-bottom: 20px;
+}
+.section-copy { max-width: 470px; font-size: 16px; line-height: 1.75; margin: 0; }
+.services .eyebrow { color: var(--lilac); }
+.services .section-copy { color: #c2b8cb; }
+
+.service-stage {
+  display: grid;
+  grid-template-columns: .85fr 1.45fr;
+  gap: 60px;
+  border-top: 1px solid #ffffff35;
+  padding-top: 25px;
+}
+.service-menu { display: flex; flex-direction: column; }
+.service-choice {
+  display: grid;
+  grid-template-columns: 27px 1fr 20px;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  padding: 19px 0;
+  border: 0;
+  border-bottom: 1px solid #ffffff25;
+  color: #c1b7cb;
+  background: none;
+  transition: color .2s;
+}
+.service-choice .name {
+  font-size: clamp(17px, 1.6vw, 22px);
+  font-weight: 600;
+  letter-spacing: -.03em;
+}
+.service-choice .arrow { opacity: 0; transform: translateX(-8px); transition: opacity .2s, transform .2s; }
+/* Section 2's one piece of scroll motion: the six rows arrive in sequence as
+   the stage enters. The class is added by JavaScript, so without it every row
+   is simply present. */
+.service-menu.staged .service-choice {
+  opacity: .2;
+  transform: translateY(12px);
+  transition: opacity .55s ease, transform .55s ease, color .2s;
+}
+.service-menu.staged .service-choice.in-view { opacity: 1; transform: none; }
+.service-menu.staged .service-choice:nth-child(2) { transition-delay: .07s; }
+.service-menu.staged .service-choice:nth-child(3) { transition-delay: .14s; }
+.service-menu.staged .service-choice:nth-child(4) { transition-delay: .21s; }
+.service-menu.staged .service-choice:nth-child(5) { transition-delay: .28s; }
+.service-menu.staged .service-choice:nth-child(6) { transition-delay: .35s; }
+.service-choice:hover { color: white; }
+.service-choice[aria-pressed="true"] { color: var(--lilac); }
+.service-choice[aria-pressed="true"] .arrow { opacity: 1; transform: translateX(0); }
+.service-choice[aria-pressed="true"] .mono { color: var(--orange); }
+
+.service-feature { min-width: 0; min-height: 500px; padding-top: 15px; }
+.feature-code { color: #b9a4d4; margin-bottom: 24px; }
+.service-feature h3 {
+  font-size: clamp(32px, 3.8vw, 52px);
+  font-weight: 700;
+  letter-spacing: -.045em;
+  line-height: 1.06;
+  font-variation-settings: "opsz" 60, "wdth" 95;
+  max-width: 580px;
+  margin-bottom: 26px;
+}
+.feature-copy {
+  color: #d0c8d6;
+  font-size: 16px;
+  line-height: 1.78;
+  min-height: 84px;
+  max-width: 620px;
+  margin: 0;
+}
+
+/* The hero device again, held still. */
+.feature-translation {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1fr);
+  gap: 34px;
+  margin: 30px 0 6px;
+  padding: 24px 0 26px;
+  border-top: 1px solid #ffffff28;
+  border-bottom: 1px solid #ffffff28;
+}
+.ft-label { color: var(--orange); margin-bottom: 12px; }
+.ft-said {
+  margin: 0;
+  font-size: clamp(19px, 1.75vw, 25px);
+  line-height: 1.3;
+  letter-spacing: -.03em;
+  font-weight: 600;
+  color: var(--lilac);
+  min-height: 2.6em;
+}
+.ft-became {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.8;
+  letter-spacing: -.01em;
+  color: #cfc7dc;
+  min-height: 7.2em;
+}
+.output-label { margin-top: 25px; color: #b9a4d4; }
+.output-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.output-list li {
+  padding: 8px 11px;
+  border-bottom: 1px solid #ffffff45;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .03em;
+}
+.service-feature .link { color: var(--lilac); }
+.service-feature .link:hover { color: var(--orange); }
+
+.feature-enter { animation: feature-in .35s ease both; }
+@keyframes feature-in {
+  from { opacity: .25; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* A sector band on the seam between the dark services block and the pale
+   practice one. It moves with the scroll rather than on a timer, so it is the
+   reader driving it and it holds still when they do. */
+.sectors {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 0 0 0 6%;
+  height: 62px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+.sectors-label { color: var(--rust); flex: none; }
+.sectors-window { flex: 1; overflow: hidden; min-width: 0; }
+.sectors-track {
+  display: flex;
+  width: max-content;
+  color: var(--muted);
+  will-change: transform;
+}
+.sectors-track span { flex: none; padding-right: 34px; }
+.sectors-track span::after { content: "◇"; padding-left: 34px; opacity: .5; }
+
+/* ======================================================
+   ACT 03 / The path through an engagement
+   ====================================================== */
+
+/* overflow:clip, not hidden — hidden would make this a scroll container and
+   silently kill the sticky brief below. clip crops without doing that. */
+.practice { position: relative; padding: 85px 0 90px; overflow: clip; }
+.practice .section-copy { color: var(--muted); }
+.practice .section-heading { margin-bottom: 46px; }
+.practice .eyebrow { color: var(--purple); }
+
+/* THE SCROLL TRANSFORMATION.
+   One sentence, sharpening as you scroll the four steps. It is the hero
+   device again, stretched over a scroll: the vague ask arrives first, and
+   each stage of the engagement adds the precision that stage is responsible
+   for. Nothing moves except opacity — the transformation is the language. */
+/* Pinned. The earlier version read as broken because steps slid under a
+   pinned block with no edge to slide under — so it now carries an opaque
+   ground and a rule, and the path below is padded to clear it. */
+.brief {
+  position: sticky;
+  top: 20px;
+  z-index: 3;
+  background: var(--paper);
+  padding: 6px 0 20px;
+  border-bottom: 1px solid rgba(36, 32, 43, .11);
+  box-shadow: 0 12px 16px -14px rgba(36, 32, 43, .09);
+}
+.brief-label {
+  color: var(--purple);
+  margin-bottom: 15px;
+  max-width: 1010px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.brief-count { color: var(--rust); }
+.brief-line {
+  margin: 0;
+  max-width: 1010px;
+  font-size: clamp(18px, 1.7vw, 24px);
+  line-height: 1.44;
+  letter-spacing: -.025em;
+  font-weight: 600;
+}
+.brief-part {
+  font-family: var(--mono);
+  font-size: .76em;
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+/* Without JavaScript every clause is simply present and readable. */
+.brief.staged .brief-part { opacity: .14; transition: opacity .55s ease; }
+.brief.staged .brief-part.on { opacity: 1; }
+
+/* v4 rotated a rule 13deg and hoped it met the steps. This draws the path from
+   the step markers themselves, so it always connects them. */
+.delivery-path {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 30px;
+  padding: 34px 0 60px;
+}
+.delivery-line {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.delivery-line svg { width: 100%; height: 100%; }
+.delivery-step {
+  position: relative;
+  z-index: 1;
+  align-self: start;
+  min-width: 0;
+}
+.delivery-step:nth-of-type(2) { margin-top: 74px; }
+.delivery-step:nth-of-type(3) { margin-top: 148px; }
+.delivery-step:nth-of-type(4) { margin-top: 222px; }
+
+.step-number {
+  display: inline-block;
+  font-size: 92px;
+  font-weight: 700;
+  letter-spacing: -.06em;
+  line-height: 1;
+  font-variation-settings: "opsz" 96, "wdth" 88;
+  color: transparent;
+  -webkit-text-stroke: 1.4px var(--purple);
+  background: var(--paper);
+  transition: color .6s, -webkit-text-stroke-color .6s;
+  margin-bottom: 18px;
+}
+/* Filled by scroll position, not by a one-shot entrance: the numbers ink in
+   as the brief reaches the stage they are responsible for. */
+.delivery-step.reached .step-number { color: var(--orange); -webkit-text-stroke-color: var(--orange); }
+.delivery-step h3 {
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -.035em;
+  margin-bottom: 12px;
+}
+.delivery-step p {
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 250px;
+  margin-bottom: 0;
+  background: var(--paper);
+}
+.practice-note {
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  color: var(--muted);
+}
+
+/* ======================================================
+   ACT 04 / The agency relationship
+   ====================================================== */
+
+.engagements {
+  background: var(--orange-ground);
+  padding: 72px 0;
+  position: relative;
+  overflow: hidden;
+}
+.engagements .eyebrow { color: var(--ink); }
+.engagements .section-copy { max-width: 450px; }
+.engagement-line {
+  display: grid;
+  grid-template-columns: 50px 1.1fr 1fr 52px;
+  align-items: center;
+  gap: 30px;
+  padding: 30px 0;
+  border-top: 1px solid #24202b70;
+}
+.engagement-line:last-of-type { border-bottom: 1px solid #24202b70; }
+.engagement-line h3 {
+  font-size: clamp(30px, 3.9vw, 54px);
+  line-height: 1.02;
+  font-weight: 700;
+  letter-spacing: -.05em;
+  font-variation-settings: "opsz" 60, "wdth" 94;
+  margin: 0;
+}
+.engagement-line p { font-size: 14.5px; line-height: 1.72; margin: 0; max-width: 435px; }
+.engagement-line .engagement-arrow {
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(36, 32, 43, .55);
+  font-size: 19px;
+  line-height: 1;
+  color: var(--ink);
+  transition: background .25s, color .25s, border-color .25s, transform .25s;
+}
+.engagement-line:hover .engagement-arrow,
+.engagement-line:focus-visible .engagement-arrow {
+  background: var(--ink);
+  border-color: var(--ink);
+  /* Paper, not orange. An orange glyph on ink is 4.61:1 - the same thin ratio
+     as everything else in this section - and an active control is the last
+     place to spend the margin on palette tidiness. Paper on ink is 14.15:1. */
+  color: var(--paper);
+  transform: translate(3px, -3px);
+}
+.engagement-line:hover h3 { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 7px; }
+
+/* ======================================================
+   ACT 05 / The opening question returns
+   ====================================================== */
+
+.contact {
+  position: relative;
+  background: var(--lilac);
+  overflow: hidden;
+  padding: 70px 0 45px;
+}
+.contact-content { position: relative; z-index: 1; }
+.contact h2 {
+  font-size: clamp(58px, 8.4vw, 118px);
+  line-height: .96;
+  max-width: 950px;
+  margin: 42px 0 34px;
+}
+.contact-bottom {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 35px;
+  margin-bottom: 62px;
+}
+.contact-bottom p {
+  max-width: 420px;
+  font-size: 17px;
+  line-height: 1.68;
+  margin-bottom: 0;
+}
+.contact-actions { display: flex; flex-direction: column; align-items: start; gap: 12px; }
+.contact-actions .mono { color: var(--purple); font-size: 9px; }
+
+.footer {
+  position: relative;
+  border-top: 1px solid #24202b45;
+  padding-top: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+.footer .mono { font-size: 9px; color: var(--purple); }
+.identity-button {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+.identity-button:hover { color: var(--rust); }
+
+/* Identity appendix: exportable, not just a moodboard. */
+dialog {
+  width: min(1180px, 94vw);
+  max-height: 90vh;
+  padding: 30px;
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+  overflow: auto;
+}
+dialog::backdrop { background: #16101acc; backdrop-filter: blur(5px); }
+.dialog-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+.dialog-top h2 { font-size: 34px; margin: 8px 0 12px; }
+.dialog-top p { max-width: 670px; font-size: 15px; line-height: 1.7; color: var(--muted); margin: 0; }
+.close-dialog {
+  border: 1px solid var(--ink);
+  background: transparent;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  font-size: 24px;
+}
+.social-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+.social-item { min-width: 0; }
+.social-preview svg { width: 100%; height: auto; }
+.download-art {
+  width: 100%;
+  padding: 13px 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .05em;
+  border-bottom: 1px solid var(--line);
+}
+.download-art:hover { color: var(--rust); }
+.identity-note { margin: 22px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+/* Progressive entrances: no content is hidden by default. */
+.reveal.in-view { animation: rise .65s ease both; }
+@keyframes rise {
+  from { opacity: .4; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1160px) {
+  .chapter-index { display: none; }
+  .service-stage { gap: 38px; }
+  .hero-poster { column-gap: 44px; }
+  .hero-title { column-gap: 44px; }
+  .hero-meets { margin-right: -38px; }
+}
+@media (max-width: 920px) {
+  .wrap { width: 89%; }
+  .nav { gap: 20px; font-size: 12px; }
+
+  /* One column, and the stack has to interleave: WHAT IF over the ask, then
+     the badge, then HOW TO over the answer. The two words live inside the h1,
+     so the h1 gives up its own box (display:contents) and lets its children
+     take part in the poster grid directly — otherwise both headings would
+     stack at the top and HOW TO would end up labelling the ask. */
+  .hero-poster { grid-template-columns: 1fr; row-gap: 14px; padding-top: 22px; }
+  .hero-title { display: contents; }
+  .hero-word { font-size: clamp(52px, 12.6vw, 96px); order: 1; }
+  .said { order: 2; }
+  .hero-meets { order: 3; }
+  .hero-word.answer { order: 4; margin-top: 10px; }
+  .became { order: 5; }
+  .said, .became, .hero-meets {
+    grid-row: auto;
+    grid-column: 1;
+    justify-self: start;
+    max-width: 620px;
+  }
+  .said { min-height: 0; margin-top: 8px; }
+  .became { min-height: 0; }
+  .hero-meets { margin: 4px 0 2px; }
+  /* Stacked, the offset would read as a mistake, so the planes go full width
+     and the break becomes vertical: the flow still runs off the first plane. */
+  .hero-planes { height: auto; display: grid; gap: 0; margin-top: 22px; }
+  .plane { position: static; width: auto; height: auto; min-height: 210px; }
+  .plane-a { clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%); }
+  .plane-b {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    margin: 26px 0 0 auto;
+    width: 92%;
+    filter: drop-shadow(-10px -10px 20px rgba(36, 32, 43, .26));
+  }
+  .plane-word { font-size: clamp(40px, 11vw, 72px); }
+  .flow { right: -26%; bottom: 34%; width: 62%; }
+  .plane-seam { left: auto; right: 8%; top: auto; bottom: 0; transform: translateY(40%); }
+  .def-senses li { grid-template-columns: 26px minmax(0, 1fr); gap: 12px; }
+  .decoder-row { grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr); gap: 12px; }
+  .objection-said { max-width: none; }
+  .objection-answer { grid-template-columns: 1fr; gap: 14px; }
+  .intake-out { grid-template-columns: 1fr; gap: 22px; min-height: 0; }
+  .intake-grid { grid-template-columns: 1fr; gap: 22px; }
+  .intake-actions { gap: 18px; }
+  .t-line { grid-template-columns: 58px minmax(0, 1fr); gap: 14px; }
+  .board-row { grid-template-columns: 1fr; gap: 12px; padding: 20px 0; }
+  .hero-wall { grid-template-columns: 1fr; gap: 26px; }
+  .wall-asks { max-height: 250px; }
+  .wall-answer { position: static; }
+  .statement { max-width: none; }
+  .statement-notes { position: static; width: auto; grid-auto-flow: column; margin-top: 26px; }
+  .ledger th:nth-child(3), .ledger td:nth-child(3) { display: none; }
+  .ledger th, .ledger td { width: auto; }
+  /* Split stacks: two 195px columns on a phone squeezed WHAT IF. to nothing.
+     The two grounds become two bands instead, and the ink one is painted on
+     the answer items themselves so it stays glued to its content. */
+  body[data-hero="becomes"] .hero-meets { margin-right: 0; }
+  body[data-hero="becomes"] .said { min-height: 0; }
+
+  .feature-translation { grid-template-columns: 1fr; gap: 24px; }
+  .ft-said, .ft-became { min-height: 0; }
+  .brief { position: static; }
+  .hero-bottom { grid-template-columns: 1fr; align-items: start; gap: 25px; }
+  .hero-description { font-size: 17px; }
+  .hero-cta { flex-direction: row; align-items: center; gap: 25px; flex-wrap: wrap; }
+
+  .section-heading { grid-template-columns: 1fr; gap: 25px; margin-bottom: 35px; }
+  .section-copy { max-width: 570px; }
+  .service-stage { grid-template-columns: 1fr; gap: 30px; }
+  .service-menu { display: grid; grid-template-columns: 1fr 1fr; column-gap: 25px; }
+  .service-feature { min-height: auto; }
+  .feature-copy { min-height: auto; }
+  .services { padding-bottom: 60px; }
+
+  .delivery-path { gap: 22px; }
+  .step-number { font-size: 74px; }
+  .delivery-step h3 { font-size: 22px; }
+  .engagement-line { gap: 20px; grid-template-columns: 30px 1fr 1fr 52px; }
+  .contact-bottom { align-items: start; flex-direction: column; gap: 25px; }
+  .social-grid { gap: 12px; }
+}
+@media (max-width: 580px) {
+  .header { min-height: 74px; }
+  .brand span { font-size: 23px; }
+  .brand img { width: 29px; height: 29px; }
+  .nav { gap: 17px; font-size: 11px; }
+  .nav a:nth-child(2) { display: none; }
+  .hero-meta { padding-top: 21px; }
+  .hero-meta > span:last-child { display: none; }
+  .hero-meta .mono { font-size: 9px; }
+  .hero-word { font-size: 15.4vw; }
+  .hero-meets { font-size: 15px; padding: 7px 12px; }
+  .hero-bottom { padding-bottom: 40px; }
+  .hero-cta { flex-direction: column; align-items: start; gap: 12px; }
+  .fold-divider { height: 33px; }
+
+  h2 { font-size: 40px; }
+  .services { padding-top: 40px; }
+  .service-menu { grid-template-columns: 1fr; }
+  .service-choice { padding: 16px 0; }
+  .service-choice .name { font-size: 20px; }
+  .service-feature h3 { font-size: 34px; }
+  .feature-copy { font-size: 15px; }
+
+  .decoder-row { grid-template-columns: 1fr; gap: 4px; }
+  .decoder-arrow { display: none; }
+  .hero-picker .switch-name { display: none; }
+  .hero-picker { right: 8px; bottom: 8px; gap: 2px; padding: 5px 7px; }
+  .practice { padding: 55px 0 45px; }
+  .delivery-path { display: block; padding: 10px 0 20px; }
+  .delivery-line { display: none; }
+  .delivery-step,
+  .delivery-step:nth-of-type(n) {
+    margin-top: 0;
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    column-gap: 18px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+  }
+  .step-number { font-size: 58px; grid-row: span 2; margin: 0; }
+  .delivery-step h3 { margin-top: 4px; }
+  .delivery-step p { max-width: none; font-size: 14px; }
+  .practice-note { flex-direction: column; gap: 12px; }
+
+  .engagements { padding: 50px 0; }
+  .engagement-line { grid-template-columns: 25px 1fr 46px; gap: 13px; padding: 25px 0; }
+  .engagement-line h3 { font-size: 33px; }
+  .engagement-line p { grid-column: 2; grid-row: 2; font-size: 14px; }
+  .engagement-arrow { grid-column: 3; grid-row: 1; }
+
+  .contact { padding-top: 50px; }
+  .contact h2 { font-size: clamp(52px,13vw,76px); margin-top: 35px; }
+  .contact-bottom p { font-size: 16px; max-width: 320px; }
+  dialog { padding: 20px; }
+  .dialog-top h2 { font-size: 28px; }
+  .social-grid { grid-template-columns: 1fr; gap: 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   INNER PAGES
+   The home page is a five-act poster. Inner pages are documents: one lilac
+   head carrying the same cursor stream, then paper, then the ink footer. The
+   grounds and the two voices do the identifying, so nothing new is invented
+   here - these are the same parts, arranged for reading rather than for
+   arrival.
+   ========================================================================== */
+
+.page-head {
+  position: relative;
+  overflow: hidden;
+  background: var(--lilac);
+}
+.page-head-body { padding: 54px 0 76px; }
+.page-head .eyebrow { color: var(--purple); margin-bottom: 26px; }
+.page-title {
+  margin: 0;
+  max-width: 15ch;
+  font-size: clamp(44px, 6.4vw, 104px);
+  line-height: .96;
+  letter-spacing: -.05em;
+  font-weight: 700;
+  font-variation-settings: "opsz" 96, "wdth" 92;
+}
+.page-lede {
+  margin: 30px 0 0;
+  max-width: 620px;
+  font-size: clamp(17px, 1.55vw, 21px);
+  line-height: 1.62;
+}
+/* Same halo as the home page: the stream falls off as it nears real text. */
+.page-head .eyebrow,
+.page-title,
+.page-lede,
+.page-head-meta {
+  position: relative;
+  z-index: 1;
+  background: var(--lilac);
+  box-shadow: 0 0 22px 7px var(--lilac);
+}
+.page-head-meta {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 34px;
+  color: var(--purple);
+}
+
+/* --- a paper section on an inner page ------------------------------------ */
+.page-section { padding: 78px 0; }
+.page-section + .page-section { padding-top: 0; }
+.page-section h2 {
+  font-size: clamp(32px, 3.9vw, 56px);
+  margin-bottom: 26px;
+}
+.page-section .lede { max-width: 680px; font-size: 17px; line-height: 1.72; color: var(--muted); }
+.rule-head {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding-bottom: 16px;
+  margin-bottom: 34px;
+  border-bottom: 1px solid var(--line);
+  color: var(--purple);
+}
+.rule-head span:last-child { margin-left: auto; }
+
+/* --- the six, as a list -------------------------------------------------- */
+.service-rows { border-top: 1px solid var(--line); }
+.service-row {
+  display: grid;
+  grid-template-columns: 62px minmax(0, .9fr) minmax(0, 1.25fr) 52px;
+  gap: 34px;
+  align-items: start;
+  padding: 38px 0;
+  border-bottom: 1px solid var(--line);
+  transition: background .25s;
+}
+.service-row:hover { background: rgba(36, 32, 43, .035); }
+.service-row .n { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--rust); padding-top: .5em; }
+.service-row h3 {
+  margin: 0;
+  font-size: clamp(24px, 2.5vw, 36px);
+  letter-spacing: -.04em;
+  line-height: 1.06;
+}
+/* Deliberately NOT .said / .became: those carry the home page's grid
+   placement and quote pseudo-elements, which doubled the quotation marks
+   here and would have fought the row layout. */
+.service-row .row-ask {
+  display: block;
+  margin-top: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.32;
+  color: var(--purple);
+}
+.service-row .row-built {
+  display: block;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.78;
+  color: var(--muted);
+}
+.service-row .go {
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(36, 32, 43, .3);
+  font-size: 18px;
+  transition: background .25s, color .25s, border-color .25s, transform .25s;
+}
+.service-row:hover .go {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+  transform: translate(3px, -3px);
+}
+
+/* --- the pair, stated on a service page ---------------------------------- */
+.pair-block {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: 46px;
+  padding: 40px 0 44px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.pair-block .label { color: var(--purple); margin-bottom: 14px; }
+.pair-block .ask {
+  margin: 0;
+  font-size: clamp(22px, 2.5vw, 34px);
+  font-weight: 600;
+  letter-spacing: -.03em;
+  line-height: 1.24;
+}
+.pair-block .built {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: clamp(13px, 1.15vw, 16px);
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+/* --- deliverables -------------------------------------------------------- */
+.deliverables { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.deliverables li {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 20px;
+  align-items: baseline;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 19px;
+  letter-spacing: -.02em;
+}
+.deliverables li:first-child { border-top: 1px solid var(--line); }
+.deliverables .n { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--rust); }
+
+/* --- next / related ------------------------------------------------------ */
+.next-rows { border-top: 1px solid var(--line); }
+.next-rows a {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: clamp(19px, 1.9vw, 26px);
+  letter-spacing: -.035em;
+  font-weight: 700;
+  transition: color .2s, padding-left .25s;
+}
+.next-rows a:hover { color: var(--rust); padding-left: 8px; }
+.next-rows .n { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .1em; color: var(--purple); }
+.next-rows .go { margin-left: auto; font-size: 19px; }
+
+/* --- closing call ------------------------------------------------------- */
+.page-cta { background: var(--lilac); padding: 74px 0; }
+.page-cta h2 { font-size: clamp(38px, 5.4vw, 76px); max-width: 16ch; margin-bottom: 28px; }
+.page-cta .row { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
+.page-cta .mono { color: var(--purple); }
+
+/* --- the footer every page shares --------------------------------------- */
+.site-footer { background: var(--ink); color: var(--paper); padding: 64px 0 40px; }
+.footer-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  padding-bottom: 44px;
+  border-bottom: 1px solid var(--on-ink-line);
+}
+.footer-brand .brand span { color: var(--paper); }
+.footer-brand p {
+  margin: 20px 0 0;
+  max-width: 320px;
+  font-size: 14.5px;
+  line-height: 1.72;
+  color: var(--on-ink-muted);
+}
+.footer-col h4 {
+  margin: 0 0 16px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.footer-col a, .footer-col p {
+  display: block;
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cfc7dc;
+  transition: color .2s;
+}
+.footer-col a:hover { color: var(--paper); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: 26px;
+  color: var(--on-ink-muted);
+}
+
+@media (max-width: 920px) {
+  .page-head-body { padding: 40px 0 56px; }
+  .page-section { padding: 56px 0; }
+  .service-row { grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 18px; }
+  .service-row > div:nth-of-type(2) { grid-column: 2 / -1; }
+  .pair-block { grid-template-columns: 1fr; gap: 26px; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+@media (max-width: 580px) {
+  .page-title { max-width: none; }
+  .service-row { grid-template-columns: 36px minmax(0, 1fr); }
+  .service-row .go { display: none; }
+  .footer-top { grid-template-columns: 1fr; }
+  .rule-head { flex-wrap: wrap; gap: 8px; }
+  .rule-head span:last-child { margin-left: 0; }
+}
+
+/* --- signals and the "what this is not" block --------------------------- */
+.signals { list-style: none; margin: 0; padding: 0; }
+.signals li {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 20px;
+  align-items: baseline;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 18px;
+  line-height: 1.5;
+  letter-spacing: -.02em;
+  color: var(--muted);
+}
+.signals li:first-child { border-top: 1px solid var(--line); }
+.signals .n { font-family: var(--mono); font-size: 12px; color: var(--rust); }
+
+.not-this {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .62fr);
+  gap: 44px;
+  align-items: start;
+  padding: 30px 0 34px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.not-this p {
+  margin: 0;
+  font-size: clamp(18px, 1.85vw, 25px);
+  line-height: 1.48;
+  letter-spacing: -.025em;
+}
+.not-this em { font-style: italic; color: var(--rust); }
+.not-this .link { color: var(--ink); }
+
+@media (max-width: 920px) {
+  .not-this { grid-template-columns: 1fr; gap: 22px; }
+  .signals li { grid-template-columns: 30px minmax(0, 1fr); gap: 14px; font-size: 16px; }
+}
+
+/* ==========================================================================
+   INNER PAGE — READING AIDS AND DEEPER SECTIONS
+   ========================================================================== */
+
+/* A rule across the top showing how much of a long page is left. */
+.read-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 50;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* Rows arrive as they are reached. The class comes from script, so a page
+   without script shows everything.
+
+   Named rows-in, NOT "staged": home.js already uses .staged for the brief's
+   clause reveal in section three, and a global `.staged > *` rule matched the
+   brief line itself and made it invisible - on a page that never loads this
+   script and so could never reveal it again. */
+.rows-in > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.rows-in > *.row-in { opacity: 1; transform: none; }
+
+/* --- a worked example ---------------------------------------------------- */
+.example {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  gap: 44px;
+  padding: 34px 0 6px;
+  border-top: 1px solid var(--line);
+}
+.example .label { color: var(--rust); margin-bottom: 14px; }
+.example blockquote {
+  margin: 0;
+  font-size: clamp(21px, 2.3vw, 31px);
+  font-weight: 600;
+  letter-spacing: -.03em;
+  line-height: 1.26;
+}
+.example .who { display: block; margin-top: 16px; color: var(--purple); }
+.example-steps { list-style: none; margin: 0; padding: 0; }
+.example-steps li {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 22px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 16px;
+  line-height: 1.68;
+  color: var(--muted);
+}
+.example-steps b {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-top: .35em;
+}
+.example-steps strong { color: var(--ink); font-weight: 600; }
+
+/* --- what goes wrong ----------------------------------------------------- */
+.failures { display: grid; gap: 0; }
+.failures > div {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: 36px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+.failures > div:first-child { border-top: 1px solid var(--line); }
+.failures .what {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  line-height: 1.36;
+}
+.failures .fix {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.78;
+  color: var(--muted);
+}
+.failures .fix::before { content: "→ "; color: var(--rust); }
+
+/* --- inputs we need ------------------------------------------------------ */
+.needs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 28px; }
+.needs li { border-top: 2px solid var(--ink); padding-top: 16px; }
+.needs b { display: block; font-size: 17px; letter-spacing: -.02em; margin-bottom: 8px; }
+.needs span { font-size: 14.5px; line-height: 1.66; color: var(--muted); }
+
+/* --- questions ----------------------------------------------------------- */
+.faq { border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 22px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  font-size: clamp(17px, 1.7vw, 22px);
+  font-weight: 600;
+  letter-spacing: -.03em;
+  transition: color .2s;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { color: var(--rust); }
+.faq summary::after {
+  content: "+";
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 20px;
+  color: var(--rust);
+  transition: transform .25s;
+}
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq .answer {
+  margin: 0;
+  padding: 0 0 24px;
+  max-width: 760px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+@media (max-width: 920px) {
+  .example { grid-template-columns: 1fr; gap: 26px; }
+  .example-steps li { grid-template-columns: 1fr; gap: 6px; }
+  .failures > div { grid-template-columns: 1fr; gap: 12px; }
+}
+
+/* --- the enquiry form ---------------------------------------------------- */
+.enquiry {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px 34px;
+  max-width: 900px;
+}
+.enquiry .wide { grid-column: 1 / -1; }
+.field { display: flex; flex-direction: column; gap: 9px; }
+.field label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--purple);
+}
+.field input,
+.field select,
+.field textarea {
+  font-family: var(--display);
+  font-size: 17px;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid var(--line);
+  padding: 10px 0;
+  transition: border-color .2s;
+}
+.field textarea {
+  border: 2px solid var(--line);
+  padding: 14px 16px;
+  line-height: 1.6;
+  resize: vertical;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus { outline: none; border-color: var(--orange); }
+.field input::placeholder,
+.field textarea::placeholder { color: #9d92b2; }
+.field select { cursor: pointer; }
+.actions { flex-direction: row; align-items: center; gap: 26px; flex-wrap: wrap; }
+.actions .mono { color: var(--muted); max-width: 420px; }
+
+@media (max-width: 720px) {
+  .enquiry { grid-template-columns: 1fr; }
+}
+
+/* --- case rows ----------------------------------------------------------- */
+.case-rows { border-top: 1px solid var(--line); }
+.case-row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1fr) 48px;
+  gap: 34px;
+  align-items: start;
+  padding: 34px 0;
+  border-bottom: 1px solid var(--line);
+  transition: background .25s;
+}
+.case-row:hover { background: rgba(36, 32, 43, .035); }
+.case-row .n { color: var(--rust); padding-top: .55em; }
+.case-row .client { display: block; color: var(--purple); margin-bottom: 12px; }
+.case-row h3 {
+  margin: 0 0 12px;
+  font-size: clamp(21px, 2.1vw, 29px);
+  letter-spacing: -.04em;
+  line-height: 1.1;
+}
+.case-row .case-ask {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.34;
+  color: var(--purple);
+}
+.case-row .case-got {
+  margin: 0 0 14px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.78;
+  color: var(--muted);
+}
+.case-row .case-tag { color: var(--rust); }
+.case-row .go {
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(36, 32, 43, .3);
+  font-size: 17px;
+  transition: background .25s, color .25s, border-color .25s, transform .25s;
+}
+.case-row:hover .go {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+  transform: translate(3px, -3px);
+}
+.template-note {
+  margin: 26px 0 0;
+  max-width: 640px;
+  color: var(--rust);
+  line-height: 1.8;
+}
+
+@media (max-width: 920px) {
+  .case-row { grid-template-columns: 40px minmax(0, 1fr); gap: 16px; }
+  .case-row > div:nth-of-type(2) { grid-column: 2; }
+  .case-row .go { display: none; }
+}
+
+/* ==========================================================================
+   INNER PAGES — THE APPARATUS
+
+   The document pages were correct and dull: every section resolved to rows
+   separated by hairlines, so six different kinds of information all looked
+   like the same table. What follows gives each kind its own shape without
+   inventing any new vocabulary — the parts are still lines, mono numerals,
+   circles and the two grounds. What changes is that the lines now DRAW, and
+   what has been passed reads differently from what has not.
+
+   One rule governs everything here: script may only ever improve the page.
+   Every dimmed or undrawn state is written so that its absence is the
+   readable one, and the classes that dim are added by script alone.
+   ========================================================================== */
+
+/* --- contents rail -------------------------------------------------------
+   A long service page runs to six thousand pixels. This is the apparatus a
+   printed document would carry: where you are, what else there is, and a way
+   to jump. Ticks only, until you need the words. */
+.rail {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 11px;
+  transition: opacity .35s ease;
+}
+@media (min-width: 1180px) { .rail { display: flex; } }
+.rail.off { opacity: 0; pointer-events: none; }
+.rail a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 32px;
+  height: 14px;
+  text-decoration: none;
+  color: var(--muted);
+}
+/* The label is taken out of flow deliberately. Left in it, every hidden
+   label still claimed its own width, and the rail became an invisible strip
+   of links lying across the right-hand quarter of the page - swallowing
+   clicks meant for the text underneath. Absolute, it only ever covers
+   anything while it is actually visible. */
+.rail .label {
+  position: absolute;
+  right: calc(100% + 12px);
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--paper);
+  box-shadow: 0 0 8px 4px var(--paper);
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.rail .tick {
+  flex: none;
+  width: 16px;
+  height: 1px;
+  background: var(--line);
+  transition: width .35s ease, background .35s ease;
+}
+.rail a:hover .label,
+.rail li.here .label { opacity: 1; transform: none; }
+.rail a:hover .tick { width: 26px; background: var(--purple); }
+.rail li.here .tick { width: 32px; background: var(--orange); }
+.rail li.here a { color: var(--ink); }
+
+/* --- section heads -------------------------------------------------------
+   The rule under a section head is drawn rather than printed: it arrives
+   with the section. Without script it is simply there. */
+.rule-head { position: relative; border-bottom-color: transparent; }
+.rule-head::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: var(--line);
+  transform-origin: 0 50%;
+}
+.js .rule-head::after {
+  transform: scaleX(0);
+  transition: transform .85s cubic-bezier(.19,.72,.26,1);
+}
+.js .rule-head.ruled::after { transform: scaleX(1); }
+.rule-head span:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 1px;
+  margin-right: 11px;
+  vertical-align: middle;
+  background: var(--orange);
+}
+
+/* --- a drawn timeline ----------------------------------------------------
+   Used once, on the About page. The spine fills as you scroll and each year
+   lights as the fill reaches it, so the history is read at the speed you
+   move through it. Everything behind you is bright; everything ahead is not
+   yet. */
+.timeline {
+  --draw: 0;
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.timeline::before,
+.timeline::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+}
+.timeline::before { background: var(--line); }
+.timeline::after {
+  background: var(--orange);
+  transform: scaleY(var(--draw));
+  transform-origin: 50% 0;
+}
+.timeline li {
+  position: relative;
+  padding: 0 0 40px 34px;
+}
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  transition: background .4s ease, border-color .4s ease, transform .4s ease;
+}
+.timeline .year {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 9px;
+  transition: color .4s ease;
+}
+.timeline h4 {
+  margin: 0 0 9px;
+  font-size: clamp(21px, 2.3vw, 30px);
+  letter-spacing: -.035em;
+  line-height: 1.1;
+}
+.timeline p { margin: 0; max-width: 46ch; font-size: 15px; line-height: 1.72; color: var(--muted); }
+.js .timeline.drawing li { opacity: .5; transition: opacity .5s ease; }
+.js .timeline.drawing li.lit { opacity: 1; }
+.timeline li.lit::before { background: var(--orange); border-color: var(--orange); transform: scale(1.35); }
+.timeline li.lit .year { color: var(--rust); }
+@media (min-width: 820px) {
+  .timeline li { display: grid; grid-template-columns: 165px minmax(0, 1fr); gap: 34px; }
+  .timeline .year { margin: 0; padding-top: .5em; }
+}
+
+/* --- a phase track -------------------------------------------------------
+   Distinct from the timeline on purpose: a history runs down, a process runs
+   across. Same drawn line, same lit nodes, turned ninety degrees. Below the
+   breakpoint it necessarily stacks, and turns back into a spine. */
+.phase-track {
+  --draw: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0;
+}
+.phase-track::before,
+.phase-track::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+.phase-track::before { background: var(--line); }
+.phase-track::after {
+  background: var(--orange);
+  transform: scaleX(var(--draw));
+  transform-origin: 0 50%;
+}
+.phase-track > div {
+  position: relative;
+  padding: 34px 30px 0 0;
+}
+.phase-track > div::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  transition: background .4s ease, border-color .4s ease, transform .4s ease;
+}
+.phase-track > div.lit::before { background: var(--orange); border-color: var(--orange); transform: scale(1.35); }
+.phase-track .when {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 12px;
+  transition: color .4s ease;
+}
+.phase-track > div.lit .when { color: var(--rust); }
+.phase-track h4 { margin: 0 0 9px; font-size: 19px; letter-spacing: -.03em; line-height: 1.2; }
+.phase-track p { margin: 0; font-size: 14px; line-height: 1.72; color: var(--muted); }
+.js .phase-track.drawing > div { opacity: .5; transition: opacity .5s ease; }
+.js .phase-track.drawing > div.lit { opacity: 1; }
+@media (max-width: 759px) {
+  .phase-track { grid-template-columns: 1fr; padding-left: 30px; }
+  .phase-track::before,
+  .phase-track::after {
+    top: 6px;
+    bottom: 6px;
+    left: 5px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+  .phase-track::after { transform: scaleY(var(--draw)); transform-origin: 50% 0; }
+  .phase-track > div { padding: 0 0 30px; }
+  .phase-track > div:last-child { padding-bottom: 0; }
+  .phase-track > div::before { top: 4px; left: -30px; }
+}
+
+/* --- inputs, as numbered cards ------------------------------------------- */
+.needs { counter-reset: need; }
+.needs li {
+  position: relative;
+  border-top: none;
+  padding: 20px 60px 0 0;
+}
+.needs li::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--ink);
+  transform-origin: 0 50%;
+}
+.needs.rows-in li::before {
+  transform: scaleX(0);
+  transition: transform .7s cubic-bezier(.19,.72,.26,1);
+}
+.needs.rows-in li.row-in::before { transform: scaleX(1); }
+.needs li::after {
+  counter-increment: need;
+  content: counter(need, decimal-leading-zero);
+  position: absolute;
+  top: 14px;
+  right: 0;
+  font-family: var(--mono);
+  font-size: 46px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.05em;
+  color: var(--lilac);
+  pointer-events: none;
+}
+.needs b, .needs span { position: relative; z-index: 1; }
+
+/* --- what goes wrong -----------------------------------------------------
+   The problem carries a struck circle, the answer an arrow in one. Hovering
+   a row fills both, which is the same gesture the home page uses to say
+   "this is a thing you can act on". */
+.failures > div { transition: background .3s ease; }
+.failures > div:hover { background: rgba(36, 32, 43, .028); }
+.failures.struck .what { position: relative; padding-left: 36px; }
+.failures.struck .what::before {
+  content: "\00d7";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--rust);
+  transition: background .3s ease, border-color .3s ease, color .3s ease;
+}
+.failures.struck > div:hover .what::before {
+  background: var(--rust);
+  border-color: var(--rust);
+  color: var(--paper);
+}
+.failures .fix::before {
+  content: "\2192";
+  display: inline-grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  margin-right: 11px;
+  vertical-align: -5px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 12px;
+  color: var(--rust);
+  transition: background .3s ease, border-color .3s ease, color .3s ease, transform .3s ease;
+}
+.failures > div:hover .fix::before {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--ink);
+  transform: translateX(3px);
+}
+
+/* --- worked example, on a spine ------------------------------------------ */
+.example-steps { position: relative; }
+.example-steps::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: var(--line);
+}
+.example-steps li {
+  position: relative;
+  padding: 18px 0 18px 28px;
+  grid-template-columns: 84px minmax(0, 1fr);
+}
+.example-steps li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 27px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--rust);
+}
+
+/* --- the founders --------------------------------------------------------
+   A monogram in a ring. The ring is the only round form on the site apart
+   from the logo's own brackets, which is deliberate: it rhymes without
+   redrawing anything. */
+.people { display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); gap: 24px; }
+.people article {
+  padding: 28px 26px 30px;
+  border: 1px solid var(--line);
+  background: rgba(220, 210, 242, .24);
+  transition: transform .45s cubic-bezier(.19,.72,.26,1), background .45s ease, border-color .45s ease;
+}
+/* The card lifts and the monogram fills; the ground deliberately does not
+   change. Taking it to full lilac looked better and measured 4.12:1 on the
+   body copy, which is below AA - the lift and the filled ring are affordance
+   enough without spending contrast on it. */
+.people article:hover {
+  transform: translateY(-5px);
+  border-color: var(--purple);
+}
+.people .mark {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  border: 1px solid var(--purple);
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--purple);
+  transition: background .45s ease, color .45s ease, border-color .45s ease;
+}
+.people article:hover .mark { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.people .role {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 10px;
+}
+.people h3 { margin: 0 0 12px; font-size: 22px; letter-spacing: -.035em; }
+.people p { margin: 0; font-size: 14.5px; line-height: 1.72; color: var(--muted); }
+
+/* --- questions, numbered ------------------------------------------------- */
+.faq { counter-reset: q; }
+.faq summary::before {
+  counter-increment: q;
+  content: counter(q, decimal-leading-zero);
+  flex: none;
+  margin-right: 20px;
+  padding-top: .45em;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--purple);
+}
+
+/* --- pull quote ----------------------------------------------------------
+   One sentence per page, set large on lilac, so a reader scrolling fast
+   still collects the argument. It is the only place an inner page raises
+   its voice. */
+.pull {
+  margin: 0;
+  padding: 58px 0 62px;
+  background: var(--lilac);
+}
+.pull-line {
+  margin: 0;
+  font-size: clamp(26px, 3.6vw, 50px);
+  font-weight: 600;
+  letter-spacing: -.04em;
+  line-height: 1.12;
+  max-width: 20ch;
+}
+.pull figcaption {
+  margin-top: 22px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .05em;
+  color: var(--purple);
+}
+
+@media (max-width: 700px) {
+  .needs li { padding-right: 46px; }
+  .needs li::after { font-size: 36px; }
+  .example-steps li { grid-template-columns: 1fr; gap: 6px; padding-left: 28px; }
+}

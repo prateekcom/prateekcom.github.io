@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#dcd2f2">
+<meta name="description" content="Start a conversation with Vibencode. Describe what you are trying to do in your own words and we will tell you which part of the practice it belongs to.">
+<title>Contact — Vibencode</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+
+<body>
+<a href="#main" class="skip">Skip to content</a>
+
+<main id="main">
+
+<section class="page-head">
+  <header class="header wrap">
+    <a class="brand" href="/" aria-label="Vibencode home">
+      <img src="/logo.png" alt="" width="34" height="34">
+      <span>vibencode</span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/services/">Our services</a>
+      <a href="/#practice">Our approach</a>
+      <a href="/contact/" class="nav-contact" aria-current="page">Work with us ↗</a>
+    </nav>
+  </header>
+
+  <div class="wrap page-head-body">
+    <div class="eyebrow mono">Contact</div>
+    <h1 class="page-title">Start a conversation.</h1>
+    <p class="page-lede">
+      Describe it the way you would say it in a meeting. No brief required, no
+      jargon expected — if you can say what is annoying you, that is enough to
+      work with.
+    </p>
+    <div class="page-head-meta mono">
+      <span>We reply to everything, usually within two working days</span>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>Tell us what you are trying to do</span>
+      <span>The more specific, the more useful the reply</span>
+    </div>
+
+    <!-- No back end here yet: the form composes a mail draft and hands it to
+         the visitor's own client, so nothing is captured, stored or sent on
+         their behalf. Point it at a real endpoint when one exists. -->
+    <form class="enquiry" id="enquiry">
+      <div class="field">
+        <label for="who">Your name</label>
+        <input id="who" name="who" type="text" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="org">Organisation</label>
+        <input id="org" name="org" type="text" autocomplete="organization">
+      </div>
+      <div class="field">
+        <label for="from">Email</label>
+        <input id="from" name="from" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="area">Where it lands, if you know</label>
+        <select id="area" name="area">
+          <option value="">Not sure yet — tell us in your own words</option>
+          <option value="GenAI implementation">GenAI implementation</option>
+          <option value="Agents and orchestration">Agents and orchestration</option>
+          <option value="AI-powered development">AI-powered development</option>
+          <option value="Sovereign AI">Sovereign AI</option>
+          <option value="Use-case strategy">Use-case strategy</option>
+          <option value="Applied research">Applied research</option>
+          <option value="Working here">A job, not a project</option>
+        </select>
+      </div>
+      <div class="field wide">
+        <label for="what">What are you trying to do?</label>
+        <textarea id="what" name="what" rows="6" required
+          placeholder="Make support smarter. Keep our data in-country. Work out which use case to start with."></textarea>
+      </div>
+      <div class="field wide actions">
+        <button class="button" type="submit">Open the email <span aria-hidden="true">↗</span></button>
+        <span class="mono" id="enquiry-note">This opens a draft in your own mail client. Nothing is sent until you send it.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>Or just write to us</span>
+      <span>However you prefer</span>
+    </div>
+    <ul class="needs">
+      <li><b>Email</b><span><a class="link" href="mailto:hello@vibencode.com">hello@vibencode.com</a><br>Anything — a question, a brief, a post-mortem of an attempt that did not work.</span></li>
+      <li><b>Where we are</b><span>Vibencode Pvt. Ltd.<br>Plot No. 5, Rose Enclave, Shastri Ward, Nagpur, India.</span></li>
+      <li><b>Hours</b><span>We work across European and US overlap. Say which timezone suits and we will meet it.</span></li>
+      <li><b>Working here</b><span>Roles and how hiring runs are on the <a class="link" href="/careers/">careers page</a>.</span></li>
+    </ul>
+  </div>
+</section>
+
+<figure class="pull">
+  <div class="wrap">
+    <p class="pull-line">If you can say what is annoying you, that is enough to start.</p>
+    <figcaption>No brief required. The first call is thirty minutes and costs nothing.</figcaption>
+  </div>
+</figure>
+
+<section class="page-section">
+  <div class="wrap">
+    <div class="rule-head mono">
+      <span>What happens next</span>
+      <span>No sales sequence</span>
+    </div>
+    <div class="phase-track">
+      <div>
+        <span class="when">Within 2 days</span>
+        <h4>A written reply</h4>
+        <p>From a person who has read it. Usually with a question or two, because the first description is rarely the real problem.</p>
+      </div>
+      <div>
+        <span class="when">A short call</span>
+        <h4>Thirty to forty minutes</h4>
+        <p>We ask what you are actually trying to change. You get an honest read on whether this is worth doing and whether we are the right people.</p>
+      </div>
+      <div>
+        <span class="when">If it fits</span>
+        <h4>A written scope</h4>
+        <p>What the work is, what it delivers, roughly how long, and what we need from you. Priced before it starts.</p>
+      </div>
+      <div>
+        <span class="when">If it does not</span>
+        <h4>We say so</h4>
+        <p>Sometimes the answer is a query, a report, or a different firm. You get that answer rather than a proposal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-cta">
+  <div class="wrap">
+    <h2>What if meets how to.</h2>
+    <div class="row">
+      <a class="button" href="mailto:hello@vibencode.com">Email us directly <span aria-hidden="true">↗</span></a>
+      <span class="mono">A team to work with. Not a platform to subscribe to.</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <img src="/logo.png" alt="" width="30" height="30">
+          <span style="font-size:22px">vibencode</span>
+        </a>
+        <p>An AI consulting and engineering practice. Strategy, applied research and hands-on engineering for GenAI, agent orchestration and sovereign AI.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="/services/genai-implementation/">GenAI implementation</a>
+        <a href="/services/agent-orchestration/">Agents and orchestration</a>
+        <a href="/services/ai-powered-development/">AI-powered development</a>
+        <a href="/services/sovereign-ai/">Sovereign AI</a>
+        <a href="/services/use-case-strategy/">Use-case strategy</a>
+        <a href="/services/applied-research/">Applied research</a>
+      </div>
+      <div class="footer-col">
+        <h4>Practice</h4>
+        <a href="/work/">Work</a>
+        <a href="/about/">About</a>
+        <a href="/careers/">Careers</a>
+        <a href="/contact/">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Vibencode Pvt. Ltd.</h4>
+        <!-- TODO: confirm the full registered address, email and phone. -->
+        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward</p>
+        <a href="mailto:hello@vibencode.com">hello@vibencode.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom mono">
+      <span>© 2026 Vibencode Pvt. Ltd.</span>
+      <span>What if meets how to.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/pages.js"></script>
+<script>
+/* The form composes a mail draft rather than posting anywhere. Nothing is
+   captured or transmitted by this page — when a real endpoint exists, replace
+   the submit handler and delete this comment. */
+document.getElementById("enquiry").addEventListener("submit", event => {
+  event.preventDefault();
+  const value = id => (document.getElementById(id).value || "").trim();
+
+  const area = value("area");
+  const subject = area ? "Vibencode enquiry: " + area : "An AI initiative for Vibencode";
+  const body = [
+    "What we are trying to do:",
+    "",
+    value("what"),
+    "",
+    "---",
+    "Name: " + value("who"),
+    "Organisation: " + (value("org") || "—"),
+    "Email: " + value("from")
+  ].join(String.fromCharCode(10));
+
+  window.location.href = "mailto:hello@vibencode.com"
+    + "?subject=" + encodeURIComponent(subject)
+    + "&body=" + encodeURIComponent(body);
+
+  document.getElementById("enquiry-note").textContent =
+    "Draft opened in your mail client. If nothing happened, write to hello@vibencode.com.";
+});
+</script>
+</body>
+</html>
