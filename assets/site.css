@@ -1123,7 +1123,15 @@ dialog::backdrop { background: #16101acc; backdrop-filter: blur(5px); }
   .nav { gap: 17px; font-size: 11px; }
   .nav a:nth-child(2) { display: none; }
   .hero-meta { padding-top: 21px; }
-  .hero-meta > span:last-child { display: none; }
+  /* There was a `.hero-meta > span:last-child { display: none }` here, to keep
+     the row to two items on a narrow screen. It was written while hero A was
+     the default, where the last span is .meta-tagline and is already hidden -
+     so it did nothing, and looked harmless. Under hero "named" the last span
+     is the one that SHOULD show, and this rule (equal specificity, later in
+     the file) beat it: the tagline vanished below 580px and the hero was left
+     with a single line. The row is already two items in every variant, because
+     .meta-default and .meta-tagline are mutually exclusive by definition, so
+     nothing needs to be dropped here. */
   .hero-meta .mono { font-size: 9px; }
   .hero-word { font-size: 15.4vw; }
   .hero-meets { font-size: 15px; padding: 7px 12px; }
