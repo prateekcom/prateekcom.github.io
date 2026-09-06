@@ -1,0 +1,5 @@
+# This is a development preview, not the live site. Keep it out of search
+# results so it cannot outrank or be mistaken for vibencode.com.
+# Delete this file when the site goes live for real.
+User-agent: *
+Disallow: /
