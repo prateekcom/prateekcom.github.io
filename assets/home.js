@@ -245,6 +245,16 @@ const HEROES = {
 const heroButtons = [...document.querySelectorAll("button[data-hero]")];
 const switchName = document.getElementById("switch-name");
 
+/* The switch is review apparatus and stays hidden unless it is asked for.
+   Visit /?proto to compare the concepts; every other visitor gets the site
+   with no controls on it. The hero itself is unaffected either way.
+
+   Declared above applyHero on purpose: applyHero reads it, and a const read
+   before its declaration has run throws rather than returning undefined. */
+const heroSwitch = document.getElementById("hero-switch");
+const proto = new URLSearchParams(location.search).has("proto");
+if (proto) heroSwitch.hidden = false;
+
 function applyHero(which) {
   if (!HEROES[which]) which = HERO_DEFAULT;
   document.body.dataset.hero = which;
@@ -252,12 +262,19 @@ function applyHero(which) {
     button.setAttribute("aria-pressed", String(button.dataset.hero === which));
   });
   switchName.textContent = HEROES[which];
-  try { localStorage.setItem(HERO_KEY, which); } catch (error) { /* private mode */ }
+  /* Read and written only while reviewing. An ordinary visit neither restores
+     a reviewer's choice nor overwrites it - without the second half, walking
+     through the live site between two reviews silently reset the switch. */
+  if (proto) {
+    try { localStorage.setItem(HERO_KEY, which); } catch (error) { /* private mode */ }
+  }
   return which;
 }
 
 let heroChoice = HERO_DEFAULT;
-try { heroChoice = localStorage.getItem(HERO_KEY) || HERO_DEFAULT; } catch (error) { /* private mode */ }
+if (proto) {
+  try { heroChoice = localStorage.getItem(HERO_KEY) || HERO_DEFAULT; } catch (error) { /* private mode */ }
+}
 heroChoice = applyHero(heroChoice);
 
 heroButtons.forEach(button => {

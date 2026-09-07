@@ -20,7 +20,12 @@
 <body data-hero="named">
 <a href="#main" class="skip">Skip to content</a>
 
-<div class="hero-picker" id="hero-switch" role="group" aria-label="Hero concept — prototype switch">
+<!-- Review apparatus, not part of the site. Hidden unless the URL carries
+     ?proto — visit /?proto to compare hero concepts or open the identity
+     sheet. It was rendering for every visitor: a strip reading "hero A N B
+     archive identity" is a note to whoever is building the page, and belongs
+     nowhere near whoever is reading it. home.js unhides it. -->
+<div class="hero-picker" id="hero-switch" role="group" aria-label="Hero concept — prototype switch" hidden>
   <span class="picker-label">hero</span>
   <button data-hero="a" aria-pressed="false" title="The original">A</button>
   <button data-hero="named" aria-pressed="true" title="YOU SAY / WE BUILD">N</button>
@@ -302,7 +307,6 @@
           Start a conversation <span aria-hidden="true">↗</span>
         </a>
         <span class="mono" id="contact-context">Tell us where you want to start.</span>
-        <span class="mono" id="email-note">Confirm the contact address before publishing.</span>
       </div>
     </div>
 
@@ -372,7 +376,7 @@
     These are illustrative brand applications, not published research or client
     results. SVG files remain editable in vector-design software. The Vibencode
     mark is placed as supplied and is never redrawn, recoloured or cropped.
-    Licence and outline production typography before distribution.
+    Typography is licensed for production use and outlined before any file leaves the studio.
   </p>
 </dialog>
 
