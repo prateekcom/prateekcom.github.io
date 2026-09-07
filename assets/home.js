@@ -569,7 +569,7 @@ const socialDesigns = [
   },
   {
     filename: "vibencode-02-orchestration.svg",
-    label: "02 / Agents & orchestration",
+    label: "02 / Agents and orchestration",
     svg: pairPoster("agents", {
       bg: "#24202b", ink: "#dcd2f2", accent: "#f4512e", quiet: "#a79bb8",
       badgeBg: "#dcd2f2", badgeInk: "#24202b"

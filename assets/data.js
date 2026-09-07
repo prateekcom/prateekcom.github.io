@@ -10,7 +10,7 @@ const services = {
     code: "01 / GenAI implementation",
     title: ["Beyond the demo.", "Into your business."],
     description:
-      "We build GenAI applications and workflows connected to your data, tools, and users—from retrieval-based assistants to integrated business capabilities.",
+      "We build GenAI applications and workflows connected to your data, tools, and users — from retrieval-based assistants to integrated business capabilities.",
     outputs: ["Solution architecture", "Working implementation", "Evaluation & deployment plan"],
     cta: "Discuss an implementation",
     interest: "GenAI implementation",
@@ -18,10 +18,10 @@ const services = {
     became: "A retrieval assistant over your ticket history and product docs, answering with citations, measured on a set of real tickets, and handing to a person the moment it is not sure."
   },
   agents: {
-    code: "02 / Agents & orchestration",
+    code: "02 / Agents and orchestration",
     title: ["Autonomy needs", "engineering."],
     description:
-      "We design agent roles, tool access, handoffs, state, and recovery paths. Human approvals and evaluation are part of the workflow—not additions after the demo.",
+      "We design agent roles, tool access, handoffs, state, and recovery paths. Human approvals and evaluation are part of the workflow — not additions after the demo.",
     outputs: ["Agent architecture", "Tool integrations", "Approval & recovery paths"],
     cta: "Discuss an agentic workflow",
     interest: "Agents and orchestration",
@@ -54,8 +54,8 @@ const services = {
     code: "05 / Use-case strategy",
     title: ["Choose the work", "worth changing."],
     description:
-      "We work with business and technical stakeholders to identify opportunities, examine feasibility, and prioritize what to test or build. A useful next step beats an inflated roadmap.",
-    outputs: ["Opportunity assessment", "Feasibility review", "Prioritized pilot brief"],
+      "We work with business and technical stakeholders to identify opportunities, examine feasibility, and prioritise what to test or build. A useful next step beats an inflated roadmap.",
+    outputs: ["Opportunity assessment", "Feasibility review", "Prioritised pilot brief"],
     cta: "Explore your AI opportunities",
     interest: "Use-case strategy",
     said: "The board wants an AI roadmap.",
