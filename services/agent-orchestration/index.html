@@ -4,13 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#dcd2f2">
-<meta name="description" content="Agents with named roles and scoped tool access, state that survives a crash, a retry path that does not loop forever, and a human approval before anything writes.">
-<title>Agents and orchestration — Vibencode</title>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://vibencode.com/services/agent-orchestration/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vibencode">
+<meta property="og:locale" content="en_IN">
+<meta property="og:title" content="AI Agent Orchestration Services">
+<meta property="og:description" content="Multi-step work run by AI agents with named roles, scoped tool access, state that survives a crash, and human approval before anything writes.">
+<meta property="og:url" content="https://vibencode.com/services/agent-orchestration/">
+<meta property="og:image" content="https://vibencode.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vibencode">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Agent Orchestration Services">
+<meta name="twitter:description" content="Multi-step work run by AI agents with named roles, scoped tool access, state that survives a crash, and human approval before anything writes.">
+<meta name="twitter:image" content="https://vibencode.com/og-image.png">
+<meta name="description" content="Multi-step work run by AI agents with named roles, scoped tool access, state that survives a crash, and human approval before anything writes.">
+<title>AI Agent Orchestration Services | Vibencode</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v=20260912v">
 </head>
 
 <body>
@@ -34,7 +52,7 @@
   <div class="wrap page-head-body">
     <div class="eyebrow mono">Service 02 of 06</div>
     <h1 class="page-title">Agents and orchestration</h1>
-    <p class="page-lede">Can this run end to end without someone driving it?</p>
+    <p class="page-lede">Can the whole process run without someone driving it?</p>
     <div class="page-head-meta mono">
       <span>Asked by: Whoever gets paged when it goes wrong</span>
     </div>
@@ -43,10 +61,6 @@
 
 <section class="page-section">
   <div class="wrap">
-    <div class="rule-head mono">
-      <span>The shape of it</span>
-      <span>What we hear → what it becomes</span>
-    </div>
     <div class="pair-block">
       <div>
         <div class="label mono">What we hear</div>
@@ -60,45 +74,31 @@
   </div>
 </section>
 
-<section class="page-section">
+<!-- Split layout: the head sits in a left-hand column and stays there while
+     the list runs past it. The three named outputs used to be a section of
+     their own, with a head and a rule around three short phrases; they are
+     the end of this description of the work, so they close it instead. -->
+<section class="page-section split">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>What the work actually is</span>
-      <span>Five things, in order</span>
+      <span>What building an agent system involves</span>
     </div>
-    <ol class="deliverables">
-      <li><span class="n">01</span><span>Name the roles, and give each the smallest tool access that still does the job.</span></li>
-      <li><span class="n">02</span><span>Design the state: what has to survive a crash, what has to be safe to run twice.</span></li>
-      <li><span class="n">03</span><span>Write the failure paths — retries that stop, fallbacks that degrade, and a dead end that pages a human.</span></li>
-      <li><span class="n">04</span><span>Put approval exactly where money, data or reputation changes hands, and nowhere else.</span></li>
-      <li><span class="n">05</span><span>Evaluate the whole run rather than the model, because that is what fails.</span></li>
-    </ol>
-  </div>
-</section>
-
-<!-- Illustrative throughout. It is composed from the shape these engagements
-     take, not copied from one client, and the section head says so. -->
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>How it usually goes</span>
-      <span>A composite, not a single client</span>
-    </div>
-    <div class="example">
-      <div>
-        <div class="label mono">It starts here</div>
-        <blockquote>“Let’s get agents doing this end to end.”</blockquote>
-        <span class="who mono">Head of operations, logistics</span>
-      </div>
-      <div>
-        <ol class="example-steps">
-          <li><b>Week 1</b><span>We map the process as it is actually performed rather than as documented. Eleven steps: three are a person deciding, the rest are someone copying between two systems. <strong>Only the copying should be automated. The deciding is the job.</strong></span></li>
-          <li><b>Week 2</b><span>We write down what being wrong costs at each step. One can be retried for free; one sends an email a customer will read. <strong>That difference is the whole architecture.</strong></span></li>
-          <li><b>Weeks 3–5</b><span>Four agents with named roles and scoped credentials. State in a durable store, so a crash resumes rather than restarts. Retries with a ceiling, and a dead end that pages a person instead of looping.</span></li>
-          <li><b>Week 6</b><span>Approval sits in front of the one step that writes to a customer; everything upstream runs unattended. <strong>The run is evaluated end to end, because that is what fails — the individual model calls were fine all along.</strong></span></li>
-          <li><b>Week 7</b><span>Shadow mode on real volume. It stops twice, on cases nobody had described. Both become handled paths rather than surprises.</span></li>
-          <li><b>Week 8</b><span>Live for one region, with the pager pointing at a real person.</span></li>
-        </ol>
+    <div>
+      <p class="lede">Most of what makes an agent system work is not the agents. It is the plumbing around them: where the state lives so a crash resumes instead of starting over, what happens when a call times out halfway through a sequence, which step is allowed to write to a customer without a person looking first. A demo gets to skip all of it. That is why demos take a fortnight and production takes a quarter, and why the list below is mostly plumbing.</p>
+      <ol class="deliverables">
+        <li><span class="n">01</span><span>Name the roles, and give each the smallest tool access that still does the job.</span></li>
+        <li><span class="n">02</span><span>Design the state: what has to survive a crash, what has to be safe to run twice.</span></li>
+        <li><span class="n">03</span><span>Write the failure paths: retries that stop, fallbacks that degrade, and a dead end that pages a human.</span></li>
+        <li><span class="n">04</span><span>Put approval exactly where money, data or reputation changes hands, and nowhere else.</span></li>
+        <li><span class="n">05</span><span>Evaluate the whole run rather than the model, because that is what fails.</span></li>
+      </ol>
+      <div class="ships">
+        <span class="label mono">What you end up with</span>
+        <ul>
+          <li><b>Agent architecture</b><span>The roles, what each one is allowed to touch, and where the run may continue without you.</span></li>
+          <li><b>Tool integrations</b><span>Your real systems, behind your access controls, with credentials scoped per role rather than shared.</span></li>
+          <li><b>Approval &amp; recovery paths</b><span>Where a person says yes, what happens when they are not there, and how a half-finished run is picked up.</span></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -107,71 +107,28 @@
 <figure class="pull">
   <div class="wrap">
     <p class="pull-line">Autonomy is not a setting. It is a series of decisions about what an error costs.</p>
-    <figcaption>Which is why the approval sits in exactly one place, and we can tell you why it is that one.</figcaption>
+    <figcaption>So we put the approval in one place, and we can explain why it sits there. <a class="quiet-link" href="/work/">See our recent work <span aria-hidden="true">&#8594;</span></a></figcaption>
   </div>
 </figure>
 
 <section class="page-section">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>What we need from you</span>
-      <span>The engagement stalls without these</span>
+      <span>How an engagement usually runs</span>
     </div>
-    <ul class="needs">
-      <li><b>Credentials for the real systems</b><span>Sandbox access hides rate limits, timeouts and the record that has been broken since 2019 — which is the run that will fail.</span></li>
-      <li><b>The person who runs it today</b><span>A few hours a week. They know which of the eleven steps is the one that actually goes wrong.</span></li>
-      <li><b>A decision on what runs unattended</b><span>Where a mistake is recoverable and where it is not. We will bring the question; someone senior has to answer it.</span></li>
-      <li><b>Somewhere for it to page</b><span>An on-call route that exists. An agent that fails silently is worse than the manual process it replaced.</span></li>
-    </ul>
-  </div>
-</section>
-
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>What usually goes wrong</span>
-      <span>And what we do about it</span>
-    </div>
-    <div class="failures struck">
+    <div class="stages">
       <div>
-        <p class="what">Everything is one large agent.</p>
-        <p class="fix">Each role gets a name and the smallest tool access that still does the job. A failure then has a location, and a fix has a scope.</p>
-      </div>
-      <div>
-        <p class="what">Retries loop until the invoice arrives.</p>
-        <p class="fix">Every retry has a ceiling and a fallback, and the dead end is a person rather than another attempt.</p>
-      </div>
-      <div>
-        <p class="what">The prototype worked; the run does not.</p>
-        <p class="fix">Evaluation is written for the whole run, including the resume-after-crash path. Individual calls passing tells you very little.</p>
-      </div>
-      <div>
-        <p class="what">Approval was put everywhere, so nobody reads it.</p>
-        <p class="fix">Approval sits only where money, data or reputation changes hands. Confirmation fatigue is a security failure with extra steps.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>The shape of an engagement</span>
-      <span>Typical timings; yours is scoped first</span>
-    </div>
-    <div class="phase-track">
-      <div>
-        <span class="when">Weeks 1–2</span>
+        <span class="when">Weeks 1&#8211;2</span>
         <h4>Map and cost</h4>
         <p>The process as performed, and what a mistake costs at each step. The second half is the one people skip.</p>
       </div>
       <div>
-        <span class="when">Weeks 3–5</span>
+        <span class="when">Weeks 3&#8211;5</span>
         <h4>Build the run</h4>
         <p>Roles, scoped tools, durable state, retries with ceilings, fallbacks that degrade rather than stop.</p>
       </div>
       <div>
-        <span class="when">Weeks 6–7</span>
+        <span class="when">Weeks 6&#8211;7</span>
         <h4>Shadow</h4>
         <p>Real volume, no writes. We watch where it stops, and turn each stop into a handled path.</p>
       </div>
@@ -181,74 +138,49 @@
         <p>One team or region first, with the pager pointing somewhere real and a runbook that names the failure modes.</p>
       </div>
     </div>
+    <p class="lede sprint-note">That is the shape of a full engagement. If it is more than you want to commit to yet, the same people will spend two days on one piece of it first, and you are free to stop there. <a class="quiet-link" href="/contact/?start=sprint">Start a 48-hour sprint <span aria-hidden="true">&#8594;</span></a></p>
   </div>
 </section>
 
-<section class="page-section">
+<section class="page-section band">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>When you need this</span>
-      <span>Any one of these is enough</span>
+      <span>What we need from you</span>
     </div>
-    <ul class="signals">
-      <li><span class="n">—</span><span>The work is multi-step and currently held together by a person copying between systems.</span></li>
-      <li><span class="n">—</span><span>You want autonomy but cannot accept an unreviewed write.</span></li>
-      <li><span class="n">—</span><span>A prototype works until something fails halfway, and then nobody knows where it stopped.</span></li>
+    <ul class="needs">
+      <li><b>Credentials for the real systems</b><span>Sandbox access hides the rate limits, the timeouts and the record that has been broken since 2019, which is the run that will fail.</span></li>
+      <li><b>The person who runs it today</b><span>A few hours a week. They know which of the eleven steps is the one that actually goes wrong, and no document has ever contained that.</span></li>
+      <li><b>A decision on what runs unattended</b><span>Where a mistake is recoverable and where it is not. We bring the question with the costs attached; someone senior has to answer it.</span></li>
+      <li><b>Somewhere for the system to page</b><span>An on-call route that exists and that someone answers. An agent failing silently is worse than the manual process it replaced.</span></li>
     </ul>
   </div>
 </section>
 
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>What an engagement delivers</span>
-      <span>Agreed before it starts</span>
-    </div>
-    <ol class="deliverables">
-      <li><span class="n">01</span><span>Agent architecture</span></li>
-      <li><span class="n">02</span><span>Tool integrations</span></li>
-      <li><span class="n">03</span><span>Approval & recovery paths</span></li>
-    </ol>
-  </div>
-</section>
-
-<!-- The section that makes six services feel like six rather than one
-     repeated. Each page says where it stops and hands over. -->
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>What this is not</span>
-      <span>So you do not buy the wrong one</span>
-    </div>
-    <div class="not-this">
-      <p>If it only needs to answer questions from your own documents, this is heavier than you need. A grounded assistant is cheaper to build, cheaper to run, and far easier to be confident about.</p>
-      <div><a class="link" href="/services/genai-implementation/">GenAI implementation <span aria-hidden="true">↗</span></a></div>
-    </div>
-  </div>
-</section>
-
-<section class="page-section">
+<section class="page-section split">
   <div class="wrap">
     <div class="rule-head mono">
       <span>Questions we get asked</span>
-      <span>Before the first call ends</span>
     </div>
     <div class="faq">
       <details>
-        <summary>How autonomous can this actually be?</summary>
+        <summary>What actually is agent orchestration?</summary>
+        <p class="answer">Several AI agents, each with a named role and only the tool access that role needs, running a multi-step process end to end. The orchestration is the part that decides which agent runs when, what holds the state between them, what happens when one fails, and where a person has to say yes. The agents are the easy half.</p>
+      </details>
+      <details>
+        <summary>How autonomous can an agent system actually be?</summary>
         <p class="answer">More than most teams expect for retrieval and assembly; less than most vendors imply for anything that writes. The honest answer is per step rather than per system, and working it out is most of week one.</p>
       </details>
       <details>
         <summary>Which framework do you use?</summary>
-        <p class="answer">Whichever survives your constraints. We have shipped on several and have no loyalty to any of them. The architecture — roles, state, failure paths — outlasts the framework, and is the part worth arguing about.</p>
-      </details>
-      <details>
-        <summary>What happens when a model provider changes something?</summary>
-        <p class="answer">The run is evaluated against a fixed set, so a regression arrives as a number rather than as a support ticket. Changing a model becomes a planned change with evidence attached.</p>
+        <p class="answer">Whichever survives your constraints. We have shipped on several and have no loyalty to any of them. The architecture of roles, state and failure paths outlasts the framework, and is the part worth arguing about.</p>
       </details>
       <details>
         <summary>Can we start with one step rather than the whole process?</summary>
         <p class="answer">Usually the right move. One step running unattended, with the pager wired up, teaches you more in a fortnight than a full pipeline sitting in shadow mode for a quarter.</p>
+      </details>
+      <details>
+        <summary>What happens when a model provider changes something?</summary>
+        <p class="answer">The run is evaluated against a fixed set, so a regression arrives as a number rather than as a support ticket. Changing a model becomes a planned change with evidence attached.</p>
       </details>
       <details>
         <summary>We already have a prototype that half works.</summary>
@@ -261,9 +193,9 @@
 <section class="page-section">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>The other five</span>
-      <span>Most engagements touch two</span>
+      <span>If the problem is somewhere else</span>
     </div>
+    <p class="lede">If you only need answers out of your own documents, an agent system is heavier than you need. A grounded assistant is cheaper to build, cheaper to run and far easier to be confident about. That is GenAI implementation.</p>
     <nav class="next-rows">
       <a href="/services/genai-implementation/"><span class="n">01</span><span>GenAI implementation</span><span class="go" aria-hidden="true">↗</span></a>
       <a href="/services/ai-powered-development/"><span class="n">03</span><span>AI-powered development</span><span class="go" aria-hidden="true">↗</span></a>
@@ -276,11 +208,11 @@
 
 <section class="page-cta">
   <div class="wrap">
-    <h2>Can this run end to end without someone driving it?</h2>
+    <h2>Can the whole process run without someone driving it?</h2>
     <div class="row">
-      <a class="button" href="/contact/">Discuss an agentic workflow <span aria-hidden="true">↗</span></a>
-      <span class="mono">Describe it in your own words. We will tell you where it lands.</span>
+      <a class="button" href="/contact/?start=sprint">Start a 48-hour sprint <span aria-hidden="true">↗</span></a>
     </div>
+    <p class="cta-note mono">Two days on one step of the process. Written up at the end.</p>
   </div>
 </section>
 
@@ -308,23 +240,29 @@
       <div class="footer-col">
         <h4>Practice</h4>
         <a href="/work/">Work</a>
+        <a class="out" href="https://insights.vibencode.com/">Insights<span aria-hidden="true">↗</span></a>
         <a href="/about/">About</a>
         <a href="/careers/">Careers</a>
         <a href="/contact/">Contact</a>
       </div>
       <div class="footer-col">
         <h4>Vibencode Pvt. Ltd.</h4>
-        <!-- TODO: confirm the full registered address, email and phone. -->
-        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward</p>
+        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward, Sagar,<br>Madhya Pradesh 470002, India</p>
+        <p class="cin">CIN U72500MP2022PTC059086</p>
         <a href="mailto:hello@vibencode.com">hello@vibencode.com</a>
       </div>
     </div>
     <div class="footer-bottom mono">
       <span>© 2026 Vibencode Pvt. Ltd.</span>
+      <nav class="footer-legal" aria-label="Legal">
+        <a href="/terms/">Terms of service</a>
+        <a href="/privacy/">Privacy policy</a>
+      </nav>
       <span>What if meets how to.</span>
     </div>
   </div>
 </footer>
-<script src="/assets/pages.js"></script>
+<script src="/assets/pages.js?v=20260912v"></script>
+<script src="/assets/cta.js?v=20260912v"></script>
 </body>
 </html>

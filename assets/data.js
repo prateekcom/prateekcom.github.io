@@ -10,7 +10,7 @@ const services = {
     code: "01 / GenAI implementation",
     title: ["Beyond the demo.", "Into your business."],
     description:
-      "We build GenAI applications and workflows connected to your data, tools, and users — from retrieval-based assistants to integrated business capabilities.",
+      "We build GenAI applications and workflows connected to your data, tools, and users: from retrieval-based assistants to integrated business capabilities.",
     outputs: ["Solution architecture", "Working implementation", "Evaluation & deployment plan"],
     cta: "Discuss an implementation",
     interest: "GenAI implementation",
@@ -21,7 +21,7 @@ const services = {
     code: "02 / Agents and orchestration",
     title: ["Autonomy needs", "engineering."],
     description:
-      "We design agent roles, tool access, handoffs, state, and recovery paths. Human approvals and evaluation are part of the workflow — not additions after the demo.",
+      "We design agent roles, tool access, handoffs, state, and recovery paths. Human approvals and evaluation are part of the workflow, not additions after the demo.",
     outputs: ["Agent architecture", "Tool integrations", "Approval & recovery paths"],
     cta: "Discuss an agentic workflow",
     interest: "Agents and orchestration",

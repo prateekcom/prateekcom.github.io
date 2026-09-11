@@ -4,13 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#dcd2f2">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://vibencode.com/services/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vibencode">
+<meta property="og:locale" content="en_IN">
+<meta property="og:title" content="AI Services: GenAI, Agents, Sovereign AI">
+<meta property="og:description" content="Six ways to work with Vibencode: GenAI implementation, agent orchestration, AI-powered development, sovereign AI, use-case strategy and applied research.">
+<meta property="og:url" content="https://vibencode.com/services/">
+<meta property="og:image" content="https://vibencode.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vibencode">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Services: GenAI, Agents, Sovereign AI">
+<meta name="twitter:description" content="Six ways to work with Vibencode: GenAI implementation, agent orchestration, AI-powered development, sovereign AI, use-case strategy and applied research.">
+<meta name="twitter:image" content="https://vibencode.com/og-image.png">
 <meta name="description" content="Six ways to work with Vibencode: GenAI implementation, agent orchestration, AI-powered development, sovereign AI, use-case strategy and applied research.">
-<title>Services — Vibencode</title>
+<title>AI Services: GenAI, Agents, Sovereign AI | Vibencode</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v=20260912v">
 </head>
 
 <body>
@@ -36,7 +54,7 @@
     <h1 class="page-title">Six ways in.</h1>
     <p class="page-lede">
       We advise, investigate, design and implement. Choose the expertise your
-      project needs — not a bundle of technology looking for a problem. Most
+      project needs, not a bundle of technology looking for a problem. Most
       engagements start with a single conversation about which of these
       six you are actually in.
     </p>
@@ -65,10 +83,10 @@
       <span>However you start</span>
       <span>The work runs the same way</span>
     </div>
-    <!-- Four stages is a process, so it gets the process element: a line that
-         draws across as you reach it, with each stage lighting as it is
-         passed. Same component the six service pages use. -->
-    <div class="phase-track">
+    <!-- A hairline grid of four, which is what the six service pages use.
+         This was a drawn track until the figure was reserved for the one
+         place it means something: the journey on the About page. -->
+    <div class="stages">
       <div>
         <span class="when">Stage 01</span>
         <h4>Frame it.</h4>
@@ -95,8 +113,8 @@
 
 <figure class="pull">
   <div class="wrap">
-    <p class="pull-line">Most engagements touch two of the six. Almost none touch one.</p>
-    <figcaption>Which is why each of the six tells you where it stops and who picks it up.</figcaption>
+    <p class="pull-line">Most people arrive with a sentence, not a brief.</p>
+    <figcaption>Nobody is expected to know which one they need before the first call.</figcaption>
   </div>
 </figure>
 
@@ -104,9 +122,9 @@
   <div class="wrap">
     <h2>Not sure which one you are in?</h2>
     <div class="row">
-      <a class="button" href="/contact/">Start a conversation <span aria-hidden="true">↗</span></a>
-      <span class="mono">Describe it in your own words. We will tell you where it lands.</span>
+      <a class="button" href="/contact/?start=sprint">Start a 48-hour sprint <span aria-hidden="true">↗</span></a>
     </div>
+    <p class="cta-note mono">Two days, one narrow question, a written answer at the end.</p>
   </div>
 </section>
 
@@ -134,28 +152,33 @@
       <div class="footer-col">
         <h4>Practice</h4>
         <a href="/work/">Work</a>
+        <a class="out" href="https://insights.vibencode.com/">Insights<span aria-hidden="true">↗</span></a>
         <a href="/about/">About</a>
         <a href="/careers/">Careers</a>
         <a href="/contact/">Contact</a>
       </div>
       <div class="footer-col">
         <h4>Vibencode Pvt. Ltd.</h4>
-        <!-- TODO: confirm the full registered address, email and phone. -->
-        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward</p>
+        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward, Sagar,<br>Madhya Pradesh 470002, India</p>
+        <p class="cin">CIN U72500MP2022PTC059086</p>
         <a href="mailto:hello@vibencode.com">hello@vibencode.com</a>
       </div>
     </div>
     <div class="footer-bottom mono">
       <span>© 2026 Vibencode Pvt. Ltd.</span>
+      <nav class="footer-legal" aria-label="Legal">
+        <a href="/terms/">Terms of service</a>
+        <a href="/privacy/">Privacy policy</a>
+      </nav>
       <span>What if meets how to.</span>
     </div>
   </div>
 </footer>
 
-<script src="/assets/data.js"></script>
+<script src="/assets/data.js?v=20260912v"></script>
 <script>
 /* One row per service, built from the shared object. The slug map is the only
-   thing this page adds — everything a reader sees comes from data.js. */
+   thing this page adds; everything a reader sees comes from data.js. */
 const SERVICE_SLUGS = {
   genai: "genai-implementation",
   agents: "agent-orchestration",
@@ -199,6 +222,7 @@ Object.keys(SERVICE_SLUGS).forEach((key, i) => {
   rows.appendChild(row);
 });
 </script>
-<script src="/assets/pages.js"></script>
+<script src="/assets/pages.js?v=20260912v"></script>
+<script src="/assets/cta.js?v=20260912v"></script>
 </body>
 </html>

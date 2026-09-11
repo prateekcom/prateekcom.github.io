@@ -4,13 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#dcd2f2">
-<meta name="description" content="A comparison run on your task and your data, with the limits stated, the failure modes named, and a recommendation that says when it stops being true.">
-<title>Applied research — Vibencode</title>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://vibencode.com/services/applied-research/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vibencode">
+<meta property="og:locale" content="en_IN">
+<meta property="og:title" content="Applied AI Research and Model Evaluation">
+<meta property="og:description" content="A comparison run on your task and your data, with the boring baseline included, the failure modes named and counted, and a recommendation that expires.">
+<meta property="og:url" content="https://vibencode.com/services/applied-research/">
+<meta property="og:image" content="https://vibencode.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vibencode">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Applied AI Research and Model Evaluation">
+<meta name="twitter:description" content="A comparison run on your task and your data, with the boring baseline included, the failure modes named and counted, and a recommendation that expires.">
+<meta name="twitter:image" content="https://vibencode.com/og-image.png">
+<meta name="description" content="A comparison run on your task and your data, with the boring baseline included, the failure modes named and counted, and a recommendation that expires.">
+<title>Applied AI Research and Model Evaluation | Vibencode</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v=20260912v">
 </head>
 
 <body>
@@ -43,10 +61,6 @@
 
 <section class="page-section">
   <div class="wrap">
-    <div class="rule-head mono">
-      <span>The shape of it</span>
-      <span>What we hear → what it becomes</span>
-    </div>
     <div class="pair-block">
       <div>
         <div class="label mono">What we hear</div>
@@ -60,44 +74,31 @@
   </div>
 </section>
 
-<section class="page-section">
+<!-- Split layout: the head sits in a left-hand column and stays there while
+     the list runs past it. The three named outputs used to be a section of
+     their own, with a head and a rule around three short phrases; they are
+     the end of this description of the work, so they close it instead. -->
+<section class="page-section split">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>What the work actually is</span>
-      <span>Five things, in order</span>
+      <span>What a technical investigation involves</span>
     </div>
-    <ol class="deliverables">
-      <li><span class="n">01</span><span>Turn the question into something testable on your task and your data, rather than on a public benchmark.</span></li>
-      <li><span class="n">02</span><span>Build the comparison honestly, including the boring baseline that quite often wins.</span></li>
-      <li><span class="n">03</span><span>Report the limits and the failure modes, not only the headline number.</span></li>
-      <li><span class="n">04</span><span>Say when the finding stops being true — models change, and a result with no expiry is a liability.</span></li>
-      <li><span class="n">05</span><span>Recommend, and be explicit about what evidence would change the recommendation.</span></li>
-    </ol>
-  </div>
-</section>
-
-<!-- Illustrative throughout. It is composed from the shape these engagements
-     take, not copied from one client, and the section head says so. -->
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>How it usually goes</span>
-      <span>A composite, not a single client</span>
-    </div>
-    <div class="example">
-      <div>
-        <div class="label mono">It starts here</div>
-        <blockquote>“Which model should we be using?”</blockquote>
-        <span class="who mono">Director of data, healthcare</span>
-      </div>
-      <div>
-        <ol class="example-steps">
-          <li><b>Week 1</b><span>The question becomes testable: not “which model is best”, but “can any of them pull these six fields out of our documents at the accuracy the downstream process needs”. <strong>The threshold comes from the process, not from a leaderboard.</strong></span></li>
-          <li><b>Week 2</b><span>Four hundred documents labelled by hand, including the awkward ones people usually leave out. The set is frozen and kept.</span></li>
-          <li><b>Weeks 3–4</b><span>Four approaches run, including a boring baseline nobody wanted to test. <strong>The baseline comes second, at a fraction of the cost — and it is the finding that changes the plan.</strong></span></li>
-          <li><b>Week 5</b><span>Failure modes named. The strongest model fails on one document layout that happens to be nine per cent of the corpus, and rising.</span></li>
-          <li><b>Week 6</b><span>A recommendation with an expiry: what would have to change for it to stop being true, and the evaluation set handed over so it can be re-run without us.</span></li>
-        </ol>
+    <div>
+      <p class="lede">A benchmark tells you how something performed on somebody else's corpus. That is a conversation piece and it cannot carry a decision. What can is the same comparison run on your task, with your data, against the boring baseline that quite often wins, reported with the failure modes counted rather than averaged away. An average hides the nine per cent of cases that will generate every complaint you receive. Most of the list below is building a set honest enough that the number means something, then saying when it stops meaning it.</p>
+      <ol class="deliverables">
+        <li><span class="n">01</span><span>Turn the question into something testable on your task and your data, rather than on a public benchmark.</span></li>
+        <li><span class="n">02</span><span>Build the comparison honestly, including the boring baseline that quite often wins.</span></li>
+        <li><span class="n">03</span><span>Report the limits and the failure modes, not only the headline number.</span></li>
+        <li><span class="n">04</span><span>Say when the finding stops being true: models change, and a result with no expiry is a liability.</span></li>
+        <li><span class="n">05</span><span>Recommend, and be explicit about what evidence would change the recommendation.</span></li>
+      </ol>
+      <div class="ships">
+        <span class="label mono">What you end up with</span>
+        <ul>
+          <li><b>Technical investigation</b><span>The question turned into something testable on your data, with the threshold written down first.</span></li>
+          <li><b>Comparative evaluation</b><span>Every approach including the baseline, scored the same way, failure modes named and counted.</span></li>
+          <li><b>Implementation recommendation</b><span>What to do, what would change our mind, and the date the finding stops being safe to lean on.</span></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -106,59 +107,16 @@
 <figure class="pull">
   <div class="wrap">
     <p class="pull-line">A result with no expiry date is a liability.</p>
-    <figcaption>Every recommendation states what would have to change for it to stop holding.</figcaption>
+    <figcaption>Every recommendation states what would have to change for it to stop holding. <a class="quiet-link" href="/work/">See our recent work <span aria-hidden="true">&#8594;</span></a></figcaption>
   </div>
 </figure>
 
 <section class="page-section">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>What we need from you</span>
-      <span>The engagement stalls without these</span>
+      <span>How an engagement usually runs</span>
     </div>
-    <ul class="needs">
-      <li><b>Your data, not a public benchmark</b><span>A result measured on somebody else’s corpus is a conversation piece. It cannot carry a decision.</span></li>
-      <li><b>A threshold from the process</b><span>What accuracy is genuinely good enough, and who says so. Without it, “better” is unfalsifiable.</span></li>
-      <li><b>Time from someone who can label</b><span>A few hundred examples judged by a person who knows the domain. It is the single highest-value input to the whole exercise.</span></li>
-      <li><b>Permission to report a negative</b><span>Sometimes no approach clears the bar. That has to be an acceptable answer, or the exercise is theatre.</span></li>
-    </ul>
-  </div>
-</section>
-
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>What usually goes wrong</span>
-      <span>And what we do about it</span>
-    </div>
-    <div class="failures struck">
-      <div>
-        <p class="what">It is benchmarked on a public set.</p>
-        <p class="fix">We evaluate on your task and your data. Public benchmarks are useful for choosing what to test and useless for deciding.</p>
-      </div>
-      <div>
-        <p class="what">There is no baseline.</p>
-        <p class="fix">The boring approach is always in the comparison. It wins often enough that leaving it out is close to negligent.</p>
-      </div>
-      <div>
-        <p class="what">Only the headline number is reported.</p>
-        <p class="fix">Failure modes are named and quantified. An average hides the nine per cent that will generate every complaint you receive.</p>
-      </div>
-      <div>
-        <p class="what">The finding has no expiry.</p>
-        <p class="fix">Every recommendation states what would have to change for it to stop holding, and the evaluation set is handed over so you can check.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>The shape of an engagement</span>
-      <span>Typical timings; yours is scoped first</span>
-    </div>
-    <div class="phase-track">
+    <div class="stages">
       <div>
         <span class="when">Week 1</span>
         <h4>Make it testable</h4>
@@ -183,67 +141,41 @@
   </div>
 </section>
 
-<section class="page-section">
+<section class="page-section band">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>When you need this</span>
-      <span>Any one of these is enough</span>
+      <span>What we need from you</span>
     </div>
-    <ul class="signals">
-      <li><span class="n">—</span><span>A decision is blocked on a technical unknown and the guesses are expensive.</span></li>
-      <li><span class="n">—</span><span>Vendor claims cannot be compared because nobody measured the same thing.</span></li>
-      <li><span class="n">—</span><span>You need evidence you can put in front of a board, not another demo.</span></li>
+    <ul class="needs">
+      <li><b>Your data, not a public benchmark</b><span>A result measured on somebody else's corpus is a conversation piece. It cannot carry a decision, and boards have started noticing.</span></li>
+      <li><b>A threshold from the process</b><span>What accuracy is genuinely good enough, and who says so. Without it “better” is unfalsifiable and every result is arguable.</span></li>
+      <li><b>Time from someone who can label</b><span>A few hundred examples judged by someone who knows the domain. It is the highest-value input to the exercise and has no substitute.</span></li>
+      <li><b>Permission to report a negative</b><span>Sometimes no approach clears the bar. That has to be an acceptable answer agreed in advance, or the exercise is theatre.</span></li>
     </ul>
   </div>
 </section>
 
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>What an engagement delivers</span>
-      <span>Agreed before it starts</span>
-    </div>
-    <ol class="deliverables">
-      <li><span class="n">01</span><span>Technical investigation</span></li>
-      <li><span class="n">02</span><span>Comparative evaluation</span></li>
-      <li><span class="n">03</span><span>Implementation recommendation</span></li>
-    </ol>
-  </div>
-</section>
-
-<!-- The section that makes six services feel like six rather than one
-     repeated. Each page says where it stops and hands over. -->
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>What this is not</span>
-      <span>So you do not buy the wrong one</span>
-    </div>
-    <div class="not-this">
-      <p>If the open question is which problem to solve rather than whether a method works, the prioritisation comes first — otherwise you will get a rigorous answer to a question that did not matter.</p>
-      <div><a class="link" href="/services/use-case-strategy/">Use-case strategy <span aria-hidden="true">↗</span></a></div>
-    </div>
-  </div>
-</section>
-
-<section class="page-section">
+<section class="page-section split">
   <div class="wrap">
     <div class="rule-head mono">
       <span>Questions we get asked</span>
-      <span>Before the first call ends</span>
     </div>
     <div class="faq">
+      <details>
+        <summary>What actually is applied research?</summary>
+        <p class="answer">A bounded investigation into a technical question you cannot answer from the outside: whether an approach clears your bar, which of several options is actually better on your task, what a method costs at your volume. It runs on your data, with a baseline included and a threshold agreed in advance, and it ends in a recommendation with an expiry date attached.</p>
+      </details>
       <details>
         <summary>How is this different from a proof of concept?</summary>
         <p class="answer">A proof of concept shows something can work once. This measures how well, on your data, against the alternatives, with the failure modes named. A demo is not evidence, and boards have started noticing.</p>
       </details>
       <details>
-        <summary>Can you compare vendors for us?</summary>
-        <p class="answer">Yes — on your task, measuring the same thing for each. That is usually the reason the vendor claims could not be compared in the first place.</p>
-      </details>
-      <details>
         <summary>What if the result is negative?</summary>
         <p class="answer">You get it, with the evidence behind it. Establishing that an approach does not clear the bar is an inexpensive way to avoid a build that was never going to.</p>
+      </details>
+      <details>
+        <summary>Can you compare vendors for us?</summary>
+        <p class="answer">Yes, on your task, measuring the same thing for each. That is usually the reason the vendor claims could not be compared in the first place.</p>
       </details>
       <details>
         <summary>Do we keep the evaluation set?</summary>
@@ -260,16 +192,16 @@
 <section class="page-section">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>The other five</span>
-      <span>Most engagements touch two</span>
+      <span>If the problem is somewhere else</span>
     </div>
+    <p class="lede">If the open question is which problem to solve rather than whether a method works, the prioritisation comes first. Otherwise you get a rigorous answer to a question that did not matter. That is use-case strategy.</p>
     <nav class="next-rows">
-      <a href="/services/genai-implementation/"><span class="n">01</span><span>GenAI implementation</span><span class="go" aria-hidden="true">↗</span></a>
-      <a href="/services/agent-orchestration/"><span class="n">02</span><span>Agents and orchestration</span><span class="go" aria-hidden="true">↗</span></a>
-      <a href="/services/ai-powered-development/"><span class="n">03</span><span>AI-powered development</span><span class="go" aria-hidden="true">↗</span></a>
-      <a href="/services/sovereign-ai/"><span class="n">04</span><span>Sovereign AI</span><span class="go" aria-hidden="true">↗</span></a>
-      <a href="/services/use-case-strategy/"><span class="n">05</span><span>Use-case strategy</span><span class="go" aria-hidden="true">↗</span></a>
-    </nav>
+          <a href="/services/genai-implementation/"><span class="n">01</span><span>GenAI implementation</span><span class="go" aria-hidden="true">↗</span></a>
+          <a href="/services/agent-orchestration/"><span class="n">02</span><span>Agents and orchestration</span><span class="go" aria-hidden="true">↗</span></a>
+          <a href="/services/ai-powered-development/"><span class="n">03</span><span>AI-powered development</span><span class="go" aria-hidden="true">↗</span></a>
+          <a href="/services/sovereign-ai/"><span class="n">04</span><span>Sovereign AI</span><span class="go" aria-hidden="true">↗</span></a>
+          <a href="/services/use-case-strategy/"><span class="n">05</span><span>Use-case strategy</span><span class="go" aria-hidden="true">↗</span></a>
+        </nav>
   </div>
 </section>
 
@@ -277,9 +209,9 @@
   <div class="wrap">
     <h2>Will this approach actually hold?</h2>
     <div class="row">
-      <a class="button" href="/contact/">Bring us a research question <span aria-hidden="true">↗</span></a>
-      <span class="mono">Describe it in your own words. We will tell you where it lands.</span>
+      <a class="button" href="/contact/?start=call">Book a 30-minute call <span aria-hidden="true">↗</span></a>
     </div>
+    <p class="cta-note mono">Describe the question in your own words. We will tell you if it is answerable.</p>
   </div>
 </section>
 
@@ -307,23 +239,29 @@
       <div class="footer-col">
         <h4>Practice</h4>
         <a href="/work/">Work</a>
+        <a class="out" href="https://insights.vibencode.com/">Insights<span aria-hidden="true">↗</span></a>
         <a href="/about/">About</a>
         <a href="/careers/">Careers</a>
         <a href="/contact/">Contact</a>
       </div>
       <div class="footer-col">
         <h4>Vibencode Pvt. Ltd.</h4>
-        <!-- TODO: confirm the full registered address, email and phone. -->
-        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward</p>
+        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward, Sagar,<br>Madhya Pradesh 470002, India</p>
+        <p class="cin">CIN U72500MP2022PTC059086</p>
         <a href="mailto:hello@vibencode.com">hello@vibencode.com</a>
       </div>
     </div>
     <div class="footer-bottom mono">
       <span>© 2026 Vibencode Pvt. Ltd.</span>
+      <nav class="footer-legal" aria-label="Legal">
+        <a href="/terms/">Terms of service</a>
+        <a href="/privacy/">Privacy policy</a>
+      </nav>
       <span>What if meets how to.</span>
     </div>
   </div>
 </footer>
-<script src="/assets/pages.js"></script>
+<script src="/assets/pages.js?v=20260912v"></script>
+<script src="/assets/cta.js?v=20260912v"></script>
 </body>
 </html>

@@ -1,15 +1,19 @@
 /* ==========================================================================
    VIBENCODE / INNER PAGES
 
-   The document pages carry four behaviours, all of them responses to
+   The document pages carry three behaviours, all of them responses to
    scrolling and none of them on a timer:
 
-   - a reading-progress rule, because a service page runs long;
-   - a contents rail, so a long page tells you where you are and what else
-     there is;
-   - drawn tracks — the About timeline and the phase tracks — where the line
-     fills at the speed you scroll and each node lights as it is passed;
+   - a reading-progress rule, because a service page still runs long;
+   - the About page's drawn journey, where the spine fills at the speed you
+     scroll and each year lights as it is passed;
    - reveal-on-arrival for list rows, staggered, once.
+
+   Two things used to live here and no longer do. A contents rail sat pinned
+   to the right-hand edge of every long page; it was apparatus the reader had
+   not asked for, and it is gone. And the drawn track was shared between the
+   About journey and the four-phase process blocks on nine other pages: drawing the same figure that often left it meaning nothing in particular,
+   so the journey keeps it and the phase blocks became a plain grid.
 
    Everything that hides or dims is added from here, so a page without
    script, or with motion turned down, is simply the finished page with
@@ -24,7 +28,7 @@
   root.classList.add("js");
 
   /* Everything below is measured in one rAF frame per scroll event. Adding a
-     second listener per feature would mean three layout reads a frame. */
+     second listener per feature would mean two layout reads a frame. */
   const onFrame = [];
   let queued = false;
   function schedule() {
@@ -49,66 +53,13 @@
     bar.style.transform = "scaleX(" + (max > 0 ? Math.min(scrollY / max, 1) : 0) + ")";
   });
 
-  /* ---- contents rail -----------------------------------------------------
-     Built from the page rather than written per page: every section head
-     already names its own section, so the rail is just those names. It is
-     hidden by CSS below 1180px and hidden by script while the lilac head or
-     the ink footer is what you are looking at, because a paper-coloured rail
-     on either of those grounds is illegible. */
-  const sections = [...document.querySelectorAll(".page-section")]
-    .filter(section => section.querySelector(".rule-head span"));
-
-  let rail = null;
-  let railItems = [];
-
-  if (sections.length > 2) {
-    rail = document.createElement("ul");
-    rail.className = "rail off";
-    rail.setAttribute("aria-label", "Sections on this page");
-
-    sections.forEach((section, i) => {
-      if (!section.id) section.id = "section-" + (i + 1);
-      const name = section.querySelector(".rule-head span").textContent.trim();
-
-      const item = document.createElement("li");
-      const link = document.createElement("a");
-      link.href = "#" + section.id;
-      link.innerHTML = '<span class="label"></span><span class="tick"></span>';
-      link.querySelector(".label").textContent = name;
-      link.addEventListener("click", event => {
-        event.preventDefault();
-        section.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
-      });
-      item.appendChild(link);
-      rail.appendChild(item);
-      railItems.push(item);
-    });
-
-    document.body.appendChild(rail);
-
-    const footer = document.querySelector(".site-footer");
-    onFrame.push(function markRail() {
-      const first = sections[0].getBoundingClientRect();
-      const footTop = footer ? footer.getBoundingClientRect().top : Infinity;
-      rail.classList.toggle("off", first.top > innerHeight * .5 || footTop < innerHeight * .9);
-
-      /* The section you are reading is the last one whose top has passed the
-         upper third of the window. */
-      let current = 0;
-      sections.forEach((section, i) => {
-        if (section.getBoundingClientRect().top < innerHeight * .34) current = i;
-      });
-      railItems.forEach((item, i) => item.classList.toggle("here", i === current));
-    });
-  }
-
-  /* ---- drawn tracks ------------------------------------------------------
-     A track fills from nothing to full as it travels from low in the window
-     to high in it. The nodes are lit by comparing the length of the fill
-     against where each node actually sits, so the line and the lit dots can
-     never disagree — the same approach the home page uses for its delivery
-     path. */
-  const tracks = [...document.querySelectorAll(".timeline, .phase-track")];
+  /* ---- the drawn journey -------------------------------------------------
+     One element, on one page. The spine fills from nothing to full as it
+     travels from low in the window to high in it, and the nodes are lit by
+     comparing the length of the fill against where each node actually sits,
+     so the line and the lit dots can never disagree, the same approach the
+     home page uses for its delivery path. */
+  const tracks = [...document.querySelectorAll(".timeline")];
 
   function drawTracks() {
     tracks.forEach(track => {
@@ -119,20 +70,9 @@
       const p = span > 0 ? Math.min(Math.max((start - box.top) / span, 0), 1) : 1;
       track.style.setProperty("--draw", p.toFixed(4));
 
-      /* Horizontal only while the phase track is actually side by side; the
-         same markup is a spine again below 760px. */
-      const across = track.classList.contains("phase-track") && innerWidth >= 760;
-      const nodes = [...track.children];
-
-      if (across) {
-        const filled = p * track.offsetWidth;
-        nodes.forEach(node => node.classList.toggle("lit", filled >= node.offsetLeft + 4));
-      } else {
-        const inset = track.classList.contains("timeline") ? 10 : 6;
-        const filled = p * Math.max(track.offsetHeight - inset * 2, 1) + inset;
-        const dot = track.classList.contains("timeline") ? 12 : 8;
-        nodes.forEach(node => node.classList.toggle("lit", filled >= node.offsetTop + dot));
-      }
+      const inset = 10;
+      const filled = p * Math.max(track.offsetHeight - inset * 2, 1) + inset;
+      [...track.children].forEach(node => node.classList.toggle("lit", filled >= node.offsetTop + 12));
     });
   }
 
@@ -190,8 +130,9 @@
 
   /* ---- arrival ----------------------------------------------------------- */
   const groups = [...document.querySelectorAll(
-    ".deliverables, .signals, .service-rows, .next-rows, .failures, " +
-    ".needs, .people, .example-steps, .faq, .case-rows")];
+    ".deliverables, .fit-list, .service-rows, .next-rows, .failures, " +
+    ".needs, .people, .stages, .faq, .case-rows, " +
+    ".client-wall-grid, .took")];
 
   if (!groups.length) return;
 
@@ -205,7 +146,7 @@
   }
 
   /* Without script, or with motion turned down, nothing is staged and nothing
-     is hidden — the class that hides rows is only ever added here. */
+     is hidden, the class that hides rows is only ever added here. */
   if (reduced || !("IntersectionObserver" in window)) return;
 
   groups.forEach(group => group.classList.add("rows-in"));
@@ -220,7 +161,7 @@
 
   groups.forEach(group => {
     /* Anything already on screen is revealed now rather than waiting to be
-       told about it — otherwise the top of the page depends on a callback. */
+       told about it: otherwise the top of the page depends on a callback. */
     const box = group.getBoundingClientRect();
     if (box.top < innerHeight && box.bottom > 0) {
       reveal(group);
@@ -229,8 +170,8 @@
     watcher.observe(group);
   });
 
-  /* Failsafe. If the observer never runs — a background tab on first paint, a
-     browser that throttles it, anything unforeseen — the page must still be
+  /* Failsafe. If the observer never runs, a background tab on first paint, a
+     browser that throttles it, anything unforeseen, the page must still be
      readable. Two seconds, then everything is shown whatever happened. */
   setTimeout(() => {
     groups.forEach(group => {

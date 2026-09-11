@@ -13,7 +13,7 @@ const CONTACT_EMAIL = "hello@vibencode.com";
    THE MOTIF IS LANGUAGE
    ---------------------------------------------------------
    Two earlier attempts put a picture here: an abstract pleated V, then a set
-   of invented "deliverable sheets". Both failed for the same reason — an
+   of invented "deliverable sheets". Both failed for the same reason: an
    agency that draws a diagram of work it has not done is drawing stock art.
 
    So the recurring element is not an image. It is a pair of sentences: what a
@@ -50,12 +50,11 @@ function setInterest(interest) {
   document.getElementById("contact-context").textContent =
     interest ? `Starting point / ${interest}` : "Tell us where you want to start.";
 
-  const subject = interest
-    ? `Vibencode project enquiry: ${interest}`
-    : "An AI initiative for Vibencode";
-
+  /* Was a mailto, which is the thing that loses people: it needs a configured
+     desktop client, it fails silently in webmail, and nothing is recorded
+     either way. The enquiry page opens with this service already chosen. */
   document.getElementById("email-link").href =
-    `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
+    interest ? `/contact/?area=${encodeURIComponent(interest)}` : "/contact/";
 }
 
 function selectService(key) {
@@ -182,7 +181,7 @@ pairDots.forEach(dot => {
   });
 });
 
-/* Only keyboard focus holds the cycle — someone tabbing through the six needs
+/* Only keyboard focus holds the cycle: someone tabbing through the six needs
    it to stay put. Pointer hover used to pause it too, which meant a cursor
    resting anywhere over the hero stopped it for good and it read as static. */
 heroStage.addEventListener("focusin", () => { pairPaused = true; runPairs(); });
@@ -215,57 +214,6 @@ reducedMotion.addEventListener("change", runPairs);
 showPair(0);
 runPairs();
 
-
-/* ------------------------------------------------------
-   THE HERO SWITCH
-   Two heroes live in the page at once so they can be compared on the real
-   thing rather than in screenshots. Both are driven by the same six pairs, so
-   whichever wins, nothing else has to change. Remove the loser and this whole
-   block goes with it.
-   ------------------------------------------------------ */
-
-/* The key carries a number. Bumping it retires every stored choice at once,
-   which is what you want when the default changes: anyone who looked at this
-   before has "a" saved, and without the bump they would keep being shown the
-   old default and think nothing had happened. Picking a variant still sticks
-   from here on. */
-const HERO_KEY = "vibencode-hero-2";
-/* Named is the default, and it is set on <body> in the markup too so the
-   first painted frame is already correct. Change it in both places. */
-const HERO_DEFAULT = "named";
-/* Every variant renders the same markup; what changes is the section-level
-   treatment keyed off body[data-hero]. Nothing here duplicates content, so a
-   copy change lands in all five at once. */
-const HEROES = {
-  a: "The original",
-  named: "Named",
-  becomes: "Becomes"
-};
-
-const heroButtons = [...document.querySelectorAll("button[data-hero]")];
-const switchName = document.getElementById("switch-name");
-
-function applyHero(which) {
-  if (!HEROES[which]) which = HERO_DEFAULT;
-  document.body.dataset.hero = which;
-  heroButtons.forEach(button => {
-    button.setAttribute("aria-pressed", String(button.dataset.hero === which));
-  });
-  switchName.textContent = HEROES[which];
-  try { localStorage.setItem(HERO_KEY, which); } catch (error) { /* private mode */ }
-  return which;
-}
-
-let heroChoice = HERO_DEFAULT;
-try { heroChoice = localStorage.getItem(HERO_KEY) || HERO_DEFAULT; } catch (error) { /* private mode */ }
-heroChoice = applyHero(heroChoice);
-
-heroButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    heroChoice = applyHero(button.dataset.hero);
-    runPairs();
-  });
-});
 
 /* ======================================================
    THE DELIVERY PATH
@@ -320,8 +268,7 @@ function drawDeliveryLine() {
   deliveryLength = deliveryPath.getTotalLength();
   deliveryPath.setAttribute("stroke-dasharray", deliveryLength);
 
-  /* Where along the path each step's dot sits. The segments are not equal —
-     the staircase makes later ones longer — so drawing the line at a constant
+  /* Where along the path each step's dot sits. The segments are not equal, the staircase makes later ones longer, so drawing the line at a constant
      rate would have its head arrive at each number early, then late. Measuring
      each segment lets the head land on a dot exactly as that number inks. */
   segmentStops = [0];
@@ -349,8 +296,7 @@ function drawDeliveryLine() {
    far the path has drawn. All three read the same progress value, so they can
    never disagree with each other.
 
-   Progress is measured against the section, not against element visibility —
-   on a wide screen the four steps enter the viewport together, so watching
+   Progress is measured against the section, not against element visibility: on a wide screen the four steps enter the viewport together, so watching
    them individually would fire everything at once and there would be no
    transformation to see.
    ------------------------------------------------------ */
@@ -358,7 +304,7 @@ function drawDeliveryLine() {
 const STAGES = 4;
 
 /* Progress runs from the moment the section is three-quarters of the way up
-   the viewport to the moment its foot clears the lower third — so the travel
+   the viewport to the moment its foot clears the lower third, so the travel
    is the section's height PLUS part of a screen, not the height minus one.
    Measured against the section's own box, the four stages used to be spent by
    the halfway point. */
@@ -383,7 +329,7 @@ function updatePractice() {
   });
   if (deliveryPath) {
     /* The last number inks when progress reaches the final stage, so the line
-       finishes there too — not at the end of the section. */
+       finishes there too, not at the end of the section. */
     const last = (STAGES - 1) / STAGES;
     const t = Math.min(progress / last, 1) * (segmentStops.length - 1);
     const i = Math.min(segmentStops.length - 2, Math.floor(t));
@@ -395,7 +341,7 @@ function updatePractice() {
   }
 }
 
-/* Staged only once JavaScript is here to stage it — otherwise every clause of
+/* Staged only once JavaScript is here to stage it: otherwise every clause of
    the brief, and every service row, is simply present. */
 if (briefBlock && !reducedMotion.matches) briefBlock.classList.add("staged");
 if (!reducedMotion.matches) {
@@ -479,161 +425,9 @@ addEventListener("resize", requestChapterUpdate);
 addEventListener("resize", drawDeliveryLine);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawDeliveryLine);
 /* The path is measured from live geometry, so it cannot be drawn while the
-   section has no width — a background tab, a collapsed pane, a late layout.
+   section has no width, a background tab, a collapsed pane, a late layout.
    A resize observer redraws it the moment the element actually gets a size,
    instead of leaving the path missing until the window happens to resize. */
 if ("ResizeObserver" in window) new ResizeObserver(drawDeliveryLine).observe(pathHost);
 updateChapter();
 drawDeliveryLine();
-
-
-/* ======================================================
-   IDENTITY KIT: downloadable applications
-   The posters print the same six sentences the site cycles through, read from
-   the same object — so a poster can never claim something the site does not.
-   There is no artwork in them because the identity has none: it is the pair,
-   the two voices, and the four grounds.
-   ====================================================== */
-
-const GROTESK = "Bricolage Grotesque, Arial, sans-serif";
-const PLEX = "IBM Plex Mono, monospace";
-
-function escapeXML(text) {
-  return String(text).replace(/[&<>"]/g, ch =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
-}
-
-/* SVG text does not wrap, so break on words against a character budget. */
-function wrapText(text, max) {
-  const lines = [];
-  let line = "";
-  text.split(" ").forEach(word => {
-    if (line && (line + " " + word).length > max) { lines.push(line); line = word; }
-    else line = line ? line + " " + word : word;
-  });
-  if (line) lines.push(line);
-  return lines;
-}
-
-function lineBlock(text, o) {
-  const lines = wrapText(text, o.max);
-  const markup = lines.map((line, i) =>
-    `<text x="${o.x}" y="${o.y + i * o.lh}" font-family="${o.font}" font-size="${o.size}"` +
-    (o.weight ? ` font-weight="${o.weight}"` : "") +
-    (o.tracking ? ` letter-spacing="${o.tracking}"` : "") +
-    ` fill="${o.fill}">${escapeXML(line)}</text>`).join("");
-  return { markup: markup, end: o.y + (lines.length - 1) * o.lh };
-}
-
-function pairPoster(key, o) {
-  const service = services[key];
-  const said = lineBlock("“" + service.said + "”", {
-    x: 60, y: 336, lh: 76, max: 25, font: GROTESK, size: 64, weight: 700, tracking: -3, fill: o.ink
-  });
-  const badgeY = said.end + 56;
-  const becameY = badgeY + 168;
-  const became = lineBlock(service.became, {
-    x: 60, y: becameY, lh: 40, max: 52, font: PLEX, size: 24, fill: o.ink
-  });
-
-  return `<svg xmlns="${NS}" width="1080" height="1080" viewBox="0 0 1080 1080"
-      role="img" aria-label="Vibencode. ${escapeXML(service.said)}">
-      <rect width="1080" height="1080" fill="${o.bg}"/>
-      <text x="60" y="82" font-family="${GROTESK}" font-size="34" font-weight="700"
-        letter-spacing="-1.4" fill="${o.ink}">vibencode</text>
-      <text x="60" y="152" font-family="${PLEX}" font-size="17" letter-spacing="2"
-        fill="${o.accent}">${escapeXML(service.code.toUpperCase())}</text>
-      <text x="60" y="252" font-family="${GROTESK}" font-size="30" font-weight="700"
-        letter-spacing="-1" fill="${o.quiet}">WHAT IF.</text>
-      ${said.markup}
-      <rect x="60" y="${badgeY - 40}" width="152" height="58" fill="${o.badgeBg}"
-        transform="rotate(-4.5 136 ${badgeY - 11})"/>
-      <text x="136" y="${badgeY - 2}" text-anchor="middle" font-family="${PLEX}"
-        font-size="26" fill="${o.badgeInk}" transform="rotate(-4.5 136 ${badgeY - 11})">meet</text>
-      <text x="60" y="${becameY - 62}" font-family="${PLEX}" font-size="30" font-weight="600"
-        letter-spacing="-1" fill="${o.quiet}">HOW TO.</text>
-      ${became.markup}
-      <text x="60" y="1026" font-family="${PLEX}" font-size="16" letter-spacing="2"
-        fill="${o.quiet}">VIBENCODE — AI CONSULTING &amp; ENGINEERING</text>
-    </svg>`;
-}
-
-const socialDesigns = [
-  {
-    filename: "vibencode-01-implementation.svg",
-    label: "01 / GenAI implementation",
-    svg: pairPoster("genai", {
-      bg: "#dcd2f2", ink: "#24202b", accent: "#a8321a", quiet: "#5c4676",
-      badgeBg: "#24202b", badgeInk: "#dcd2f2"
-    })
-  },
-  {
-    filename: "vibencode-02-orchestration.svg",
-    label: "02 / Agents and orchestration",
-    svg: pairPoster("agents", {
-      bg: "#24202b", ink: "#dcd2f2", accent: "#f4512e", quiet: "#a79bb8",
-      badgeBg: "#dcd2f2", badgeInk: "#24202b"
-    })
-  },
-  {
-    filename: "vibencode-04-sovereign.svg",
-    label: "04 / Sovereign AI",
-    svg: pairPoster("sovereign", {
-      bg: "#f4512e", ink: "#24202b", accent: "#24202b", quiet: "#7a2814",
-      badgeBg: "#24202b", badgeInk: "#f4512e"
-    })
-  }
-];
-
-function downloadSVG(svg, filename) {
-  const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = filename;
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 10000);
-}
-
-const socialGrid = document.getElementById("social-grid");
-
-socialDesigns.forEach(design => {
-  const item = document.createElement("div");
-  item.className = "social-item";
-
-  const preview = document.createElement("div");
-  preview.className = "social-preview";
-  // All SVG strings above are fixed local design assets, not user input.
-  preview.innerHTML = design.svg;
-
-  const download = document.createElement("button");
-  download.className = "download-art";
-  download.textContent = `${design.label} — Download SVG ↘`;
-  download.addEventListener("click", () => downloadSVG(design.svg, design.filename));
-
-  item.append(preview, download);
-  socialGrid.appendChild(item);
-});
-
-const identityDialog = document.getElementById("identity-dialog");
-
-document.getElementById("open-identity").addEventListener("click", () => {
-  identityDialog.showModal();
-});
-
-document.getElementById("close-identity").addEventListener("click", () => {
-  identityDialog.close();
-});
-
-identityDialog.addEventListener("click", event => {
-  if (event.target !== identityDialog) return;
-  const rect = identityDialog.getBoundingClientRect();
-  if (
-    event.clientX < rect.left || event.clientX > rect.right ||
-    event.clientY < rect.top || event.clientY > rect.bottom
-  ) {
-    identityDialog.close();
-  }
-});

@@ -4,13 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#dcd2f2">
-<meta name="description" content="AI in planning, review and test generation, with repository context, an audit trail on every suggestion, and the merge gate exactly where it was.">
-<title>AI-powered development — Vibencode</title>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://vibencode.com/services/ai-powered-development/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Vibencode">
+<meta property="og:locale" content="en_IN">
+<meta property="og:title" content="AI-Powered Software Development">
+<meta property="og:description" content="Your own delivery run with agents in the loop: planning, review and test generation with repository context, an audit trail, and the merge gate where it was.">
+<meta property="og:url" content="https://vibencode.com/services/ai-powered-development/">
+<meta property="og:image" content="https://vibencode.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vibencode">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI-Powered Software Development">
+<meta name="twitter:description" content="Your own delivery run with agents in the loop: planning, review and test generation with repository context, an audit trail, and the merge gate where it was.">
+<meta name="twitter:image" content="https://vibencode.com/og-image.png">
+<meta name="description" content="Your own delivery run with agents in the loop: planning, review and test generation with repository context, an audit trail, and the merge gate where it was.">
+<title>AI-Powered Software Development | Vibencode</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v=20260912v">
 </head>
 
 <body>
@@ -43,10 +61,6 @@
 
 <section class="page-section">
   <div class="wrap">
-    <div class="rule-head mono">
-      <span>The shape of it</span>
-      <span>What we hear → what it becomes</span>
-    </div>
     <div class="pair-block">
       <div>
         <div class="label mono">What we hear</div>
@@ -60,44 +74,31 @@
   </div>
 </section>
 
-<section class="page-section">
+<!-- Split layout: the head sits in a left-hand column and stays there while
+     the list runs past it. The three named outputs used to be a section of
+     their own, with a head and a rule around three short phrases; they are
+     the end of this description of the work, so they close it instead. -->
+<section class="page-section split">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>What the work actually is</span>
-      <span>Five things, in order</span>
+      <span>What putting agents into delivery involves</span>
     </div>
-    <ol class="deliverables">
-      <li><span class="n">01</span><span>Build the product — full-stack and SaaS delivery, the work we have always done, now run with agents in the loop.</span></li>
-      <li><span class="n">02</span><span>Agent-assisted planning, implementation, test generation and review, with repository context rather than guesswork.</span></li>
-      <li><span class="n">03</span><span>The merge gate stays exactly where it was. Review does not get looser because the author was a machine.</span></li>
-      <li><span class="n">04</span><span>An audit trail on every suggestion that reached the codebase.</span></li>
-      <li><span class="n">05</span><span>Set the same workflow up inside your team, so the practice does not leave when we do.</span></li>
-    </ol>
-  </div>
-</section>
-
-<!-- Illustrative throughout. It is composed from the shape these engagements
-     take, not copied from one client, and the section head says so. -->
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>How it usually goes</span>
-      <span>A composite, not a single client</span>
-    </div>
-    <div class="example">
-      <div>
-        <div class="label mono">It starts here</div>
-        <blockquote>“We should be using AI in engineering.”</blockquote>
-        <span class="who mono">VP engineering, B2B SaaS</span>
-      </div>
-      <div>
-        <ol class="example-steps">
-          <li><b>Week 1</b><span>We watch four engineers work, a day each. The time is not going into writing code. It is going into working out how the thing they are about to change currently behaves. <strong>The bottleneck is comprehension, not typing.</strong></span></li>
-          <li><b>Week 2</b><span>We instrument the pipeline — cycle time, review latency, rework after merge. Nobody had a number for how long a review waits. <strong>It was the largest single block, by a distance.</strong></span></li>
-          <li><b>Weeks 3–5</b><span>Repository context wired into planning and review. Generated tests aimed at the modules with the worst rework. Review stays exactly where it was, with the author recorded either way.</span></li>
-          <li><b>Week 6</b><span>A path is found where a suggestion could reach main without review. It is closed the same day. <strong>A gate you cannot demonstrate is a gate you do not have.</strong></span></li>
-          <li><b>Weeks 7–8</b><span>The team runs the workflow without us in the room, and we write down what to do when it produces confident nonsense — because periodically it will.</span></li>
-        </ol>
+    <div>
+      <p class="lede">Typing was never the bottleneck. The time goes on finding out how the thing already works: which service owns this, why that guard exists, what broke the last time somebody touched it. That is a comprehension problem, and it is the one worth pointing a model at. It is also why buying everyone a licence changes so little: the tool has to be able to read your repository and its history, and the review path has to come through the arrangement intact. Most of the list below is those two things.</p>
+      <ol class="deliverables">
+        <li><span class="n">01</span><span>Build the product: full-stack and SaaS delivery, the work we have always done, now run with agents in the loop.</span></li>
+        <li><span class="n">02</span><span>Agent-assisted planning, implementation, test generation and review, with repository context rather than guesswork.</span></li>
+        <li><span class="n">03</span><span>The merge gate stays exactly where it was. Review does not get looser because the author was a machine.</span></li>
+        <li><span class="n">04</span><span>An audit trail on every suggestion that reached the codebase.</span></li>
+        <li><span class="n">05</span><span>Set the same workflow up inside your team, so the practice does not leave when we do.</span></li>
+      </ol>
+      <div class="ships">
+        <span class="label mono">What you end up with</span>
+        <ul>
+          <li><b>Development workflow</b><span>Where a suggestion enters, who reviews it, and what has to be true before it can merge.</span></li>
+          <li><b>Agent &amp; toolchain integration</b><span>Repository context wired into the tools your engineers already have open, not a separate place to go.</span></li>
+          <li><b>Team enablement</b><span>Your engineers running it without us, and a written account of what to do the day it is confidently wrong.</span></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -106,59 +107,16 @@
 <figure class="pull">
   <div class="wrap">
     <p class="pull-line">The bottleneck was never typing. It was finding out how the thing already worked.</p>
-    <figcaption>Which is why repository context matters more than a faster autocomplete.</figcaption>
+    <figcaption>Which is why repository context matters more than a faster autocomplete. <a class="quiet-link" href="/work/">See our recent work <span aria-hidden="true">&#8594;</span></a></figcaption>
   </div>
 </figure>
 
 <section class="page-section">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>What we need from you</span>
-      <span>The engagement stalls without these</span>
+      <span>How an engagement usually runs</span>
     </div>
-    <ul class="needs">
-      <li><b>A repository we can read</b><span>History included. Comprehension is the thing being accelerated, and history is where it lives.</span></li>
-      <li><b>Two or three engineers who will use it daily</b><span>Not a champion who demos it — the people who will hit the annoying parts and say so.</span></li>
-      <li><b>Your current numbers</b><span>Cycle time, review latency, rework. If they do not exist we measure them first; there is no other way to know whether it worked.</span></li>
-      <li><b>A position on what may be generated</b><span>Tests, migrations, production code. Someone senior holds that line, and it should be written down before the first suggestion lands.</span></li>
-    </ul>
-  </div>
-</section>
-
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>What usually goes wrong</span>
-      <span>And what we do about it</span>
-    </div>
-    <div class="failures struck">
-      <div>
-        <p class="what">Adoption is treated as a licence purchase.</p>
-        <p class="fix">We change the workflow, not the tool list. A seat that nobody’s habits accommodate is shelfware within six weeks.</p>
-      </div>
-      <div>
-        <p class="what">Review gets looser because the author was a machine.</p>
-        <p class="fix">The merge gate does not move. What changes is that a suggestion carries its provenance into review with it.</p>
-      </div>
-      <div>
-        <p class="what">Speed gets measured in lines.</p>
-        <p class="fix">We measure cycle time and rework after merge. More code, faster, is not the goal and is frequently the failure.</p>
-      </div>
-      <div>
-        <p class="what">It works for the person who set it up.</p>
-        <p class="fix">Enablement is a phase with a date, not a lunch session. We leave the runbook, the failure cases and the people who have already hit them.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>The shape of an engagement</span>
-      <span>Typical timings; yours is scoped first</span>
-    </div>
-    <div class="phase-track">
+    <div class="stages">
       <div>
         <span class="when">Week 1</span>
         <h4>Watch</h4>
@@ -180,70 +138,45 @@
         <p>Your team runs it. We write down what to do on the day it is confidently wrong.</p>
       </div>
     </div>
+    <p class="lede sprint-note">That is the shape of a full engagement. If it is more than you want to commit to yet, the same people will spend two days on one piece of it first, and you are free to stop there. <a class="quiet-link" href="/contact/?start=sprint">Start a 48-hour sprint <span aria-hidden="true">&#8594;</span></a></p>
   </div>
 </section>
 
-<section class="page-section">
+<section class="page-section band">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>When you need this</span>
-      <span>Any one of these is enough</span>
+      <span>What we need from you</span>
     </div>
-    <ul class="signals">
-      <li><span class="n">—</span><span>There is a backlog and not enough engineers, and hiring is not the answer this quarter.</span></li>
-      <li><span class="n">—</span><span>You want AI inside the SDLC without loosening the controls around it.</span></li>
-      <li><span class="n">—</span><span>You want your own team to keep working this way afterwards.</span></li>
+    <ul class="needs">
+      <li><b>A repository we can read</b><span>History included. Comprehension is what is being accelerated, and history is where it lives: the reverts, the hotfixes, the guard nobody removes.</span></li>
+      <li><b>Two or three engineers who will use it daily</b><span>Not a champion who demos it. The people who will hit the annoying parts in week two and say so, which is the only useful feedback.</span></li>
+      <li><b>Your current numbers</b><span>Cycle time, review latency, rework. If they do not exist we measure them first; without a baseline the result is only an opinion.</span></li>
+      <li><b>A position on what may be generated</b><span>Tests, migrations, production code. Someone senior holds that line, and it wants writing down before the first suggestion lands.</span></li>
     </ul>
   </div>
 </section>
 
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>What an engagement delivers</span>
-      <span>Agreed before it starts</span>
-    </div>
-    <ol class="deliverables">
-      <li><span class="n">01</span><span>Development workflow</span></li>
-      <li><span class="n">02</span><span>Agent & toolchain integration</span></li>
-      <li><span class="n">03</span><span>Team enablement</span></li>
-    </ol>
-  </div>
-</section>
-
-<!-- The section that makes six services feel like six rather than one
-     repeated. Each page says where it stops and hands over. -->
-<section class="page-section">
-  <div class="wrap">
-    <div class="rule-head mono">
-      <span>What this is not</span>
-      <span>So you do not buy the wrong one</span>
-    </div>
-    <div class="not-this">
-      <p>This is about building your software. If what you want is an AI capability <em>inside</em> the product your customers use, that is a different engagement.</p>
-      <div><a class="link" href="/services/genai-implementation/">GenAI implementation <span aria-hidden="true">↗</span></a></div>
-    </div>
-  </div>
-</section>
-
-<section class="page-section">
+<section class="page-section split">
   <div class="wrap">
     <div class="rule-head mono">
       <span>Questions we get asked</span>
-      <span>Before the first call ends</span>
     </div>
     <div class="faq">
       <details>
-        <summary>Is this just buying an AI coding assistant for everyone?</summary>
-        <p class="answer">No — and if that genuinely is all you need, we will say so on the first call rather than sell you eight weeks. The work here is the repository context, the review path and the measurement around them.</p>
+        <summary>What actually is AI-powered development?</summary>
+        <p class="answer">Running your own software delivery with agents in the loop: planning, implementation, test generation and review, all with your repository and its history as context. It is a change to the workflow rather than to the tool list, and the part that makes it work is unglamorous: what the agent is allowed to see, where its output enters review, and a gate that does not move because the author was a machine.</p>
       </details>
       <details>
-        <summary>Will our code leave our environment?</summary>
-        <p class="answer">That is a decision, not a default. If it cannot leave, the constraint shapes the toolchain from day one — which is a <a class="link" href="/services/sovereign-ai/">sovereign deployment</a> question and gets answered first.</p>
+        <summary>Is this just buying an AI coding assistant for everyone?</summary>
+        <p class="answer">No. And if that genuinely is all you need, we will say so on the first call rather than sell you eight weeks. The work here is the repository context, the review path and the measurement around them.</p>
       </details>
       <details>
         <summary>Does this replace engineers?</summary>
-        <p class="answer">It has not in any engagement we have run. It moves where their time goes — less reconstruction of how things work, more judgement about what to change — which is exactly why comprehension is the thing we measure.</p>
+        <p class="answer">It has not in any engagement we have run. It moves where their time goes: less reconstruction of how things work, more judgement about what to change. That is exactly why comprehension is the thing we measure.</p>
+      </details>
+      <details>
+        <summary>Will our code leave our environment?</summary>
+        <p class="answer">That is a decision, not a default. If it cannot leave, the constraint shapes the toolchain from day one, which is a <a class="link" href="/services/sovereign-ai/">sovereign deployment</a> question and gets answered first.</p>
       </details>
       <details>
         <summary>What about the code-quality argument?</summary>
@@ -251,7 +184,7 @@
       </details>
       <details>
         <summary>We build software for our customers, not for ourselves. Does this apply?</summary>
-        <p class="answer">Yes — this is that work. Full-stack and SaaS delivery is where the company started; it now runs with agents in the loop. You can hire us to build the product, not only to change how you build it.</p>
+        <p class="answer">Yes. This is that work. Full-stack and SaaS delivery is where the company started; it now runs with agents in the loop. You can hire us to build the product, not only to change how you build it.</p>
       </details>
     </div>
   </div>
@@ -260,16 +193,16 @@
 <section class="page-section">
   <div class="wrap">
     <div class="rule-head mono">
-      <span>The other five</span>
-      <span>Most engagements touch two</span>
+      <span>If the problem is somewhere else</span>
     </div>
+    <p class="lede">This is about how you build your own software. If what you want is an AI capability <em>inside</em> the product your customers use, that is a different engagement. That is GenAI implementation.</p>
     <nav class="next-rows">
-      <a href="/services/genai-implementation/"><span class="n">01</span><span>GenAI implementation</span><span class="go" aria-hidden="true">↗</span></a>
-      <a href="/services/agent-orchestration/"><span class="n">02</span><span>Agents and orchestration</span><span class="go" aria-hidden="true">↗</span></a>
-      <a href="/services/sovereign-ai/"><span class="n">04</span><span>Sovereign AI</span><span class="go" aria-hidden="true">↗</span></a>
-      <a href="/services/use-case-strategy/"><span class="n">05</span><span>Use-case strategy</span><span class="go" aria-hidden="true">↗</span></a>
-      <a href="/services/applied-research/"><span class="n">06</span><span>Applied research</span><span class="go" aria-hidden="true">↗</span></a>
-    </nav>
+          <a href="/services/genai-implementation/"><span class="n">01</span><span>GenAI implementation</span><span class="go" aria-hidden="true">↗</span></a>
+          <a href="/services/agent-orchestration/"><span class="n">02</span><span>Agents and orchestration</span><span class="go" aria-hidden="true">↗</span></a>
+          <a href="/services/sovereign-ai/"><span class="n">04</span><span>Sovereign AI</span><span class="go" aria-hidden="true">↗</span></a>
+          <a href="/services/use-case-strategy/"><span class="n">05</span><span>Use-case strategy</span><span class="go" aria-hidden="true">↗</span></a>
+          <a href="/services/applied-research/"><span class="n">06</span><span>Applied research</span><span class="go" aria-hidden="true">↗</span></a>
+        </nav>
   </div>
 </section>
 
@@ -277,9 +210,9 @@
   <div class="wrap">
     <h2>Can we build the software itself faster?</h2>
     <div class="row">
-      <a class="button" href="/contact/">Discuss your engineering workflow <span aria-hidden="true">↗</span></a>
-      <span class="mono">Describe it in your own words. We will tell you where it lands.</span>
+      <a class="button" href="/contact/?start=sprint">Start a 48-hour sprint <span aria-hidden="true">↗</span></a>
     </div>
+    <p class="cta-note mono">Two days in your repository. Written up at the end.</p>
   </div>
 </section>
 
@@ -307,23 +240,29 @@
       <div class="footer-col">
         <h4>Practice</h4>
         <a href="/work/">Work</a>
+        <a class="out" href="https://insights.vibencode.com/">Insights<span aria-hidden="true">↗</span></a>
         <a href="/about/">About</a>
         <a href="/careers/">Careers</a>
         <a href="/contact/">Contact</a>
       </div>
       <div class="footer-col">
         <h4>Vibencode Pvt. Ltd.</h4>
-        <!-- TODO: confirm the full registered address, email and phone. -->
-        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward</p>
+        <p>Plot No. 5, Rose Enclave,<br>Shastri Ward, Sagar,<br>Madhya Pradesh 470002, India</p>
+        <p class="cin">CIN U72500MP2022PTC059086</p>
         <a href="mailto:hello@vibencode.com">hello@vibencode.com</a>
       </div>
     </div>
     <div class="footer-bottom mono">
       <span>© 2026 Vibencode Pvt. Ltd.</span>
+      <nav class="footer-legal" aria-label="Legal">
+        <a href="/terms/">Terms of service</a>
+        <a href="/privacy/">Privacy policy</a>
+      </nav>
       <span>What if meets how to.</span>
     </div>
   </div>
 </footer>
-<script src="/assets/pages.js"></script>
+<script src="/assets/pages.js?v=20260912v"></script>
+<script src="/assets/cta.js?v=20260912v"></script>
 </body>
 </html>

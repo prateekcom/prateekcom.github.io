@@ -62,8 +62,22 @@ addEventListener("scroll", () => {
   requestAnimationFrame(() => { fitQueued = false; fitStreams(); });
 }, { passive: true });
 
+/* Where the reveal closes rather than follows. A field of moving words behind
+   a button is noise at exactly the moment someone is deciding to press it, so
+   the stream gets out of the way instead of being merely faded. */
+const FX_CLOSED_OVER = ".button";
+
 streamHosts.forEach(host => {
   if (!host) return;
+  /* Measure against the stream layer, not the section.
+
+     The mask is a radial gradient painted on .fx-stream, so its coordinates
+     start at that element's top-left - and .fx-stream begins --fx-top below
+     the section, clear of the header. Measuring the pointer against the
+     section instead put the reveal that far below the cursor: 74px on this
+     header, which is why it appeared to give out before the bottom of the
+     lilac. Near the fold the circle was already past the edge and clipped. */
+  const layer = host.querySelector(".hero-fx") || host;
   let queued = false;
   let point = { x: 0, y: 0 };
   const write = () => {
@@ -71,15 +85,21 @@ streamHosts.forEach(host => {
     host.style.setProperty("--mx", point.x + "px");
     host.style.setProperty("--my", point.y + "px");
   };
+  /* Parked off-canvas: the mask is a circle centred here, so far enough out
+     is the same as closed. */
+  const park = () => {
+    queued = false;
+    host.style.setProperty("--mx", "-400px");
+    host.style.setProperty("--my", "-400px");
+  };
+
   host.addEventListener("pointermove", event => {
     if (event.pointerType !== "mouse") return;
-    const rect = host.getBoundingClientRect();
+    if (event.target.closest && event.target.closest(FX_CLOSED_OVER)) { park(); return; }
+    const rect = layer.getBoundingClientRect();
     point = { x: Math.round(event.clientX - rect.left), y: Math.round(event.clientY - rect.top) };
     if (!queued) { queued = true; requestAnimationFrame(write); }
   });
-  /* Parked off-canvas, so the reveal stays closed until a pointer arrives. */
-  host.addEventListener("pointerleave", () => {
-    host.style.setProperty("--mx", "-400px");
-    host.style.setProperty("--my", "-400px");
-  });
+  /* The reveal stays closed until a pointer arrives, and after it leaves. */
+  host.addEventListener("pointerleave", park);
 });
