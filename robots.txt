@@ -1,5 +1,8 @@
-# This is a development preview, not the live site. Keep it out of search
-# results so it cannot outrank or be mistaken for vibencode.com.
-# Delete this file when the site goes live for real.
+# The live site. Crawlers welcome.
 User-agent: *
-Disallow: /
+Allow: /
+
+# Not an engagement: the copyable shell a new case study starts from.
+Disallow: /work/_template/
+
+Sitemap: https://vibencode.com/sitemap.xml

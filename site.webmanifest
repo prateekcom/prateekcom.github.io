@@ -1,0 +1,11 @@
+{
+  "name": "Vibencode",
+  "short_name": "Vibencode",
+  "icons": [
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ],
+  "theme_color": "#dcd2f2",
+  "background_color": "#f4f1eb",
+  "display": "standalone"
+}
