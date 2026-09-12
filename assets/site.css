@@ -411,6 +411,18 @@ body[data-hero="becomes"] .said { min-height: 3.6em; }
 /* Section content has to sit above the ground layer. */
 .opening > .header, .opening > .wrap, .contact > .wrap { position: relative; z-index: 1; }
 
+/* THE TOKEN FIELD.
+   v1 built this and then hid it: the mask fell to fully transparent, so the
+   field existed only inside a 170px circle under a mouse. On a phone it was
+   never painted at all, and on a desktop it read as a trick rather than as
+   the ground.
+
+   It is the one piece of the site that is literally the subject matter -
+   1500 tokens, drawn from the six sentence pairs in data.js, dot-separated
+   the way a tokenizer emits them. So it is promoted to the ground it always
+   should have been: present everywhere at --fx-floor, sharpening under the
+   pointer instead of being conjured by it. The last stop of a radial-gradient
+   continues past its position, so that floor covers the whole layer. */
 .fx-stream {
   position: absolute;
   inset: 0;
@@ -420,13 +432,22 @@ body[data-hero="becomes"] .said { min-height: 3.6em; }
   line-height: 1.95;
   letter-spacing: .01em;
   color: var(--purple);
-  opacity: .38;
+  opacity: .46;
   word-break: break-word;
-  -webkit-mask-image: radial-gradient(circle 170px at var(--mx, -400px) var(--my, -400px), #000 0, rgba(0,0,0,.55) 46%, transparent 76%);
-  mask-image: radial-gradient(circle 170px at var(--mx, -400px) var(--my, -400px), #000 0, rgba(0,0,0,.55) 46%, transparent 76%);
+  --fx-floor: rgba(0,0,0,.2);
+  -webkit-mask-image: radial-gradient(circle 190px at var(--mx, -600px) var(--my, -600px), #000 0, rgba(0,0,0,.62) 44%, var(--fx-floor) 74%);
+  mask-image: radial-gradient(circle 190px at var(--mx, -600px) var(--my, -600px), #000 0, rgba(0,0,0,.62) 44%, var(--fx-floor) 74%);
 }
 .fx-stream b { font-weight: 500; color: var(--rust); opacity: .8; }
-@media (prefers-reduced-motion: reduce) { .fx-stream { display: none; } }
+/* Reduced motion means no autonomous movement, not no texture. The field
+   stops responding to the pointer and simply sits there, quieter. */
+@media (prefers-reduced-motion: reduce) {
+  .fx-stream {
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: .13;
+  }
+}
 
 
 /* Micro-interactions. Each is tied to something the reader is actually doing;
@@ -766,6 +787,91 @@ h2 {
 .brief.staged .brief-part { opacity: .14; transition: opacity .55s ease; }
 .brief.staged .brief-part.on { opacity: 1; }
 
+/* --------------------------------------------------------------------------
+   FIGURE 1 / CONTEXT ASSEMBLED
+   The brief above, counted. Each cell is one token of the clause that put it
+   there, coloured by the role that clause plays; the pale tail is headroom.
+
+   Deliberately NOT a progress bar. A bordered track with a filled portion is
+   UI chrome, and UI chrome imported into this page is the exact mistake that
+   got an earlier hero deleted. This is a tape of marks on the paper ground,
+   sized off the mono scale, with no frame around it.
+   -------------------------------------------------------------------------- */
+.context-window {
+  margin: 0;
+  padding: 30px 0 4px;
+  border-top: 1px solid var(--line);
+}
+.cw-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  color: var(--rust);
+  margin-bottom: 18px;
+}
+.cw-read { color: var(--muted); font-variant-numeric: tabular-nums; }
+.cw-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 20px;
+}
+.cw-cell {
+  width: 8px;
+  height: 28px;
+  flex: none;
+  background: var(--line);
+  opacity: .34;
+  transform-origin: 50% 100%;
+  transform: scaleY(.34);
+  transition: background .5s ease, opacity .5s ease, transform .5s cubic-bezier(.19,.72,.26,1);
+  transition-delay: calc(var(--i, 0) * 11ms);
+}
+.cw-cell.on { opacity: 1; transform: scaleY(1); }
+.cw-cell.on[data-role="task"]      { background: var(--ink); }
+.cw-cell.on[data-role="scope"]     { background: var(--purple); }
+.cw-cell.on[data-role="evidence"]  { background: var(--rust); }
+.cw-cell.on[data-role="policy"]    { background: var(--orange); }
+.cw-cell.on[data-role="ownership"] { background: var(--muted); }
+
+.cw-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 22px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.cw-key { display: inline-flex; align-items: center; gap: 8px; opacity: .38; transition: opacity .4s ease; }
+.cw-key.on { opacity: 1; }
+.cw-key::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  flex: none;
+  background: currentColor;
+}
+.cw-key[data-role="task"]      { color: var(--ink); }
+.cw-key[data-role="scope"]     { color: var(--purple); }
+.cw-key[data-role="evidence"]  { color: var(--rust); }
+.cw-key[data-role="policy"]    { color: var(--orange); }
+.cw-key[data-role="ownership"] { color: var(--muted); }
+
+.cw-caption {
+  color: var(--muted);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  max-width: 58ch;
+}
+
+@media (max-width: 700px) {
+  .cw-head { flex-direction: column; gap: 6px; }
+  .cw-cell { width: 7px; height: 22px; }
+  .cw-legend { gap: 8px 16px; }
+}
+
 /* v4 rotated a rule 13deg and hoped it met the steps. This draws the path from
    the step markers themselves, so it always connects them. */
 .delivery-path {
@@ -885,6 +991,51 @@ h2 {
   transform: translate(3px, -3px);
 }
 .engagement-line:hover h3 { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 7px; }
+
+/* --------------------------------------------------------------------------
+   FIGURE 2 / THE LOOP
+   The delivery path in section 03 is open: it starts at a question and ends
+   at a handover. This one closes on itself, which is the actual difference
+   between a scoped project and an embedded one - the second keeps going, and
+   every pass starts holding what the last pass learned.
+
+   Drawn with the same vocabulary as the path above: one measured rule, a dot
+   at each marker, ink on the vermillion. The return arc bows into the page
+   gutter rather than crossing any text, and carries the only label.
+   -------------------------------------------------------------------------- */
+.loop-host { position: relative; }
+.engagement-loop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+}
+.engagement-loop .loop-rule {
+  fill: none;
+  stroke: rgba(36, 32, 43, .5);
+  stroke-width: 1.4;
+}
+.engagement-loop .loop-dot { fill: rgba(36, 32, 43, .55); }
+.engagement-loop .loop-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  fill: rgba(36, 32, 43, .72);
+}
+/* The rows have to sit above the rule, or the line crosses the numerals. */
+.loop-host .engagement-line { position: relative; z-index: 1; }
+
+/* Below this the grid restructures and the numeral column collapses, so there
+   is nothing coherent left to measure. The figure withdraws rather than
+   drawing something wrong. */
+@media (max-width: 860px) {
+  .engagement-loop { display: none; }
+}
 
 /* ======================================================
    ACT 05 / The opening question returns

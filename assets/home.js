@@ -113,7 +113,8 @@ setInterest("");
    THE HERO PAIR
    The same six pairs, cycling. The right-hand answer resolves word by word,
    which is the only motion in the hero: the ask arrives whole, the answer
-   gets assembled. It stops on hover, on focus, and when scrolled away.
+   gets assembled. It stops on focus, on a pointer resting on the sentence
+   itself, and when scrolled away.
    ====================================================== */
 
 const heroSaid = document.getElementById("hero-said");
@@ -125,7 +126,8 @@ const pairKeys = pairDots.map(dot => dot.dataset.pair);
 
 let pairIndex = 0;
 let pairTimer = null;
-let pairPaused = false;
+let pairPaused = false;   /* keyboard focus is inside the stage */
+let pairHeld = false;     /* a pointer is resting on the sentence itself */
 let pairOnScreen = true;
 
 function renderBecame(text) {
@@ -167,11 +169,18 @@ function showPair(index) {
 
 function nextPair() { showPair(pairIndex + 1); }
 
+/* 6200 was too short to read the thing it was showing. The answer assembles
+   over ~700ms, and what is left has to carry ~30 words of mono - call it
+   eight to ten seconds of honest reading. The pair was being pulled out from
+   under people mid-sentence, which is the opposite of what the rotation is
+   for. */
+const PAIR_DWELL = 9200;
+
 function runPairs() {
   clearInterval(pairTimer);
   pairTimer = null;
-  if (reducedMotion.matches || pairPaused || !pairOnScreen) return;
-  pairTimer = setInterval(nextPair, 6200);
+  if (reducedMotion.matches || pairPaused || pairHeld || !pairOnScreen) return;
+  pairTimer = setInterval(nextPair, PAIR_DWELL);
 }
 
 pairDots.forEach(dot => {
@@ -186,6 +195,16 @@ pairDots.forEach(dot => {
    resting anywhere over the hero stopped it for good and it read as static. */
 heroStage.addEventListener("focusin", () => { pairPaused = true; runPairs(); });
 heroStage.addEventListener("focusout", () => { pairPaused = false; runPairs(); });
+
+/* Hover holds the cycle again - but bound to the two paragraphs rather than
+   to the whole stage, which is what made it unusable before. A cursor parked
+   anywhere in the hero used to stop the rotation for good and the poster read
+   as static. Resting on the words you are actually reading holds them;
+   resting anywhere else leaves the cycle alone. */
+[heroSaid, heroBecame].forEach(node => {
+  node.addEventListener("pointerenter", () => { pairHeld = true; runPairs(); });
+  node.addEventListener("pointerleave", () => { pairHeld = false; runPairs(); });
+});
 
 pairJump.addEventListener("click", () => {
   selectService(pairJump.dataset.pairService);
@@ -315,10 +334,112 @@ function practiceProgress() {
   return Math.min(Math.max((innerHeight * .75 - rect.top) / travel, 0), 1);
 }
 
+/* ------------------------------------------------------
+   FIGURE 1 / CONTEXT ASSEMBLED
+   Built from the brief in the markup rather than from a copy of it, so the
+   figure cannot drift from the sentence it is counting. One cell per token,
+   grouped by the role the clause plays, plus headroom so the window reads as
+   filling rather than as full.
+
+   Tokens are split the way a tokenizer does it - punctuation counts, because
+   punctuation costs - not by whitespace, which would undercount every clause.
+   ------------------------------------------------------ */
+
+const CW_ROLES = ["task", "scope", "evidence", "policy", "ownership"];
+const CW_LABELS = {
+  task: "Task",
+  scope: "Scope",
+  evidence: "Evidence",
+  policy: "Policy",
+  ownership: "Ownership"
+};
+
+const cwField = document.getElementById("cw-field");
+const cwLegend = document.getElementById("cw-legend");
+const cwCount = document.getElementById("cw-count");
+const cwRoles = document.getElementById("cw-roles");
+let cwCells = [];
+let cwTotals = [];
+
+function tokenize(text) {
+  return text.match(/[A-Za-z0-9']+|[^\sA-Za-z0-9]/g) || [];
+}
+
+(function buildContextWindow() {
+  const line = document.querySelector(".brief-line");
+  if (!cwField || !line) return;
+
+  /* Stage -1 is the bare task the brief opens with; 0-3 are the clauses it
+     gains. Reading them out of the DOM keeps one source of truth. */
+  const groups = [...line.children].map(node => ({
+    stage: node.dataset.stage === undefined ? -1 : Number(node.dataset.stage),
+    text: node.textContent
+  })).sort((a, b) => a.stage - b.stage);
+
+  const cells = [];
+  groups.forEach(group => {
+    const role = CW_ROLES[group.stage + 1];
+    if (!role) return;
+    const count = tokenize(group.text).length;
+    cwTotals[group.stage + 1] = count;
+    for (let i = 0; i < count; i++) cells.push({ stage: group.stage, role: role, i: i });
+  });
+
+  const frag = document.createDocumentFragment();
+  cells.forEach(cell => {
+    const node = document.createElement("span");
+    node.className = "cw-cell";
+    node.dataset.role = cell.role;
+    node.dataset.stage = String(cell.stage);
+    node.style.setProperty("--i", String(cell.i));
+    frag.append(node);
+    cwCells.push(node);
+  });
+
+  /* Headroom. A context window that is exactly full at the end of the brief
+     would be claiming something about a budget nobody stated. */
+  const spare = Math.ceil(cells.length * .42);
+  for (let i = 0; i < spare; i++) {
+    const node = document.createElement("span");
+    node.className = "cw-cell";
+    node.dataset.stage = "99";
+    frag.append(node);
+  }
+  cwField.append(frag);
+
+  if (cwLegend) {
+    CW_ROLES.forEach((role, i) => {
+      const key = document.createElement("span");
+      key.className = "cw-key";
+      key.dataset.role = role;
+      key.dataset.stage = String(i - 1);
+      key.textContent = CW_LABELS[role];
+      cwLegend.append(key);
+    });
+  }
+})();
+
+function updateContextWindow(stage) {
+  if (!cwCells.length) return;
+  let shown = 0;
+  cwCells.forEach(node => {
+    const on = Number(node.dataset.stage) <= stage;
+    node.classList.toggle("on", on);
+    if (on) shown++;
+  });
+  cwLegend && [...cwLegend.children].forEach(key => {
+    key.classList.toggle("on", Number(key.dataset.stage) <= stage);
+  });
+  if (cwCount) cwCount.textContent = String(shown);
+  if (cwRoles) cwRoles.textContent = String(stage + 2);
+}
+
 function updatePractice() {
   if (!practiceSection) return;
   const progress = practiceProgress();
   const stage = Math.min(STAGES - 1, Math.floor(progress * STAGES));
+
+  updateContextWindow(stage);
 
   briefParts.forEach(part => {
     part.classList.toggle("on", Number(part.dataset.stage) <= stage);
@@ -397,6 +518,7 @@ function updateChapter() {
   });
 
   updatePractice();
+  updateLoop();
   moveSectors();
   scrollScheduled = false;
 }
@@ -420,9 +542,103 @@ function moveSectors() {
   sectorsTrack.style.transform = "translateX(" + (-shift).toFixed(1) + "px)";
 }
 
+/* ======================================================
+   FIGURE 2 / THE LOOP
+   Measured from the three engagement numerals the same way the delivery path
+   is measured from its step numbers, so it cannot drift out of register with
+   the rows it belongs to.
+
+   The forward run is a straight rule down through the three marks. The return
+   is one cubic bowing out into the page gutter - which is empty, so the line
+   never crosses a word - carrying the only label in the figure. A closed
+   circuit rather than an arrow, because the claim is that the work re-enters,
+   not that it points somewhere.
+   ====================================================== */
+
+const loopHost = document.getElementById("loop-host");
+const loopSvg = document.getElementById("engagement-loop");
+const engagementsSection = document.getElementById("engagements");
+let loopRule = null;
+let loopLength = 0;
+
+function drawEngagementLoop() {
+  if (!loopHost || !loopSvg) return;
+  loopRule = null;
+  if (getComputedStyle(loopSvg).display === "none") return;
+
+  const host = loopHost.getBoundingClientRect();
+  if (!host.width || !host.height) return;
+
+  while (loopSvg.firstChild) loopSvg.removeChild(loopSvg.firstChild);
+  loopSvg.setAttribute("viewBox", "0 0 " + host.width + " " + host.height);
+
+  const marks = [...loopHost.querySelectorAll(".engagement-line > .mono")];
+  if (marks.length < 2) return;
+
+  const points = marks.map(mark => {
+    const box = mark.getBoundingClientRect();
+    return {
+      x: box.left - host.left + box.width / 2,
+      y: box.top - host.top + box.height / 2
+    };
+  });
+
+  const first = points[0];
+  const last = points[points.length - 1];
+  /* Into the gutter, but never further than the gutter actually is. */
+  const gutter = (innerWidth - host.width) / 2;
+  const bowX = -Math.min(46, Math.max(18, gutter - 16));
+
+  let d = "M" + first.x + " " + first.y;
+  points.slice(1).forEach(point => { d += " L" + point.x + " " + point.y; });
+  d += " C" + bowX + " " + last.y + " " + bowX + " " + first.y + " " + first.x + " " + first.y;
+
+  points.forEach(point => {
+    add(loopSvg, "circle", { cx: point.x, cy: point.y, r: 3.5, class: "loop-dot" });
+  });
+
+  loopRule = add(loopSvg, "path", { d: d, class: "loop-rule" });
+  loopLength = loopRule.getTotalLength();
+  loopRule.setAttribute("stroke-dasharray", loopLength);
+
+  const midY = (first.y + last.y) / 2;
+  const label = add(loopSvg, "text", {
+    class: "loop-label",
+    x: bowX + 12,
+    y: midY,
+    "text-anchor": "middle",
+    transform: "rotate(-90 " + (bowX + 12) + " " + midY + ")"
+  });
+  label.textContent = "Context carried forward";
+
+  updateLoop();
+}
+
+/* Runs from the section reaching three-quarters up the viewport to its foot
+   clearing the lower third - the same shape as practiceProgress, so the two
+   figures are paced alike. */
+function loopProgress() {
+  if (!engagementsSection) return 0;
+  const rect = engagementsSection.getBoundingClientRect();
+  const travel = rect.height + innerHeight * .35;
+  if (travel <= 0) return 0;
+  return Math.min(Math.max((innerHeight * .8 - rect.top) / travel, 0), 1);
+}
+
+function updateLoop() {
+  if (!loopRule) return;
+  /* The circuit closes a little before the section runs out, so the join is
+     something you see happen rather than something you scroll past. */
+  const drawn = reducedMotion.matches ? 1 : Math.min(loopProgress() / .82, 1);
+  loopRule.setAttribute("stroke-dashoffset", loopLength * (1 - drawn));
+}
+
 addEventListener("scroll", requestChapterUpdate, { passive: true });
 addEventListener("resize", requestChapterUpdate);
 addEventListener("resize", drawDeliveryLine);
+addEventListener("resize", drawEngagementLoop);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawEngagementLoop);
+if ("ResizeObserver" in window && loopHost) new ResizeObserver(drawEngagementLoop).observe(loopHost);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawDeliveryLine);
 /* The path is measured from live geometry, so it cannot be drawn while the
    section has no width, a background tab, a collapsed pane, a late layout.
@@ -431,3 +647,4 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawDelive
 if ("ResizeObserver" in window) new ResizeObserver(drawDeliveryLine).observe(pathHost);
 updateChapter();
 drawDeliveryLine();
+drawEngagementLoop();
