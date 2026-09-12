@@ -15,8 +15,8 @@ what makes `deploy/index-rewrite.js` necessary — see below.
 
 ## The two that fail quietly
 
-**1. Query strings must be in the cache key.** Every stylesheet, script and
-image on this site is requested with a `?v=` token, and that token is the
+**1. Query strings must be in the cache key.** The stylesheet, the scripts
+and the share cards are requested with a `?v=` token, and that token is the
 only thing that expires them — they are served `immutable` for a year.
 CloudFront's default `CachingOptimized` policy **strips query strings from the
 cache key**, so `?v=A` and `?v=B` would be the same cached object and a deploy
@@ -29,6 +29,21 @@ function every page except the root answers 403. Publish
 `deploy/index-rewrite.js` as a CloudFront Function and associate it with
 **viewer request** on the default behaviour. It also 301s `/about` to
 `/about/`, which is the form every canonical on the site uses.
+
+## Cache tiers
+
+`deploy.sh` sets three, because not everything carries a version token.
+
+| | `Cache-Control` |
+|---|---|
+| `assets/*.css`, `assets/*.js`, `assets/og/*` — always requested with `?v=` | `max-age=31536000, immutable` |
+| `logo.png`, the icons, the manifest, `assets/clients/*` — no token | `max-age=86400` |
+| HTML, `sitemap.xml`, `robots.txt` | `max-age=0, must-revalidate` |
+
+The middle row matters: those thirteen files are referenced with no `?v=`, so
+`immutable` would strand a replacement in browsers for a year with nothing
+able to bust it. A day plus the deploy's invalidation caps the worst case at
+one day.
 
 ## Error pages
 

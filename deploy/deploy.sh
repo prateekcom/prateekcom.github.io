@@ -15,6 +15,7 @@ cd "$(dirname "$0")/.."
 # Repo furniture that is not the website.
 EXCLUDE=(
   --exclude ".git/*"
+  --exclude ".gitattributes"
   --exclude ".claude/*"
   --exclude "deploy/*"
   --exclude "README.md"
@@ -22,15 +23,29 @@ EXCLUDE=(
   --exclude ".nojekyll"
 )
 
-# ---- 1. assets ------------------------------------------------------------
-# Every stylesheet, script and image is requested with a ?v= token in the URL,
-# so a given URL's bytes never change and a year is safe. The token is what
-# expires them, not the clock - which only works if the CloudFront cache
-# policy keeps query strings in the cache key. See README.
-echo "-> assets"
+# ---- 1a. versioned assets -------------------------------------------------
+# The stylesheet, the scripts and the share cards are only ever requested with
+# a ?v= token, so a given URL's bytes never change and a year of immutable is
+# safe. The token is what expires them, not the clock - which only works if
+# the CloudFront cache policy keeps query strings in the cache key. See
+# README.
+echo "-> versioned assets"
+aws s3 sync . "s3://$BUCKET" "${EXCLUDE[@]}" \
+  --exclude "*" \
+  --include "assets/*.css" --include "assets/*.js" --include "assets/og/*" \
+  --cache-control "public, max-age=31536000, immutable" \
+  "${DRY[@]}"
+
+# ---- 1b. everything else static -------------------------------------------
+# The logo, the icons, the manifest and the nine client marks are referenced
+# without a token, so immutable would strand a replacement in browsers for a
+# year with nothing able to bust it. A day, plus the invalidation below
+# clearing the edge on every deploy, caps the worst case at one day.
+echo "-> unversioned static"
 aws s3 sync . "s3://$BUCKET" "${EXCLUDE[@]}" \
   --exclude "*.html" \
-  --cache-control "public, max-age=31536000, immutable" \
+  --exclude "assets/*.css" --exclude "assets/*.js" --exclude "assets/og/*" \
+  --cache-control "public, max-age=86400" \
   "${DRY[@]}"
 
 # ---- 2. html, sitemap, robots --------------------------------------------
@@ -51,12 +66,12 @@ if [ ${#DRY[@]} -eq 0 ]; then
   echo "-> site.webmanifest content type"
   aws s3 cp site.webmanifest "s3://$BUCKET/site.webmanifest" \
     --content-type "application/manifest+json" \
-    --cache-control "public, max-age=0, must-revalidate"
+    --cache-control "public, max-age=86400"
 
   # ---- 4. edge ------------------------------------------------------------
   # One path, so one invalidation against the monthly free allowance. The ?v=
-  # tokens already handle the browser; this handles the edge, which has no way
-  # to know an HTML file it is holding was replaced.
+  # tokens already handle the browser for versioned assets; this handles the
+  # edge, which has no way to know an HTML file it is holding was replaced.
   echo "-> invalidating"
   aws cloudfront create-invalidation \
     --distribution-id "$DISTRIBUTION" --paths "/*" \
