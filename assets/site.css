@@ -2726,3 +2726,45 @@ a.client-next:hover .slot { border-color: var(--rust); }
 .footer-legal { display: flex; gap: 24px; flex-wrap: wrap; }
 .footer-bottom a { color: var(--on-ink-muted); transition: color .2s; }
 .footer-bottom a:hover { color: var(--paper); }
+
+/* --- one type scale and one tap size, on phones ---------------------------
+   Placed last on purpose. Every rule it corrects sets its size on its own
+   selector - .output-list li, .footer .mono, .next-rows .n and the rest - and
+   @media adds no specificity, so an override written anywhere earlier in this
+   file loses to whichever of them comes after it.
+
+   THE SIZES. A phone was rendering mono at 9, 10, 11 and 12px at once, and
+   the mixture read as carelessness more than any one size did. 9px was the
+   worst of it and sat in the two places people actually land: the home hero's
+   two labels, and the line under every closing button. Everything mono now
+   meets 12px below 920px. Desktop keeps its own scale, where the type is
+   further from the eye and 9px is a caption rather than a hurdle.
+
+   THE TAPS. "Our services" and "Work with us" measured 39px and the brand
+   37px, on every page - the three most-tapped things on the site, all under
+   the 44px a finger needs. Padding rather than a bigger font, so the header
+   grows by five pixels and nothing else moves. */
+@media (max-width: 920px) {
+  .mono,
+  .hero-meta .mono,
+  .hero-cta .mono,
+  .contact-actions .mono,
+  .footer .mono,
+  .footer-col .cin,
+  .output-list li,
+  .people .role,
+  .stages .when,
+  .next-rows .n,
+  .deliverables .n,
+  .service-row .n,
+  .case-row .n,
+  .pair-jump { font-size: 12px; }
+
+  .nav { gap: 20px; font-size: 12px; }
+  .nav a { padding-top: 13px; padding-bottom: 13px; }
+  /* The underline is positioned from the bottom of the box, so the new
+     padding would have dropped it away from the word it underlines.
+     13px puts it back at the 3px it sits at on a desktop. */
+  .nav a::after { bottom: 13px; }
+  .brand { padding: 5px 0; }
+}
