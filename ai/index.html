@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vibencode — machine-readable overview</title>
+<meta name="description" content="Vibencode in plain text: engineering depth, AI expertise, the six services, working culture and values, and the record. Structured for LLMs and easy to copy as context." />
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="canonical" href="https://vibencode.com/ai/" />
+<!-- Written for model crawlers, not for search. Its headings carry literal
+     markdown and its body restates the rest of the site, so to Google it
+     reads as a thin duplicate. Follow the links, index nothing. -->
+<meta name="robots" content="noindex, follow" />
+<meta property="og:url" content="https://vibencode.com/ai/" />
+<meta property="og:site_name" content="Vibencode" />
+<meta property="og:locale" content="en_IN" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Vibencode — machine-readable overview" />
+<meta property="og:description" content="Vibencode in plain text: engineering depth, AI expertise, the six services, working culture and values, and the record. Structured for LLMs and easy to copy as context." />
+<meta property="og:image" content="https://vibencode.com/assets/og/start.png?v=20260912q" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Start with a vibe. Ship a system." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Vibencode — machine-readable overview" />
+<meta name="twitter:description" content="Vibencode in plain text: engineering depth, AI expertise, the six services, working culture and values, and the record. Structured for LLMs and easy to copy as context." />
+<meta name="twitter:image" content="https://vibencode.com/assets/og/start.png?v=20260912q" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#f4f1eb;color:#24202b;font-family:"IBM Plex Mono","Courier New",ui-monospace,monospace;
+    font-size:14px;line-height:1.8;-webkit-font-smoothing:antialiased}
+  .bar{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;
+    gap:16px;padding:16px clamp(18px,4vw,32px);border-bottom:1px solid #c9c1cf;
+    background:#f4f1eb}
+  .bar a{color:#68616f;text-decoration:none;font-size:12px;transition:color .2s}
+  .bar a:hover{color:#24202b}
+  .bar button{font-family:inherit;font-size:12.5px;font-weight:600;color:#24202b;
+    background:#fcfaf6;border:1px solid #c9c1cf;border-radius:9px;padding:9px 16px;
+    cursor:pointer;transition:background .2s,border-color .2s;display:flex;align-items:center;gap:8px}
+  .bar button:hover{background:#dcd2f2;border-color:#5c4676}
+  main{max-width:720px;margin:0 auto;padding:clamp(30px,6vw,64px) clamp(18px,4vw,32px) 100px}
+  .doc{border-left:1px solid #c9c1cf;padding-left:clamp(18px,3vw,28px);
+    white-space:pre-wrap;word-wrap:break-word}
+  .doc h1,.doc h2{font-size:1em;font-weight:700;color:#24202b;display:block;margin:1.7em 0 .2em}
+  .doc h1{margin-top:0;font-size:1.15em}
+  .doc .lede{color:#a8321a;display:block;margin:.6em 0 1.4em}
+  .doc a{color:#5c4676;text-decoration:none;border-bottom:1px dashed rgba(92,70,118,.4)}
+  .doc a:hover{border-bottom-style:solid}
+  .doc .muted{color:#a39cae}
+</style>
+</head>
+<body>
+<div class="bar">
+  <a href="../">&larr; vibencode.com</a>
+  <button type="button" id="copyBtn">⧉ Copy for ChatGPT / Claude</button>
+</div>
+<main>
+<div class="doc" id="content"><span class="muted">(Paste this into ChatGPT, Claude, or any AI assistant, then ask if Vibencode is the right practice for your AI project.)</span>
+
+<h1># Vibencode</h1>
+<span class="lede">&gt; Vibencode is a deep-tech AI consulting and engineering practice: production engineering discipline, carried over from years of full-stack SaaS delivery, applied to GenAI, agent orchestration, AI-powered development and sovereign AI. Evaluation written before the interface, a human kept where money or data changes hands, and a handover that actually runs without us. Nothing to subscribe to &mdash; you hire people, for a defined period, to do a defined piece of work, and you keep what they build.</span>
+
+Full site: <a href="https://vibencode.com">https://vibencode.com</a>
+
+<h2>## What it is</h2>
+An AI consulting and engineering practice, building since 2021, based in Indore, Madhya Pradesh (registered as Vibencode Pvt. Ltd.). Not a platform, not a licence, not a seat. Most clients are startups, which is why nothing left behind assumes a platform team on the other side of it.
+
+We advise, investigate, design and implement &mdash; and stay until the thing runs on a Monday without us.
+
+<h2>## Engineering depth</h2>
+The practice did not start with AI. From 2021 it built and shipped full-stack SaaS products commercially &mdash; production systems, client environments, live data, integrations chosen for it rather than by it. From 2024 that same engineering discipline turned toward retrieval, evaluation and agents, which is why the AI work is built like software rather than assembled from a framework's happy path:
+- Retrieval and generation systems wired to real data, tools and users, evaluated against a held-out set before anything ships.
+- Agent architectures with named roles, scoped tool access, state that survives a crash, a retry path that terminates, and a human approval before anything writes.
+- AI folded into the development workflow itself &mdash; planning, review, test generation &mdash; with repository context, an audit trail on every suggestion, and the merge gate left exactly where it was.
+- On-premises, private-cloud or hybrid model deployment for teams that cannot move data or weights off their own infrastructure, with key ownership, retention control and an audit trail on every call.
+- Applied research run as comparisons on the client's own task and data, with the limits and failure modes stated rather than a vendor benchmark restated.
+
+<h2>## The six services</h2>
+1. GenAI implementation &mdash; "Make support smarter" becomes a retrieval assistant over your ticket history and product docs, answering with citations, measured on real tickets, handing to a person the moment it is not sure. <a href="https://vibencode.com/services/genai-implementation/">/services/genai-implementation/</a>
+2. Agents and orchestration &mdash; "Let's get agents doing this end to end" becomes agents with named roles and scoped tool access, state that survives a crash, a retry path that does not loop forever, and a human approval before anything writes. <a href="https://vibencode.com/services/agent-orchestration/">/services/agent-orchestration/</a>
+3. AI-powered development &mdash; "We should be using AI in engineering" becomes AI in planning, review and test generation, with repository context, an audit trail on every suggestion, and the merge gate exactly where it was. <a href="https://vibencode.com/services/ai-powered-development/">/services/ai-powered-development/</a>
+4. Sovereign AI &mdash; "None of our data can leave the country" becomes model weights on your hardware in your region, under your keys, with retention you set and an audit trail on every call. <a href="https://vibencode.com/services/sovereign-ai/">/services/sovereign-ai/</a>
+5. Use-case strategy &mdash; "The board wants an AI roadmap" becomes every candidate use case assessed for value, feasibility and risk, ranked against each other, with one pilot brief specific enough to start on Monday. <a href="https://vibencode.com/services/use-case-strategy/">/services/use-case-strategy/</a>
+6. Applied research &mdash; "Which model should we be using?" becomes a comparison run on your task and your data, with the limits stated, the failure modes named, and a recommendation that says when it stops being true. <a href="https://vibencode.com/services/applied-research/">/services/applied-research/</a>
+
+All six: <a href="https://vibencode.com/services/">/services/</a>
+
+<h2>## Sectors</h2>
+Financial services, insurance, healthcare, manufacturing, logistics, retail, public sector, telecom, energy, legal, professional services, education.
+
+<h2>## How an engagement runs</h2>
+1. Frame it &mdash; define the problem, the people involved, and what a useful result looks like.
+2. Challenge it &mdash; test assumptions with focused research, representative tasks, and purposeful prototypes.
+3. Engineer it &mdash; build the integrations, controls, evaluation, and failure handling around the capability.
+4. Make it yours &mdash; deployment, documentation, knowledge transfer, and an agreed operational handover.
+
+<h2>## Ways to work with us</h2>
+- Think with us: advisory, use-case discovery, feasibility, and applied research. For when the next decision matters more than the next demo.
+- Build with us: a scoped implementation, from a purposeful pilot to integration and production preparation, with agreed deliverables.
+- Bring us in: embedded AI expertise alongside your team &mdash; shared engineering, technical decisions, ongoing research, and capability transfer.
+Not sure which one you are in? Most people arrive with a sentence, not a brief. There is also a 48-hour sprint: two days, one narrow question, a written answer at the end. <a href="https://vibencode.com/contact/?start=sprint">/contact/?start=sprint</a>
+
+<h2>## What we hold to</h2>
+- Say the uncomfortable thing early: if the use case is wrong, or the data is not there, you hear it in week one, not week nine.
+- Measure before building: the evaluation gets written before the interface.
+- Recommend against ourselves: some problems do not need AI, and saying so costs us one project and earns the next three.
+- Design for the handover: documentation, tests, and a team that has been doing it alongside us.
+- Keep the human where it matters: approval sits where money, data or reputation changes hands.
+- Ship, then widen: behind a flag, on real traffic, one team first.
+
+<h2>## The record</h2>
+Nine named clients so far, spanning productivity software, B2B sales tooling, creator and brand marketing, knowledge software, SaaS strategy tooling, recruitment technology, and industrial maintenance and ed-tech. The range of systems built: a retrieval-and-rules assistant that re-sorts an inbox by sender; a meeting-prep and call-following agent that files its own record; a video pipeline that builds an avatar from one photo and ten seconds of audio; a single data structure that is a document, a database and a graph at once; a competitive-intelligence agent that reads pricing and changelogs continuously; a résumé-and-interview screening system scored against a written role definition; and a failure-prediction and certified-training system built to survive an audit.
+
+Public write-ups: <a href="https://vibencode.com/work/sleek-email/">Sleek</a>, <a href="https://vibencode.com/work/salesviking/">SalesViking</a>, <a href="https://vibencode.com/work/unstableml/">UnstableML</a>, <a href="https://vibencode.com/work/unize/">Unize</a>, <a href="https://vibencode.com/work/planyoursaas/">PlanYourSaas</a>, <a href="https://vibencode.com/work/agentr/">AgentR</a>, <a href="https://vibencode.com/work/qbyte/">Qbyte</a>. Full detail and the client wall: <a href="https://vibencode.com/work/">/work/</a>
+
+<h2>## Pricing</h2>
+No published price list. Engagements are scoped and quoted directly, sized to what the work actually needs &mdash; a 48-hour sprint, a scoped project, or an embedded partnership. No seats, no licence fees, nothing to subscribe to. Ask via <a href="https://vibencode.com/contact/">/contact/</a>.
+
+<h2>## Company</h2>
+Founders:
+- Prateek Porwal, co-founder &mdash; operations, talent, sales and business development. Usually the first person you talk to.
+- Samyak Jain, co-founder &amp; CEO &mdash; product and delivery.
+- Samarth Paliwal, co-founder &amp; CTO &mdash; technology and engineering direction.
+
+A short history: first international order (June 2021), first commercial delivery in production (May 2022), team grown to run more than one engagement at a time and deliberately stopped there (February 2023), the practice turning from full-stack/SaaS delivery toward retrieval, evaluation and agents in the loop (2024&ndash;2025), and now an AI consulting and engineering practice. The team stays lean on purpose: fewer layers between the person who understood the problem and the person who writes the code.
+
+Remote by default, on site for discovery and handover when that earns its cost. Every engagement gets a shared channel and a written update every week. Full detail: <a href="https://vibencode.com/about/">/about/</a>
+
+<h2>## Careers</h2>
+Roles in engineering, design, product, growth and founder's office, posted as they open. Indore based, team spread across India, remote by default. Job board: <a href="https://careers.vibencode.com/">careers.vibencode.com</a>. More: <a href="https://vibencode.com/careers/">/careers/</a>
+
+<h2>## Contact</h2>
+hello@vibencode.com &middot; Vibencode Pvt. Ltd., Plot No. 5, Rose Enclave, Shastri Ward, Sagar, Madhya Pradesh 470002, India. Replies to everything, usually within two working days &mdash; a written reply from a person who has read it, then a short call if it's worth one. No sales sequence. <a href="https://vibencode.com/contact/">/contact/</a>
+
+<h2>## More</h2>
+Writing: <a href="https://insights.vibencode.com/">insights.vibencode.com</a>
+Legal: <a href="https://vibencode.com/privacy/">/privacy/</a> &middot; <a href="https://vibencode.com/terms/">/terms/</a>
+</div>
+</main>
+<script>
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  const raw = document.getElementById('content');
+  const btn = document.getElementById('copyBtn');
+  const flash = ()=>{ const o = btn.innerHTML; btn.textContent = '✓ Copied'; setTimeout(()=>btn.innerHTML = o, 1400); };
+  const fallback = ()=>{
+    const ta = document.createElement('textarea');
+    ta.value = raw.textContent; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); flash(); }catch(e){}
+    document.body.removeChild(ta);
+  };
+  if(navigator.clipboard?.writeText){
+    navigator.clipboard.writeText(raw.textContent).then(flash, fallback);
+  } else { fallback(); }
+});
+</script>
+</body>
+</html>

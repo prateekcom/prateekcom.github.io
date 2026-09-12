@@ -186,6 +186,19 @@ section[id] { scroll-margin-top: 24px; }
   color: var(--paper);
 }
 
+/* A sixth chip, set apart from the five numbered ones by a wider gap and a
+   quieter opacity: it isn't a chapter to jump to, it's the plain-text exit
+   for a crawler or a copy-pasting reader, sitting in the one rail that is
+   fixed on screen for the whole page rather than hunted for in a section
+   that scrolls past. Never gets .active - it has no matching chapter id for
+   updateChapter() to compare against, so the scroll-spy simply ignores it. */
+.chapter-index .rail-ai {
+  margin-top: 11px;
+  opacity: .55;
+  transition: opacity .2s, transform .2s ease;
+}
+.chapter-index .rail-ai:hover { opacity: 1; }
+
 /* ======================================================
    ACT 01 / The poster, rebuilt in flow
    ====================================================== */
