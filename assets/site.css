@@ -796,35 +796,25 @@ h2 {
    UI chrome, and UI chrome imported into this page is the exact mistake that
    got an earlier hero deleted. This is a tape of marks on the paper ground,
    sized off the mono scale, with no frame around it.
+
+   It sits inside the sticky brief, so it has to stay thin: one tape row, one
+   line of keys, one line of caption. An instrument reading, not a panel.
    -------------------------------------------------------------------------- */
-.context-window {
-  margin: 0;
-  padding: 30px 0 4px;
-  border-top: 1px solid var(--line);
-}
-.cw-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 20px;
-  color: var(--rust);
-  margin-bottom: 18px;
-}
-.cw-read { color: var(--muted); font-variant-numeric: tabular-nums; }
+.context-window { margin-top: 20px; max-width: 1010px; }
 .cw-field {
   display: flex;
   flex-wrap: wrap;
-  gap: 3px;
-  margin-bottom: 20px;
+  gap: 2px;
+  margin-bottom: 11px;
 }
 .cw-cell {
-  width: 8px;
-  height: 28px;
+  width: 7px;
+  height: 26px;
   flex: none;
   background: var(--line);
   opacity: .34;
   transform-origin: 50% 100%;
-  transform: scaleY(.34);
+  transform: scaleY(.3);
   transition: background .5s ease, opacity .5s ease, transform .5s cubic-bezier(.19,.72,.26,1);
   transition-delay: calc(var(--i, 0) * 11ms);
 }
@@ -835,41 +825,37 @@ h2 {
 .cw-cell.on[data-role="policy"]    { background: var(--orange); }
 .cw-cell.on[data-role="ownership"] { background: var(--muted); }
 
-.cw-legend {
+.cw-meta {
   display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 18px;
   flex-wrap: wrap;
-  gap: 9px 22px;
-  color: var(--muted);
-  margin-bottom: 16px;
 }
-.cw-key { display: inline-flex; align-items: center; gap: 8px; opacity: .38; transition: opacity .4s ease; }
+.cw-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.cw-key { display: inline-flex; align-items: center; gap: 7px; opacity: .34; transition: opacity .4s ease; }
 .cw-key.on { opacity: 1; }
-.cw-key::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  flex: none;
-  background: currentColor;
-}
+.cw-key::before { content: ""; width: 7px; height: 7px; flex: none; background: currentColor; }
 .cw-key[data-role="task"]      { color: var(--ink); }
 .cw-key[data-role="scope"]     { color: var(--purple); }
 .cw-key[data-role="evidence"]  { color: var(--rust); }
 .cw-key[data-role="policy"]    { color: var(--orange); }
 .cw-key[data-role="ownership"] { color: var(--muted); }
+.cw-read { color: var(--rust); font-variant-numeric: tabular-nums; flex: none; }
 
 .cw-caption {
+  margin: 9px 0 0;
   color: var(--muted);
   text-transform: none;
   letter-spacing: 0;
-  font-size: 12.5px;
-  line-height: 1.7;
-  max-width: 58ch;
+  font-size: 12px;
 }
 
 @media (max-width: 700px) {
-  .cw-head { flex-direction: column; gap: 6px; }
-  .cw-cell { width: 7px; height: 22px; }
-  .cw-legend { gap: 8px 16px; }
+  .context-window { margin-top: 16px; }
+  .cw-cell { width: 6px; height: 20px; }
+  .cw-legend { gap: 5px 12px; }
+  .cw-meta { gap: 8px; }
 }
 
 /* v4 rotated a rule 13deg and hoped it met the steps. This draws the path from

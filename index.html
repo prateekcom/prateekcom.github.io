@@ -251,25 +251,21 @@
       <div class="brief-label mono"><span>One brief, getting more precise</span><span class="brief-count" id="brief-count">01 / 04</span></div>
     <div class="brief" id="brief">
       <p class="brief-line"><span>Speed up contract review</span><span class="brief-part" data-stage="0">, specifically, the third-party paper your legal team reads line by line</span><span class="brief-part" data-stage="1">, tested against two years of executed contracts before anything is built</span><span class="brief-part" data-stage="2">, flagged by clause and risk with the source passage cited, and a lawyer approving anything non-standard</span><span class="brief-part" data-stage="3">, running inside your tenancy, documented, and owned by your legal ops team.</span></p>
-    </div>
 
-    <!-- FIGURE 1. The brief above, read as context being assembled. The cells
-         are tokens, coloured by the role the clause plays; the pale ones are
-         headroom. It is driven by the same scroll progress as the brief and
-         the path, so the three can never disagree. No frame, no bar, no
-         chrome: it is type on the ground, like everything else here. -->
-    <figure class="context-window" id="context-window">
-      <div class="cw-head mono">
-        <span>Context assembled</span>
-        <span class="cw-read"><span id="cw-count">0</span> tokens &middot; <span id="cw-roles">0</span> of 5 roles</span>
+      <!-- FIGURE 1. The same sentence, counted. It lives inside the sticky
+           brief rather than after it: .brief pins at top:20px, so anything
+           placed below it slides underneath and the figure would be hidden
+           at exactly the moment its numbers are moving. Pinned together,
+           the clause and its cost are read as one thing. -->
+      <div class="context-window" id="context-window">
+        <div class="cw-field" id="cw-field" aria-hidden="true"></div>
+        <div class="cw-meta mono">
+          <div class="cw-legend" id="cw-legend" aria-hidden="true"></div>
+          <span class="cw-read"><span id="cw-count">0</span> tokens &middot; <span id="cw-roles">0</span>/5 roles</span>
+        </div>
+        <p class="cw-caption mono">Precision is not a nicer sentence &mdash; it is more context.</p>
       </div>
-      <div class="cw-field" id="cw-field" aria-hidden="true"></div>
-      <div class="cw-legend mono" id="cw-legend" aria-hidden="true"></div>
-      <figcaption class="cw-caption mono">
-        Every clause the brief gains is context the system is given before it
-        answers. Precision is not a nicer sentence &mdash; it is more of this.
-      </figcaption>
-    </figure>
+    </div>
 
     <div class="delivery-path" id="delivery-path">
       <div class="delivery-line" aria-hidden="true">
