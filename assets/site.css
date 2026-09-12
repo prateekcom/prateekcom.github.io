@@ -1135,6 +1135,14 @@ h2 {
   background: var(--lilac);
   box-shadow: 0 0 22px 7px var(--lilac);
 }
+/* The job board is the one thing most visitors came for, and on the careers
+   page it used to be five sections down. It sits in the head as well now, and
+   as the same button rather than a quieter version - a hero action styled to
+   look provisional reads as the less real of the two. No halo on it: unlike
+   the text around it, a filled button already occludes the token stream. */
+.page-head-actions { position: relative; z-index: 1; margin-top: 36px; }
+.page-head-actions + .page-head-meta { margin-top: 28px; }
+
 .page-head-meta {
   display: flex;
   gap: 30px;
@@ -1987,7 +1995,11 @@ h2 {
    read as one doubled line. Where the content below opens with rules of its
    own, the head does not need to supply another. The hairline is painted by
    ::after here, so that is the one to call off. */
-.rule-head:has(+ .needs)::after { display: none; }
+.rule-head:has(+ .needs)::after,
+/* Same doubling under .failures, which draws a hairline across the top of
+   every card - it was only ever noticed on .needs because those rules are
+   heavier. Two pages use it: about and careers. */
+.rule-head:has(+ .failures)::after { display: none; }
 
 /* --- a drawn timeline ----------------------------------------------------
    Used once, on the About page. The spine fills as you scroll and each year
