@@ -1,0 +1,8 @@
+# A shell script with CRLF line endings fails on Linux and macOS with
+# "\r: command not found" - and core.autocrlf on Windows would hand it exactly
+# that. Keep them LF wherever they are checked out.
+*.sh text eol=lf
+
+# Same reasoning for the CloudFront Function: it is uploaded as source and
+# executed at the edge, not on this machine.
+*.js text eol=lf
