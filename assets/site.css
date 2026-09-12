@@ -1481,6 +1481,45 @@ h2 {
   }
 }
 
+/* --- the home page on a phone ---------------------------------------------
+   No fold here: home does not load pages.js, and its own script belongs to
+   the hero. Everything below is either a duplicate the phone cannot afford or
+   a layout that only made sense with a second column to put things in.
+
+   THE ECHO. .feature-translation repeats the hero's pair word for word - the
+   same "Make support smarter." and the same thirty-four word answer under it.
+   On a wide screen that is the motif restated in a place you never see at the
+   same time as the hero. On a phone it is the identical sentence twice inside
+   two screens of scroll, which is not a motif, it is a repeat. The block is
+   the single largest thing on the section and it says nothing new.
+
+   THE APHORISM. .practice-note is two mono lines that restate the section
+   heading in different words. Ornament, and ornament is what a phone drops
+   first.
+
+   THE MENU. Six choices stacked one per row is half a screen of chrome before
+   the reader reaches what the choices are for. Two columns halve it, and the
+   hover arrow goes with them - there is no hover on a phone, and it was only
+   ever drawn on hover anyway. */
+@media (max-width: 920px) {
+  .feature-translation,
+  .practice-note { display: none; }
+
+  .service-menu {
+    display: grid;
+    /* minmax(0, …) or the longest service name floors its column and the
+       two come out 175 and 155 rather than equal. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 18px;
+  }
+  .service-choice {
+    grid-template-columns: 22px 1fr;
+    gap: 9px;
+    padding: 15px 0;
+  }
+  .service-choice .arrow { display: none; }
+}
+
 /* --- the phone fold -------------------------------------------------------
    pages.js marks the overflow items and inserts the control; which viewport
    is a phone is decided here and only here. That way a rotation is handled by
