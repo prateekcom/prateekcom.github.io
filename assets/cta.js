@@ -3,15 +3,11 @@
 
    Every page loads this, and it owns all three of the site's actions:
 
-   - BOOK. Links carrying ?start=call or ?start=sprint open the booker over
-     whatever page the reader is on. They keep their href, so without script,
-     or if Cal is unreachable, they still go to the enquiry form.
+   - BOOK. Ordinary links to /contact/, where the calendar is inline. No
+     popup and no query parameter: both went when booking stopped
+     interrupting the page it was launched from.
    - WRITE. Ordinary links to /contact/. Nothing to wire.
    - MESSAGE. Anything marked data-whatsapp.
-
-   The enquiry page also reads what the visitor clicked to get there, so the
-   form opens with the right thing chosen rather than asking them to say it
-   twice.
 
    Two values switch the first and third on. Leave them empty and the site
    behaves exactly as it does without this file: no third-party script is

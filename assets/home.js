@@ -52,9 +52,11 @@ function setInterest(interest) {
 
   /* Was a mailto, which is the thing that loses people: it needs a configured
      desktop client, it fails silently in webmail, and nothing is recorded
-     either way. The enquiry page opens with this service already chosen. */
-  document.getElementById("email-link").href =
-    interest ? `/contact/?area=${encodeURIComponent(interest)}` : "/contact/";
+     either way. It then carried ?area=, which the enquiry form's select read
+     to preselect a service - but that form is gone and nothing reads the
+     parameter now, so the link is simply the enquiry page. The line set just
+     above is what still carries the choice across. */
+  document.getElementById("email-link").href = "/contact/";
 }
 
 function selectService(key) {
