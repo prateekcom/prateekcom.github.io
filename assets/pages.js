@@ -182,3 +182,86 @@
     });
   }, 2000);
 })();
+
+/* ---- folding the long lists on a phone ------------------------------------
+   A service page was 9.6 screens at 375px, and almost none of that was extra
+   words: it is the two-column blocks stacking into one, so the same content
+   costs twice the scroll. Cutting copy would be the expensive fix for the
+   wrong problem.
+
+   So the supporting detail folds instead. Each long list keeps its first
+   couple of items and hides the rest behind one control per section - never
+   several, which would read as a page arguing with itself.
+
+   What does not fold: .service-rows and .case-rows, which are the point of
+   the pages they sit on, and .faq, which is already a stack of <details>.
+
+   The script only marks and never measures. Which viewport counts as a phone
+   is left entirely to a media query, so a rotation or a resize is handled by
+   the browser at the moment it happens - no listener to miss an event, and
+   nothing to leave content hidden on a wide screen if one is missed.
+
+   The markup also ships whole and is folded afterwards, so a crawler, a
+   reader with no JavaScript and a printed page all get everything.
+   -------------------------------------------------------------------------- */
+(() => {
+  /* keep: how many items survive the fold, chosen so each list still shows
+     enough to establish what kind of list it is. A list only one longer than
+     that is left alone: hiding a single item buys nothing and costs a
+     control. */
+  const LISTS = [
+    [".deliverables", 2],
+    [".ships ul", 1],
+    [".stages", 1],
+    [".needs", 2],
+    [".next-rows", 2],
+    [".failures", 2],
+    [".roles", 3],
+    [".timeline", 2],
+    /* Prose rather than a list, but the same mechanic: about's "lean on
+       purpose" runs five paragraphs and 1.4 screens on a phone. The case
+       pages carry three, which the keep + 1 guard leaves alone. */
+    [".prose", 2],
+  ];
+
+  document.querySelectorAll("main > section").forEach(section => {
+    let extras = 0, anchor = null, lists = 0, single = 0;
+
+    LISTS.forEach(([selector, keep]) => {
+      section.querySelectorAll(selector).forEach(list => {
+        const items = [...list.children];
+        if (items.length <= keep + 1) return;
+        items.slice(keep).forEach(item => item.classList.add("fold-extra"));
+        extras += items.length - keep;
+        anchor = list.closest(".ships") || list;
+        single = lists ? 0 : items.length;
+        lists += 1;
+      });
+    });
+    if (!extras) return;
+
+    /* The opening paragraph of a split section is the longest single block on
+       the page. It is clamped rather than hidden, because its first lines are
+       what a reader skimming actually wants from it. */
+    if (section.classList.contains("split")) {
+      const lede = section.querySelector(".lede");
+      if (lede) lede.classList.add("fold-clamp");
+    }
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "fold-more mono";
+    const shut = lists === 1 && single ? "Show all " + single : "Read the rest";
+    const label = (open) =>
+      (open ? "Show less" : shut) + ' <span aria-hidden="true">' + (open ? "↑" : "↓") + "</span>";
+
+    button.setAttribute("aria-expanded", "false");
+    button.innerHTML = label(false);
+    button.addEventListener("click", () => {
+      const open = section.classList.toggle("fold-open");
+      button.setAttribute("aria-expanded", String(open));
+      button.innerHTML = label(open);
+    });
+    anchor.insertAdjacentElement("afterend", button);
+  });
+})();

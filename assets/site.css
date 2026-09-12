@@ -1481,6 +1481,62 @@ h2 {
   }
 }
 
+/* --- the phone fold -------------------------------------------------------
+   pages.js marks the overflow items and inserts the control; which viewport
+   is a phone is decided here and only here. That way a rotation is handled by
+   the browser as it happens, and there is no listener that can miss an event
+   and leave half a section hidden on a desktop.
+
+   So on a wide screen the marks are inert and the control is not rendered at
+   all - the page is exactly what it was.
+
+   The clamp is five lines: enough for the opening paragraph to say what its
+   section is about, which is all a reader skimming on a phone asks of it.
+
+   The control is a real button rather than a link dressed as one, because it
+   changes what is on the page rather than going anywhere, and it carries
+   aria-expanded so a screen reader is told which state it is in. */
+.fold-more { display: none; }
+
+@media (max-width: 920px) {
+  /* Scoped to the closed section rather than to the item, so an open section
+     carries no display rule at all and each element goes back to whatever its
+     own stylesheet said. Overriding it here instead - with revert, or with a
+     guessed block - would have broken .next-rows a and .ships li, which set
+     their own. The !important is because those same rules out-specify a lone
+     utility class. */
+  section:not(.fold-open) .fold-extra { display: none !important; }
+
+  .fold-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    overflow: hidden;
+  }
+  .fold-open .fold-clamp { display: block; overflow: visible; }
+
+  .fold-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 22px;
+    padding: 11px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: none;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--purple);
+    cursor: pointer;
+  }
+  .fold-more:hover,
+  .fold-more:focus-visible { color: var(--rust); border-bottom-color: currentColor; }
+}
+
 /* --- the footer every page shares --------------------------------------- */
 .site-footer { background: var(--ink); color: var(--paper); padding: 64px 0 40px; }
 .footer-top {
@@ -1545,12 +1601,19 @@ h2 {
   .service-row > div:nth-of-type(2) { grid-column: 2 / -1; }
   .pair-block { grid-template-columns: 1fr; gap: 26px; }
   .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+
+  /* .mono is the site's label size and 11px is under what a phone should be
+     asked to read. One step up, phones only. */
+  .mono { font-size: 12px; }
 }
 @media (max-width: 580px) {
   .page-title { max-width: none; }
   .service-row { grid-template-columns: 36px minmax(0, 1fr); }
   .service-row .go { display: none; }
-  .footer-top { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 30px 22px; }
+  .footer-brand,
+  .footer-col:last-child { grid-column: 1 / -1; }
   .rule-head { flex-wrap: wrap; gap: 8px; }
   .rule-head span + span { margin-left: 0; }
 }
@@ -1931,6 +1994,20 @@ h2 {
 }
 .page-section + .page-section.band { padding-top: 76px; }
 .page-section.band + .page-section { padding-top: 78px; }
+
+/* The band kept its desktop padding on a phone - 76 and 80 against the 56
+   every section around it gets - so one section in the middle of the page sat
+   in visibly more air than its neighbours, and the section after it inherited
+   a 78px gap for the same reason.
+
+   This has to sit after the three rules above rather than with the other
+   phone overrides: @media adds no specificity, so the later of two equally
+   specific rules wins and the earlier one never applied at all. */
+@media (max-width: 920px) {
+  .page-section.band { padding: 56px 0 60px; }
+  .page-section + .page-section.band,
+  .page-section.band + .page-section { padding-top: 56px; }
+}
 
 /* --- what the engagement ships ------------------------------------------
    Three named outputs, which used to be a section of their own with a head
